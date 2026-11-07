@@ -1,4 +1,9 @@
 # NightWatch
+**Team Members:**
+- Ron Shaked
+- Arav Sharma
+- Samer Megla
+- Pablo Nguyen
 
 HackUTD ZeroDay — EOG "Beat the Shutdown": produced-water operations console with simulation, incident detection, a Nemotron agent, and Capital One Nessie payments.
 
