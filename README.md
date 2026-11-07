@@ -1,28 +1,27 @@
-# NightWatch
+# No One Left Behind
 
-HackUTD ZeroDay — EOG "Beat the Shutdown": produced-water operations console with simulation, incident detection, a Nemotron agent, and Capital One Nessie payments.
+HackUTD ZeroDay — State Farm track. After a disaster, reach every policyholder in the affected area, triage by urgency (silence escalates), check coverage against their actual policy with Nemotron, and pay approved claims through Nessie. Design brief: [NO_ONE_LEFT_BEHIND.md](NO_ONE_LEFT_BEHIND.md).
+
+One Next.js app: UI and backend (API routes) in one TypeScript codebase.
 
 ```text
-frontend/                    Next.js (Pablo)
-backend/app/main.py          FastAPI entrypoint (Ron)
-backend/app/contracts.py     Shared Pydantic contracts (Ron; agreed by all)
-backend/app/simulation/      SimPy engine (Ron)
-backend/app/detection/       Incident detection (Ron)
-backend/app/planning/        Forecasts + fleet planning (Ron)
-backend/app/agent/           Nemotron tool loop (Arav)
-backend/app/finance/         Nessie adapter (Samer)
-backend/app/workflows/       Approval -> payment -> dispatch (Samer + Ron)
-data/                        EOG input folders (network.json, ops.json, telemetry.csv)
+src/app/              pages (dashboard) + api/ route handlers
+src/lib/triage/       scoring + queue
+src/lib/outreach/     Photon texts/calls + escalation
+src/lib/agent/        Nemotron client, tools, policy RAG
+src/lib/claims/       coverage decision, approval rules, payout workflow
+src/lib/finance/      Nessie adapter
+src/lib/db/           SQLite schema + access
+src/types/            shared types
+data/                 generated agents, policyholders, policies, scripted replies
 ```
 
 ## Run
 
 ```bash
-# backend
-cd backend && cp .env.example .env && uv sync
-uv run uvicorn app.main:app --reload
-
-# frontend
-cd frontend && cp .env.example .env.local && npm install
+cp .env.example .env.local   # fill in keys
+npm install
 npm run dev
 ```
+
+Run as a long-lived local server (not serverless) so escalation timers keep working. Incoming Photon replies need a public URL: tunnel with ngrok or cloudflared and set `PUBLIC_BASE_URL`.

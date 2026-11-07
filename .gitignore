@@ -1,19 +1,24 @@
 .DS_Store
-.env
-.env.*
+*.pem
+
+# env (commit .env.example only)
+.env*
 !.env.example
 
-# Python
-__pycache__/
-*.py[cod]
-.venv/
-.pytest_cache/
-.ruff_cache/
-*.db
+# dependencies
+/node_modules
 
-# Node
-node_modules/
-.next/
-out/
+# next.js
+/.next/
+/out/
+/build
+/coverage
 *.tsbuildinfo
 next-env.d.ts
+
+# local database
+*.db
+*.db-journal
+
+# debug
+npm-debug.log*
