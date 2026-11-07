@@ -1,5 +1,11 @@
 # No One Left Behind
 
+**Team Members:**
+- Ron Shaked
+- Arav Sharma
+- Samer Megla
+- Pablo Nguyen
+
 HackUTD ZeroDay — State Farm track. After a disaster, reach every policyholder in the affected area, triage by urgency (silence escalates), check coverage against their actual policy with Nemotron, and pay approved claims through Nessie. Design brief: [NO_ONE_LEFT_BEHIND.md](NO_ONE_LEFT_BEHIND.md).
 
 One Next.js app: UI and backend (API routes) in one TypeScript codebase.
