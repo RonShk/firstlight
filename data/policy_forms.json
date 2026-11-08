@@ -1,0 +1,65 @@
+[
+ {
+  "id": "SF-AUTO-TX",
+  "line": "auto",
+  "name": "Personal Car Policy",
+  "formNumber": "9843C",
+  "state": "TX",
+  "personaFit": "single/married drivers; any age",
+  "url": "https://www.statefarm.com/content/dam/sf-library/en-us/pca-endorsement/auto/9843C.pdf"
+ },
+ {
+  "id": "SF-AUTO-MT",
+  "line": "auto",
+  "name": "Car Policy",
+  "formNumber": "9826C",
+  "state": "MT",
+  "personaFit": "rural/older drivers",
+  "url": "https://www.statefarm.com/content/dam/sf-library/en-us/pca-endorsement/auto/9826C.pdf"
+ },
+ {
+  "id": "SF-BIZAUTO-OH",
+  "line": "auto",
+  "name": "Business Car Policy",
+  "formNumber": "9635C",
+  "state": "OH",
+  "personaFit": "self-employed / small business owner",
+  "url": "https://statefarm.com/content/dam/sf-library/en-us/pca-endorsement/auto/9635C.pdf"
+ },
+ {
+  "id": "SF-HOME-CA",
+  "line": "home",
+  "name": "Homeowners Policy",
+  "formNumber": "HW-2105",
+  "state": "CA",
+  "personaFit": "homeowning family/couple; wildfire state",
+  "url": "https://www.statefarm.com/content/dam/sf-library/en-us/pca-endorsement/fire/HW-2105.pdf"
+ },
+ {
+  "id": "SF-HOME-ME",
+  "line": "home",
+  "name": "Homeowners Policy",
+  "formNumber": "HW-2119",
+  "state": "ME",
+  "personaFit": "homeowning family/couple",
+  "url": "https://www.maine.gov/pfr/insurance/sites/maine.gov.pfr.insurance/files/inline-files/hw-2119.pdf"
+ },
+ {
+  "id": "SF-HOME-OK",
+  "line": "home",
+  "name": "Homeowners Policy",
+  "formNumber": "HW-2136",
+  "state": "OK",
+  "personaFit": "homeowning family/couple; tornado state",
+  "url": "https://www.oid.ok.gov/wp-content/uploads/2019/08/040218_HW-2136-2017.pdf"
+ },
+ {
+  "id": "SF-UMB-WEB",
+  "line": "umbrella",
+  "name": "Personal Liability Umbrella",
+  "formNumber": "FP-7950",
+  "state": "multi",
+  "personaFit": "high-net-worth / families with teen drivers",
+  "url": "https://www.statefarm.com/insurance/liability/personal-umbrella-policy"
+ }
+]
