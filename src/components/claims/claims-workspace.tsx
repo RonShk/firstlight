@@ -12,10 +12,10 @@ import { CaseMessages, CasePolicies, RunOverview } from "./case-views";
 
 const TABS = [
   { id: "overview", label: "Overview" },
-  { id: "situation", label: "Situation" },
   { id: "messages", label: "Messages" },
   { id: "timeline", label: "Agent timeline" },
   { id: "policies", label: "Policies" },
+  { id: "situation", label: "Situation" },
 ] as const;
 type Tab = typeof TABS[number]["id"];
 export function ClaimsWorkspace() {

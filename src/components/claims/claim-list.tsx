@@ -17,9 +17,12 @@ export function ClaimList({ claims, selectedId, onSelect, search, onSearch, page
   const { isRead, runFor } = useClaims();
   const rows = claims.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
   const lastPage = Math.max(0, Math.ceil(claims.length / PAGE_SIZE) - 1);
-  const controls = <nav aria-label="Inbox pages" className="shrink-0 space-y-2 border-t border-line bg-white p-4">
-    <div className="flex items-center justify-between text-sm"><span className="font-semibold">{claims.length ? page * PAGE_SIZE + 1 : 0}–{Math.min(claims.length, (page + 1) * PAGE_SIZE)} of {claims.length}</span><select aria-label="Go to inbox page" value={page} onChange={(e) => onPage(Number(e.target.value))} className="rounded-lg border border-line bg-white px-2 py-2 text-sm">{Array.from({ length: lastPage + 1 }, (_, i) => <option key={i} value={i}>Page {i + 1} of {lastPage + 1}</option>)}</select></div>
-    <div className="grid grid-cols-2 gap-2"><button disabled={!page} onClick={() => onPage(page - 1)} className="cursor-pointer rounded-lg border border-line bg-white px-3 py-2 text-sm font-semibold disabled:opacity-30">← Previous</button><button disabled={page >= lastPage} onClick={() => onPage(page + 1)} className="cursor-pointer rounded-lg bg-brand px-3 py-2 text-sm font-semibold text-white disabled:opacity-30">Next →</button></div>
+  const controls = <nav aria-label="Inbox pages" className="flex shrink-0 items-center justify-between border-t border-line bg-white px-5 py-4 text-xs">
+    <span className="text-subtle">{claims.length ? page * PAGE_SIZE + 1 : 0}–{Math.min(claims.length, (page + 1) * PAGE_SIZE)} of {claims.length}</span>
+    <div className="flex gap-4 text-sm font-semibold text-ink">
+      <button disabled={!page} onClick={() => onPage(page - 1)} className="cursor-pointer hover:underline disabled:cursor-default disabled:text-disabled disabled:no-underline">Previous</button>
+      <button disabled={page >= lastPage} onClick={() => onPage(page + 1)} className="cursor-pointer hover:underline disabled:cursor-default disabled:text-disabled disabled:no-underline">Next</button>
+    </div>
   </nav>;
   return <aside className="flex w-[280px] shrink-0 flex-col border-r border-line bg-white xl:w-[330px]">
     <div className="border-b border-line p-5"><h2 className="font-semibold">Case inbox <span className="ml-1 text-sm font-normal text-subtle">{claims.length}</span></h2>
