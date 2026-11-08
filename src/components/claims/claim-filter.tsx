@@ -6,7 +6,7 @@ import type { Severity } from "@/types/claims";
 import { cn } from "@/lib/utils";
 import { SEVERITY_META } from "./severity";
 
-export type ClaimFilterKey = Severity | "claim_pending" | "claim_filed";
+export type ClaimFilterKey = Severity | "claim_pending" | "claim_filed" | "no_response";
 export const SEVERITY_KEYS: Severity[] = ["critical", "high", "medium", "low"];
 const CLAIM_OPTIONS: { key: ClaimFilterKey; label: string; dot: string }[] = [
   { key: "claim_pending", label: "Claim drafted · awaiting confirmation", dot: "bg-high" },
@@ -44,6 +44,9 @@ export function ClaimFilter({ value, onChange, counts }: { value: Set<ClaimFilte
       <p className="px-2.5 pt-1 pb-1.5 text-[11px] font-semibold tracking-wider text-subtle uppercase">Severity</p>
       {SEVERITY_KEYS.map((k) => <Option key={k} k={k} label={SEVERITY_META[k].label} dot={SEVERITY_META[k].dot} />)}
       <div className="my-2 h-px bg-line" />
+      <p className="px-2.5 pb-1.5 text-[11px] font-semibold tracking-wider text-subtle uppercase">Response</p>
+      <Option k="no_response" label="No response · estimated by location" dot="bg-critical" />
+      <div className="my-2 h-px bg-line" />
       <p className="px-2.5 pb-1.5 text-[11px] font-semibold tracking-wider text-subtle uppercase">Claim</p>
       {CLAIM_OPTIONS.map((o) => <Option key={o.key} k={o.key} label={o.label} dot={o.dot} />)}
       <div className="mt-2 flex justify-between border-t border-line px-1 pt-2">
@@ -54,8 +57,9 @@ export function ClaimFilter({ value, onChange, counts }: { value: Set<ClaimFilte
   </div>;
 }
 
-/** Severities narrow among themselves (any of), claim statuses likewise, and the two groups combine (both). */
-export function matchesFilter(value: Set<ClaimFilterKey>, severity: Severity, claimStatus: string | undefined): boolean {
+/** Severities narrow among themselves (any of), claim statuses likewise, and the groups combine (all). */
+export function matchesFilter(value: Set<ClaimFilterKey>, severity: Severity, claimStatus: string | undefined, silent = false): boolean {
+  if (value.has("no_response") && !silent) return false;
   const severities = SEVERITY_KEYS.filter((k) => value.has(k));
   const claims = [...value].filter((k) => k.startsWith("claim_"));
   const claimKey = claimStatus === "confirmed" ? "claim_filed" : claimStatus === "pending" ? "claim_pending" : null;

@@ -45,3 +45,10 @@ export function intensityAt(scenario: Scenario, lat: number, lon: number): numbe
   const f = 1 - (d - scenario.radiusKm) / (scenario.outerKm - scenario.radiusKm);
   return 0.7 * Math.pow(f, 1.4);
 }
+
+export const KM_PER_MILE = 1.609344;
+
+/** Miles from a location to the scenario's path; used to estimate urgency for households that never replied. */
+export function milesFromPath(scenario: Scenario, lat: number, lon: number): number {
+  return distanceKm(scenario, lat, lon) / KM_PER_MILE;
+}

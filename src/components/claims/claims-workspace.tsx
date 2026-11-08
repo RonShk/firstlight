@@ -12,7 +12,8 @@ import { PolicyOverlay } from "./policy-overlay";
 import { CaseTimeline } from "../sim/case-timeline";
 import { CaseMessages, CasePolicies, RunOverview } from "./case-views";
 import { ClaimPanel, FileClaimButton } from "./claim-panel";
-import { ClaimFilter, matchesFilter, type ClaimFilterKey } from "./claim-filter";
+import { ClaimFilter, SEVERITY_KEYS, matchesFilter, type ClaimFilterKey } from "./claim-filter";
+import type { Severity } from "@/types/claims";
 
 const TABS = [
   { id: "overview", label: "Overview" },
@@ -32,18 +33,27 @@ export function ClaimsWorkspace() {
   const [tab, setTab] = useState<Tab>("overview");
   const [target, setTarget] = useState<{ docId: string; page: number | null } | null>(null);
   const [filters, setFilters] = useState<Set<ClaimFilterKey>>(new Set());
-  const searched = useMemo(() => claims.filter((c) => !c.silent && [c.persona.name, c.number, c.subject, ...c.body].some((s) => s.toLowerCase().includes(search.trim().toLowerCase()))), [claims, search]);
-  const visible = useMemo(() => searched.filter((c) => matchesFilter(filters, c.review.severity, claimFor(c.id)?.status)), [searched, filters, claimFor]);
+  const searched = useMemo(() => claims.filter((c) => [c.persona.name, c.number, c.subject, ...c.body].some((s) => s.toLowerCase().includes(search.trim().toLowerCase()))), [claims, search]);
+  const visible = useMemo(() => searched.filter((c) => matchesFilter(filters, c.review.severity, claimFor(c.id)?.status, c.silent)), [searched, filters, claimFor]);
   const filterCounts = useMemo(() => {
-    const counts = { critical: 0, high: 0, medium: 0, low: 0, claim_pending: 0, claim_filed: 0 } as Record<ClaimFilterKey, number>;
+    const counts = { critical: 0, high: 0, medium: 0, low: 0, claim_pending: 0, claim_filed: 0, no_response: 0 } as Record<ClaimFilterKey, number>;
+    // Each section counts what the other sections' selections leave, e.g. "No response" narrows the severity numbers.
+    const without = (group: (k: ClaimFilterKey) => boolean) => new Set([...filters].filter((k) => !group(k)));
+    const exceptSeverity = without((k) => SEVERITY_KEYS.includes(k as Severity));
+    const exceptResponse = without((k) => k === "no_response");
+    const exceptClaim = without((k) => k.startsWith("claim_"));
     for (const c of searched) {
-      counts[c.review.severity]++;
       const status = claimFor(c.id)?.status;
-      if (status === "pending") counts.claim_pending++;
-      if (status === "confirmed") counts.claim_filed++;
+      const matches = (f: Set<ClaimFilterKey>) => matchesFilter(f, c.review.severity, status, c.silent);
+      if (matches(exceptSeverity)) counts[c.review.severity]++;
+      if (c.silent && matches(exceptResponse)) counts.no_response++;
+      if (matches(exceptClaim)) {
+        if (status === "pending") counts.claim_pending++;
+        if (status === "confirmed") counts.claim_filed++;
+      }
     }
     return counts;
-  }, [searched, claimFor]);
+  }, [searched, claimFor, filters]);
   const selected = visible.find((c) => c.id === selectedId) ?? visible[page * PAGE_SIZE] ?? visible[0];
   const run = selected ? runFor(selected.id) : undefined;
 

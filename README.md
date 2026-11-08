@@ -41,7 +41,7 @@ saved simulation cases after refresh, streams persisted agent events, and opens 
 in the PDF.js reader. Customer messages entered in the simulator use the normal message intake;
 reviewer notes and corrections are saved to the case audit history.
 
-The inbox hides households with no inbound messages. Prominent pagination keeps all generated cases
+The inbox includes households that never replied; their card is marked NO RESPONSE and their urgency is estimated from distance to the tornado path. Prominent pagination keeps all generated cases
 accessible across urgency levels. Each card shows the agent run status. Household composition and
 support needs live in Situation; customer messages and replies live only in Messages.
 

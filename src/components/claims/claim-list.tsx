@@ -8,6 +8,17 @@ import { ageLabel } from "@/lib/claims/format";
 import { useClaims } from "./claims-provider";
 import { SEVERITY_META } from "./severity";
 import { claimStatusMeta } from "./claim-panel";
+import { TORNADO, milesFromPath } from "@/lib/sim/scenarios";
+
+/** Shown under the agent status when a household never replied: urgency is estimated from where they live. */
+export function NoResponseEstimate({ claim }: { claim: ClaimView }) {
+  if (!claim.silent) return null;
+  const miles = milesFromPath(TORNADO, claim.persona.address.lat, claim.persona.address.lon);
+  return <span className="mt-3 block rounded border border-critical/40 bg-critical-soft px-2 py-1 text-xs font-bold uppercase tracking-wide text-critical-ink">
+    Estimated based on policyholder location
+    <span className="mt-0.5 block font-medium">{miles < 0.1 ? "On the tornado path" : `${miles.toFixed(1)} mi from tornado path`}</span>
+  </span>;
+}
 
 export const PAGE_SIZE = 20;
 interface Props {
@@ -34,7 +45,8 @@ export function ClaimList({ claims, selectedId, onSelect, search, onSearch, page
     <div className="inbox-scroll min-h-0 flex-1 overflow-y-auto">{rows.map((c) => { const status = agentStatus(runFor(c.id)); return <button key={c.id} type="button" aria-current={selectedId === c.id || undefined} onClick={() => onSelect(c.id)} className={cn("block w-full cursor-pointer border-b border-line p-5 text-left", selectedId === c.id ? "border-l-2 border-l-brand bg-critical-soft/40" : "hover:bg-soft")}>
       <span className="flex items-center gap-2"><span className={cn("size-1.5 shrink-0 rounded-full", isRead(c.id) ? "bg-transparent" : "bg-brand")} /><span className="min-w-0 flex-1 truncate font-semibold">{c.persona.name}</span><span className="text-xs text-subtle">{ageLabel(c.minutesAgo)}</span></span>
       <span className="mt-1 block truncate text-sm">{c.subject}</span><span className="mt-2 flex items-center justify-between gap-2 text-xs"><span className="text-subtle">{c.persona.address.city} · {c.silent ? "No response" : c.peril}</span><span className={cn("rounded-full px-2 py-0.5", SEVERITY_META[c.review.severity].chip)}>{SEVERITY_META[c.review.severity].label}</span></span>
-      <span className={cn("mt-3 inline-block rounded px-2 py-1 text-xs font-medium", status.tone === "running" ? "bg-blue-50 text-blue-800" : status.tone === "done" ? "bg-emerald-50 text-emerald-800" : status.tone === "review" ? "bg-high-soft text-high-ink" : status.tone === "failed" ? "bg-critical-soft text-critical-ink" : "bg-soft text-subtle")}>Agent: {status.label}</span>
+      {!c.silent && <span className={cn("mt-3 inline-block rounded px-2 py-1 text-xs font-medium", status.tone === "running" ? "bg-blue-50 text-blue-800" : status.tone === "done" ? "bg-emerald-50 text-emerald-800" : status.tone === "review" ? "bg-high-soft text-high-ink" : status.tone === "failed" ? "bg-critical-soft text-critical-ink" : "bg-soft text-subtle")}>Agent: {status.label}</span>}
+      <NoResponseEstimate claim={c} />
       {(() => { const filed = claimFor(c.id); return filed && <span className={cn("mt-2 block w-fit rounded px-2 py-1 text-xs font-semibold", claimStatusMeta(filed.status).chip)}>{claimStatusMeta(filed.status).label}</span>; })()}
     </button>; })}{!rows.length && <p className="p-5 text-sm text-subtle">No matching cases.</p>}</div>
     {controls}
