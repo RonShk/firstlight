@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { CaseView } from "@/types/agent";
 import type { ClaimView } from "@/types/claims";
-import { plainCaseText, findingTitle } from "@/lib/claims/presentation";
+import { plainCaseText, findingTitle, reviewHandoff } from "@/lib/claims/presentation";
 import { money } from "@/lib/sim/status";
 import { DOCUMENT_FORMS, LINE_LABEL, UMBRELLA_OVERVIEW } from "@/lib/claims/policy-documents";
 import { useClaims } from "./claims-provider";
@@ -16,7 +16,8 @@ export function RunOverview({ claim, onOpenDocument }: { claim: ClaimView; onOpe
   const d = s?.decision?.decision;
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
-  const needsReview = s?.humanInterventionNeeded || d?.next_action === "human_review";
+  const handoff = reviewHandoff(s, claim.persona.name);
+  const needsReview = !!handoff;
   const action = d?.immediate_danger ? "Contact the customer urgently" : needsReview ? "Review this case" : run?.status === "running" || run?.status === "queued" ? "Review in progress" : run?.status === "error" ? "Review this case" : d?.next_action === "ask_customer" ? "Ask the customer for more details" : d ? "Review complete" : "Waiting for review";
   const facts = d?.reported_facts.length ? d.reported_facts.slice(0, 3) : (d?.summary ?? claim.review.summary).split(/(?<=[.!?])\s+(?=[A-Z])/).slice(0, 2);
   const coverageStatus = { likely_covered: "May be covered", likely_excluded: "May be excluded", unclear: "Needs confirmation", no_policy: "No policy on file" };
@@ -24,7 +25,10 @@ export function RunOverview({ claim, onOpenDocument }: { claim: ClaimView; onOpe
     <div>
       <p className="text-xs font-semibold uppercase tracking-wider text-subtle">Next action</p>
       <h2 className="mt-2 text-3xl font-semibold leading-tight tracking-tight">{action}</h2>
-      {needsReview && <p className="mt-2 text-sm text-ink-2">Queued for claims review. Customer follow-up is still pending.</p>}
+      {handoff && <dl className="mt-5 max-w-3xl space-y-4">
+        <div><dt className="text-sm font-semibold">Why it needs you</dt><dd className="mt-1 text-base leading-relaxed text-ink-2">{handoff.reason}</dd></div>
+        <div><dt className="text-sm font-semibold">What you need to do</dt><dd><ol className="mt-2 list-decimal space-y-2 pl-5 text-base leading-relaxed">{handoff.steps.map((step, i) => <li key={i}>{step}</li>)}</ol></dd></div>
+      </dl>}
       {run?.caseId && <button disabled={busy || run.status === "running" || !agent?.configured} onClick={async () => { setBusy(true); setError(null); try { await queue.rerun(claim.id); } catch (e) { setError((e as Error).message); } finally { setBusy(false); } }} className="mt-4 cursor-pointer text-sm font-semibold text-brand disabled:opacity-40">{busy ? "Starting…" : "Run another review →"}</button>}
     </div>
     {error && <p role="alert" className="text-sm text-critical-ink">{error}</p>}

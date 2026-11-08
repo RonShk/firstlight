@@ -240,6 +240,41 @@ describe("Nemotron review", () => {
     assert.ok(triageAt(claim.persona, truth, 200, [], [run], true).thread.some((m) => m.from === "agent"));
   });
 
+  it("shows a specific reason and safety checks for an urgent handoff", async () => {
+    const { reviewHandoff } = await import("../presentation");
+    const run = done({ immediate_danger: true, next_action: "human_review",
+      severity_reason: "Gloria's oxygen has no power and the tank may last only a few hours.",
+      reported_facts: ["Home destroyed", "Gloria needs powered oxygen"],
+      unknowns: ["Whether backup power is available", "Where the household can stay tonight", "Repair costs"] });
+    const handoff = reviewHandoff(run.result, "Frank Price")!;
+    assert.match(handoff.reason, /oxygen has no power/);
+    assert.match(handoff.steps[0], /Call Frank now/);
+    assert.match(handoff.steps[1], /oxygen equipment has power/);
+    assert.match(handoff.steps[2], /stay safely tonight/);
+    assert.equal(handoff.steps.length, 3);
+  });
+
+  it("keeps the recorded reason for a queued review even when the model chose reply", async () => {
+    const { reviewHandoff } = await import("../presentation");
+    const run = done({ next_action: "reply", unknowns: ["Repair estimate for the rear bumper"] }, {
+      humanReview: { priority: "normal", status: "queued", reason: "Customer needs help getting a repair estimate after being rear-ended." },
+    });
+    const handoff = reviewHandoff(run.result, "Dana Reyes")!;
+    assert.match(handoff.reason, /repair estimate/);
+    assert.match(handoff.steps[0], /rear bumper/);
+    assert.doesNotMatch(handoff.steps.join(" "), /immediate safety|urgently/);
+    assert.equal(reviewHandoff(done().result, "Dana Reyes"), null);
+  });
+
+  it("gives a manual review task after an automation failure without inventing loss facts", async () => {
+    const { reviewHandoff } = await import("../presentation");
+    const run = done({}, { status: "failed", decision: null });
+    const handoff = reviewHandoff(run.result, "Dana Reyes")!;
+    assert.match(handoff.reason, /could not complete a reliable assessment/);
+    assert.ok(handoff.steps.some((s) => /messages and policy/.test(s)));
+    assert.doesNotMatch(JSON.stringify(handoff), /oxygen|injury|shelter/);
+  });
+
   it("does not display an undelivered reply", () => {
     const run = done();
     run.result!.reply!.status = "held";
