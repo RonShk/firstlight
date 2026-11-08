@@ -1,88 +1,87 @@
 # No One Left Behind — project brief
 
-HackUTD ZeroDay. Target tracks: **State Farm** (main), **NVIDIA Nemotron**, **Photon**, **Capital One Nessie** (last priority).
+HackUTD ZeroDay. Target tracks: **State Farm** (main), **NVIDIA Nemotron**, **Capital One Nessie** (last priority).
 Deadline: Sun 2026-11-08, noon America/Chicago. Submission is believed to be a **video** (Pablo confirming).
 
-This is the agreed design, not a claim that anything is built. Keep the demo loop working end to end before polishing.
+This is the agreed design, not a claim that everything is built. Keep the demo loop working end to end before polishing. The claims agent pipeline exists in `src/lib/agent/` (see its README).
 
 ## Pitch
 
-After a disaster, the system reaches **every policyholder in the affected area**. A Nemotron agent reads the replies, checks each person's actual policy, and ranks everyone by urgency. People who **don't reply** move up the list, because silence is the warning sign. Covered, small claims are paid out on the spot; large or unclear ones go to a human agent.
+State Farm doesn't do emergency response: first responders handle rescue, and State Farm handles financial recovery. Our tool speeds that recovery up after a disaster. **Customers text us first** about what happened to them, their family, their home, or their vehicle. A Nemotron agent reads each text, triages the flood of incoming messages so the most severe cases reach a human adjuster first, and uses RAG over the policy documents to decide whether common, smaller items can get a **provisional advance payment** before the claim settles. Large, unusual, or ambiguous items always go to human review.
 
 Three things set us apart. Lean on all of them:
-1. **Silence escalates.** Text → re-text → automated phone call → escalate to the local agent.
+1. **Severe cases first.** Every text gets a triage level, so adjusters work the worst cases first instead of the oldest.
 2. **Coverage decisions are grounded in the policy text**, with the clause quoted (for example, the flood exclusion on a homeowners policy after a tsunami).
-3. **A real phone on camera** gets the text and the automated call.
+3. **Safety override.** If a text suggests someone is in danger right now (trapped, injured, fire, rising water), we skip claim processing, reply "Call 911 now," and flag the case for a human. We never forward customer data to authorities.
 
 ## Open questions (check before building on them)
 
 - [ ] The actual State Farm prompt and judging criteria. Shape the product around their wording.
 - [ ] The track limit ("Enter up to two"?). If it's two, Nessie is the first thing cut.
-- [ ] Photon access: send a real SMS and place a real call in the first 1–2 hours. If the call can't work, rethink the demo.
+- [ ] SMS provider: pick one that can receive a real inbound text and send a reply. Calls are not needed.
 - [ ] What gets submitted (video length, format, due time).
 
 ## Flow
 
 ```text
-Disaster hits zone ──► affected policyholders (location inside zone)
+Customer texts us (SMS inbound) ──► acknowledgment: "Received, we're reviewing your message"
         │
         ▼
-Photon text: "Are you safe? Reply 1 safe, 2 need help, or tell us what happened"
+Nemotron danger check (short, dedicated call)
         │
-        ├─ reply ───► Nemotron extracts needs + claim details
-        │             └─► policy lookup (RAG) ──► covered? amount? clause cited
-        │
-        └─ silence ─► +10 min re-text ─► +20 min automated call ─► +30 min escalate to agent
+        ├─ danger (triage 4) ──► reply "Call 911 now." ──► flagged for a human (no claim processing)
         │
         ▼
-Triage queue: RED / YELLOW / GREEN / GRAY (silent), sorted by score, filtered by agent location
+Nemotron reads the claim: summary, claim types, people, items, each item triaged 1-3
+        │                  (not a claim, e.g. "hello": short help reply, nothing logged)
+        │
+        └─ per item: policy lookup (RAG) ──► provisional advance approved?
+                                                             ├─ yes ─► Nessie payout
+                                                             └─ no  ─► human adjuster review
         │
         ▼
-Claim decision: small + clearly covered + high confidence ─► auto-approve ─► Nessie payout
-                large / unclear / flagged                 ─► human agent review ─► Nessie payout
+Update text to the customer · case lands in the triage queue (4 first, then 3, 2, 1)
 ```
-
-Escalation timers are demo values, configurable, and can be sped up for the video.
 
 ## Data (generated once, committed as files)
 
-Claude generates a believable synthetic dataset. No real personal data.
+Claude generates a believable synthetic dataset for people. No real personal data.
 
 | Entity | Fields |
 |---|---|
 | Agent | id, name, office location (lat/lon), coverage area |
-| Policyholder | id, name, phone (demo phones for the on-camera people), address + lat/lon, assigned agent, household (elderly, children, medical needs), policies[] |
-| Policy | id, type (homeowners, auto, renters, flood), limits, deductible, linked policy document |
-| Policy document | Full written text with coverage sections, limits, deductibles and **exclusions**. A few templates, chunked for retrieval |
-| Disaster event | id, type, center, radius/polygon, start time |
-| Scripted reply | policyholder id, delay, message text (including messy ones), or **no reply** |
+| Policyholder | id, name, phone (demo phones for the on-camera people; used to match an incoming text), address + lat/lon, assigned agent, household, policies[] |
+| Policy | id, type (home, auto, umbrella), limits, deductible, linked policy document |
+| Policy document | Ten real State Farm forms (auto, home incl. CA HW-2105, umbrella), hand-supplied in `data/policies/raw/`, listed in `data/policies/manifest.csv`, chunked and embedded for retrieval. All forms of a line are treated as one generic policy |
+| Disaster event | id, type, center, radius/polygon, start time (dashboard context) |
+| Scripted inbound text | policyholder id, delay, message text (including messy ones: typos, slang, all caps) |
 
-Scale: about 200–2,000 policyholders and 5–10 agents. Most replies are scripted; the on-camera ones are live through Photon.
+Scale: about 200–2,000 policyholders and 5–10 agents. Most inbound texts are scripted; the on-camera ones are live texts.
 
-## Triage score (deterministic code, not the LLM)
+## Triage (Nemotron)
 
-```text
-score = need severity      (medical > no shelter > property only > safe)   ← from Nemotron extraction
-      + vulnerability       (elderly, medical needs, children on file)
-      + proximity           (distance to disaster center)
-      + silence             (grows with minutes since first contact without a reply)
-```
+| Level | Meaning |
+|---|---|
+| 1 Green | Small, common, clearly covered cost (spoiled food, a hotel night, a rental car) |
+| 2 Yellow | Moderate damage that needs an adjuster but is not urgent (fence, shed, cracked windshield) |
+| 3 Red | Severe or urgent: water getting in, structural or roof damage, uninhabitable home, injuries, liability to others, likely exclusion, high dollar amount |
+| 4 Emergency | Someone may be in danger right now: customer told to call 911, flagged for a human, no claim processing |
 
-The weights live in one config. Every row shows *why* it scored that way. Colors: RED critical, YELLOW needs help, GREEN safe, GRAY not yet reached or silent.
+Levels 1-3 are assigned per item when Nemotron reads the claim; the claim's level is its highest item. Level 4 comes from a separate danger check that runs first, judging meaning rather than keywords (typos, slang, and other languages still count) and answering yes when unsure. The queue sorts by level (4 first), then by time received.
 
 ## Nemotron's jobs (beyond a chatbot)
 
-1. **Extraction:** a free-text reply becomes structured JSON, e.g. `{injuries, needs[], damage[], people, location_changed}`.
-2. **Coverage check (RAG):** retrieve the relevant clauses from *that person's* policy documents → covered / not covered / unclear, an estimated amount, and **quoted clause references**.
-3. **Tool use:** `lookup_policyholder`, `lookup_policy`, `estimate_payout`, `schedule_followup`, `request_payout`. The server validates every argument before running anything.
-4. **Case summary** for the human reviewer and short follow-up messages.
+1. **Danger check, then read and triage:** a short call decides whether someone is in danger right now; otherwise the message becomes structured JSON: summary for the adjuster, claim types, people and injuries, items with estimated amounts and triage 1-3 each.
+2. **Coverage check (RAG):** retrieve the relevant clauses for each item's claim type → provisional advance approved or human review, with **quoted clause references**.
+3. **Tool use (planned):** `lookup_policyholder`, `lookup_policy`, `estimate_payout`, `request_payout`. The server validates every argument before running anything.
+4. **Case summary** for the human adjuster and the update text to the customer.
 
-The UI shows tool calls and results, not hidden reasoning. The triage list still works if the model is down; extraction just shows as pending.
+The UI shows tool calls and results, not hidden reasoning. If the model is down, the case shows as pending for a human, and the customer is told a specialist will follow up and to call 911 if anyone is in danger.
 
 ## Payout rules
 
-- **Auto-approve** when covered, amount ≤ a configured cap (e.g. $2,500 emergency advance), and confidence is high.
-- **Human review** for anything over the cap (e.g. an $80k car), unclear coverage, excluded damage, or a suspicious pattern (repeat claim, new payout account).
+- **Provisional advance approved** only for spoiled food, hotel or other extra living costs, and rental cars, with a quote (verified word for word) from the clause that grants that coverage, and an amount at most the configured cap (e.g. $2,500). A hotel with no price is estimated at the nights stated (default 3) at $150. If Nemotron says review without naming an exclusion, code still approves such an item and records Nemotron's original answer.
+- **Human review** for anything over the cap (e.g. an $80k car), unclear coverage, excluded damage, liability to others, or a suspicious pattern (repeat claim, new payout account).
 - Every payout gets a unique id, and clicking twice never pays twice.
 
 ## Nessie (last)
@@ -91,19 +90,19 @@ One company checking account seeded with **$1,000,000**. Each approved payout is
 
 ## Dashboard
 
-- **MVP:** the triage list (color, score, name, need, agent, time silent, claim status) plus a detail panel (messages, Nemotron tool activity, policy clauses, approve/deny).
-- **Then:** a flat 2D map (Leaflet/Mapbox) with colored dots and the disaster zone. No 3D.
-- **Disaster trigger:** a button or scripted trigger fires the event: pop-up "Tsunami warning — Half Moon Bay", the zone pulses, dots go gray, then update as replies arrive.
+- **MVP:** the triage queue (triage level, name, summary, claim types, claim amount, approved amount, time received, status) with triage 4 flagged at the top, plus a detail panel (messages, Nemotron tool activity, policy clauses, approve/deny).
+- **Then:** a flat 2D map (Leaflet/Mapbox) with the disaster zone and a dot for each customer who texted, colored by triage level. No 3D.
+- **Disaster trigger:** a button or scripted trigger fires the event: pop-up "Tsunami warning — Half Moon Bay", the zone pulses, then incoming texts start arriving and dots appear.
 - Filter by agent location; an agent sees their own book first.
 
 ## Demo script (video)
 
-1. Calm dashboard, everything green.
-2. Trigger: pop-up, the zone pulses, affected dots go gray as texts go out.
-3. **Phone on camera** receives the text; reply: "roof's gone, my mom needs insulin". The dot turns red and jumps to the top. The agent panel shows extraction → policy lookup → emergency advance approved → Nessie payout.
-4. A silent person stays gray, the timer escalates, and **a real phone rings** with the Photon call.
-5. A big claim ($80k car) lands in human review; the tsunami → flood exclusion is cited. The agent decides.
-6. End card: people reached, escalated, paid, and total time.
+1. Calm dashboard, empty queue.
+2. Trigger: pop-up, the zone pulses, scripted texts start pouring in and the queue sorts itself by severity.
+3. **Phone on camera** texts: "roof's gone, we're at a motel tonight". It gets the acknowledgment, the case appears with its triage level, and the agent panel shows the read → policy lookup → hotel advance approved with the clause quoted → Nessie payout → update text on the phone.
+4. **Phone on camera** texts: "we're trapped upstairs, water rising". The reply is "Call 911 now." and the case jumps to the top, flagged for a human.
+5. A big claim ($80k car) lands in human review; the tsunami → flood exclusion is cited. The adjuster decides.
+6. End card: texts handled, advances paid, cases flagged for a human, and total time.
 
 Record the phone scenes early, so a flaky API near the deadline can't sink the video.
 
@@ -111,42 +110,44 @@ Record the phone scenes early, so a flaky API near the deadline can't sink the v
 
 **One Next.js app** (App Router, TypeScript, Tailwind, shadcn) at the repo root. API route handlers are the backend; no separate Python server. Shared TypeScript types run from database to UI.
 
-- Nemotron: OpenAI-compatible API via the `openai` package with a custom base URL. Route handlers validate tool arguments (e.g. with zod).
-- Policy RAG: embed the policy chunks once, store them with the data, cosine search in memory. No vector database.
+- Nemotron: OpenAI-compatible API via the `openai` package with a custom base URL. Route handlers validate inputs and model output (zod).
+- Nemotron runs on our Brev vLLM server (`NEMOTRON_BASE_URL`); reasoning is off for all calls, and code makes the final payment decision.
+- Policy RAG: NVIDIA hosted embeddings (`nvidia/nemotron-3.5-embed-1b`, separate `NEMOTRON_EMBED_*` key and URL) computed once and stored with the data (`data/policy_index.json`), cosine search in memory, lexical fallback without embeddings. No vector database.
 - Database: SQLite (Drizzle or Prisma, to decide).
-- Photon: check the SDK's language and webhook model first.
+- SMS provider: to be chosen; check its language and webhook model first.
 - Nessie: plain `fetch`.
-- Run as a long-lived local server (`next start`), not serverless, so escalation timers survive. Compute silence from timestamps (`now - sent_at`) on a short interval so restarts don't lose state.
-- Incoming replies need a public URL: ngrok or cloudflared tunnel, set as `PUBLIC_BASE_URL`.
+- Run as a long-lived local server (`next start`), not serverless.
+- Incoming texts will need a public URL (ngrok or cloudflared tunnel) once an SMS provider is chosen.
 - Secrets server-side only (no `NEXT_PUBLIC_`); commit `.env.example` only.
+- Do not build anything that forwards customer data to authorities.
 
 ```text
 src/app/              pages (dashboard) + api/ route handlers
-src/lib/triage/       scoring + queue
-src/lib/outreach/     Photon texts/calls + escalation timers
-src/lib/agent/        Nemotron client, tools, RAG over policy docs
-src/lib/claims/       coverage decision, approval rules, payout workflow
+src/lib/triage/       triage queue
+src/lib/outreach/     inbound texts + replies
+src/lib/agent/        Nemotron client, read + triage, policy RAG, provisional-payment decision
+src/lib/claims/       approval rules, payout workflow
 src/lib/finance/      Nessie adapter
 src/lib/db/           SQLite schema + access
 src/types/            shared types
-data/                 generated agents, policyholders, policies, scripted replies
+data/                 agents, policyholders, policies, policy documents, scripted inbound texts
 ```
 
 ## Team (proposed, confirm)
 
 | Person | Owns |
 |---|---|
-| Ron | API routes, shared types, database, data generation + loading, triage scoring, escalation engine, integration |
-| Arav | Nemotron client, extraction, policy RAG, tool loop, case summaries |
-| Samer | Photon (texts + calls), Nessie payouts, approval/idempotency |
-| Pablo | Dashboard: triage list, detail panel, map, disaster trigger animation, video |
+| Ron | API routes, shared types, database, data generation + loading, triage queue, integration |
+| Arav | Nemotron client, read + triage (incl. safety override), policy RAG, provisional-payment decision, case summaries |
+| Samer | Inbound texts + replies (SMS provider), Nessie payouts, approval/idempotency |
+| Pablo | Dashboard: triage queue, detail panel, map, disaster trigger animation, video |
 
 ## Build order
 
-1. Confirm the open questions. Prove a Photon SMS + call and a Nemotron tool call.
-2. Generate the dataset and policy documents; agree on contracts.
-3. Triage list end to end with scripted replies (no AI yet).
-4. Nemotron extraction + policy RAG plugged into triage and claims.
-5. Live Photon replies and the escalation call.
+1. Confirm the open questions. Prove an inbound SMS + reply and a Nemotron tool call.
+2. Generate the dataset; agree on contracts (the agent's response shape is in `src/lib/agent/README.md`).
+3. Triage queue end to end with scripted inbound texts.
+4. Plug the agent (read, triage, policy RAG) into the queue and claims.
+5. Live texts on camera.
 6. Approval workflow → Nessie payouts.
 7. Map + disaster animation, then record the video.
