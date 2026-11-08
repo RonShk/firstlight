@@ -13,7 +13,7 @@ import { handleIncomingText, type PipelineDeps } from "../pipeline";
 import { loadPolicyIndex, POLICY_LINES, type PolicyIndex } from "../policy-docs";
 import { DANGER_SYSTEM, EXTRACTION_SYSTEM } from "../prompts";
 import { lexicalSearch, retrieve, tokenize } from "../retrieve";
-import type { ClaimAnalysis, ClaimItem, Extraction } from "../schemas";
+import { ExtractionSchema, type ClaimAnalysis, type ClaimItem, type Extraction } from "../schemas";
 
 const fullIndex = loadPolicyIndex();
 const index: PolicyIndex = { ...fullIndex, embed_model: null }; // lexical path, deterministic
@@ -715,5 +715,18 @@ describe("POST /api/agent/analyze", () => {
       assert.match(body.result.error, /NEMOTRON_API_KEY is not set/);
       assert.deepEqual(body.messages.map((m: { kind: string }) => m.kind), ["ack", "update"]);
     });
+  });
+});
+
+describe("extraction shape", () => {
+  const reply = (claim_types: unknown) => ({ is_claim: true, summary: "s", event_cause: "c", claim_types, people: [], items: [] });
+
+  it("accepts claim_types written as a bare string", () => {
+    assert.deepEqual(ExtractionSchema.parse(reply("auto")).claim_types, ["auto"]);
+    assert.deepEqual(ExtractionSchema.parse(reply("auto, umbrella")).claim_types, ["auto", "umbrella"]);
+  });
+
+  it("still rejects an unknown claim type", () => {
+    assert.throws(() => ExtractionSchema.parse(reply("boat")));
   });
 });

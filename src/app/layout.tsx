@@ -1,32 +1,27 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Source_Sans_3 } from "next/font/google";
 import "./globals.css";
-import { SimProvider } from "@/components/sim/sim-provider";
-import { TopBar } from "@/components/sim/top-bar";
+import { AppHeader } from "@/components/claims/app-header";
+import { ClaimsProvider } from "@/components/claims/claims-provider";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const sourceSans = Source_Sans_3({
+  variable: "--font-source-sans",
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "No One Left Behind · Catastrophe response",
-  description: "Reach every policyholder after a disaster, triage by urgency, and get help moving.",
+  title: "State Farm Claims",
+  description: "Triage every policyholder's claim by urgency, with the policy documents that apply.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`dark ${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
-      <body className="flex min-h-full flex-col">
-        <SimProvider>
-          <TopBar />
-          <main className="flex flex-1 flex-col">{children}</main>
-        </SimProvider>
+    <html lang="en" className={`${sourceSans.variable} h-full antialiased`}>
+      <body className="flex h-dvh flex-col overflow-hidden">
+        <ClaimsProvider>
+          <AppHeader />
+          {children}
+        </ClaimsProvider>
       </body>
     </html>
   );

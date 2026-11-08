@@ -1,5 +1,5 @@
-import { MessageLog } from "@/components/sim/message-log";
+import { ClaimsWorkspace } from "@/components/claims/claims-workspace";
 
 export default function Home() {
-  return <MessageLog />;
+  return <ClaimsWorkspace />;
 }
