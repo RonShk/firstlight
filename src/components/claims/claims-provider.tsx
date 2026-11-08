@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, useSyncExternalStore } from "react";
-import type { AgentStatus } from "@/lib/agent/types";
+import type { AgentStatus } from "@/types/agent";
 import type { ClaimMessage, ClaimView } from "@/types/claims";
 import { buildClaims, SNAPSHOT_MINUTE } from "@/lib/claims/generate";
 import { sortClaims, toView } from "@/lib/claims/review";
@@ -42,10 +42,10 @@ export function ClaimsProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => queue.setClock(() => SNAPSHOT_MINUTE), [queue]);
 
   useEffect(() => {
-    fetch("/api/agent")
+    fetch("/api/status")
       .then((r) => r.json())
       .then(setAgent)
-      .catch(() => setAgent({ configured: false, model: null, baseUrl: null, policiesLoaded: [] }));
+      .catch(() => setAgent({ configured: false, model: null, services: { embeddings: null, reranker: null, guard: null, verifier: false }, knowledge: null, queue: null }));
   }, []);
 
   const online = agent ? agent.configured : null;
@@ -58,7 +58,7 @@ export function ClaimsProvider({ children }: { children: React.ReactNode }) {
     (claim: ClaimView) => {
       if (!online || claim.silent) return;
       const turns: Turn[] = claim.body.map((text) => ({ from: "policyholder", text }));
-      queue.ensure(claim.id, claim.persona.phone, conversationKey(turns), turns);
+      queue.ensure(claim.id, conversationKey(turns), turns);
     },
     [online, queue],
   );

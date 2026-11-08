@@ -6,28 +6,31 @@
 - Samer Megla
 - Pablo Nguyen
 
-HackUTD ZeroDay — State Farm track. After a disaster, customers text us first. Nemotron first checks each text for danger (someone in danger right now: told to call 911, triage 4, flagged for a human), then triages each item 1-3 by severity, checks coverage against the policy documents, and approves provisional advance payments for spoiled food, hotel stays and rental cars under a cap, to be paid through Nessie. Large or unclear items go to a human adjuster. Design brief: [NO_ONE_LEFT_BEHIND.md](NO_ONE_LEFT_BEHIND.md).
+HackUTD ZeroDay — State Farm track and NVIDIA Nemotron track. After a disaster, customers text us first. A Nemotron agent investigates each case with tools: it reads the customer's household and policies, searches their own policy forms with agentic RAG (hybrid BM25 + Nemotron embeddings, Nemotron reranker), checks exclusions, cites verbatim clauses, and has a second Nemotron agent verify the decision before a reply is sent. Present danger gets 911 guidance and urgent human review. Every step is persisted and shown on an audit timeline. Nothing pays, files or dispatches automatically. Design brief: [NO_ONE_LEFT_BEHIND.md](NO_ONE_LEFT_BEHIND.md). Architecture: [docs/agent-architecture.md](docs/agent-architecture.md).
 
 One Next.js app: UI and backend (API routes) in one TypeScript codebase.
 
 ```text
-src/app/              pages (dashboard) + api/ route handlers
-src/lib/triage/       scoring + queue
-src/lib/outreach/     inbound texts + replies (SMS provider to be chosen)
-src/lib/agent/        Nemotron client, danger check, triage, policy RAG (see its README)
-src/lib/claims/       coverage decision, approval rules, payout workflow
-src/lib/finance/      Nessie adapter
-src/lib/db/           SQLite schema + access
-src/types/            shared types
-data/                 generated agents, policyholders, policies, scripted replies
+src/app/              dashboard page + api/ route handlers (messages, runs, SSE events, cases, review)
+src/agent/            agent runtime: tool loop, context, instructions, finalize checks, verifier, guard
+src/tools/            tool registry + executor; customer, retrieval and claims tools
+src/knowledge/        policy ingest, SQLite FTS5 + vectors, hybrid search, rerank, citations
+src/cases/            cases, runs (queue + leases), append-only events, intake, read models
+src/delivery/         outbox, simulator and SMS delivery
+src/workers/          agent workers
+src/evals/            evaluation scenarios, assertions and runner
+src/lib/sim/          tornado simulator (personas, impact, triage view)
+data/                 personas, agents, policy forms (raw PDFs in data/policies/raw)
 ```
 
 ## Run
 
 ```bash
-cp .env.example .env.local   # set NEMOTRON_MODEL + NEMOTRON_API_KEY
+cp .env.example .env.local   # NEMOTRON_* for Brev, NEMOTRON_EMBED_API_KEY for build.nvidia.com
 npm install
-npm run dev
+npm run knowledge:ingest     # builds data/knowledge.db from data/policies/raw (reuses existing vectors)
+npm run dev                  # starts the web app and in-process agent workers
+npm test                     # offline tests; `npm run evals` runs live scenarios against Nemotron
 ```
 
-Run as a long-lived local server (not serverless). The app runs without SMS or Nessie settings; replies are logged to the console until an SMS provider is wired in.
+Run as a long-lived server (not serverless). Workers run inside the web server by default; set `AGENT_WORKERS=external` and run `npm run agent:worker` (as many as you like) to scale them separately. Simulated replies are delivered to the simulated phone; SMS delivery needs Twilio settings.

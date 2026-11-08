@@ -15,6 +15,7 @@ const REVIEW_LABEL: Record<ReviewState, string> = {
   reviewed: "Reviewed by Nemotron",
   offline: "Quick read · Nemotron offline",
   unavailable: "Quick read · Nemotron unavailable",
+  human_review: "Human intervention needed · queued for claims review",
   none: "",
 };
 

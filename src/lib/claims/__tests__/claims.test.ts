@@ -4,8 +4,7 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import type { Persona, Policy } from "../../../types/sim";
-import type { Claim } from "../../../types/claims";
-import type { PipelineResult } from "../../agent/pipeline";
+import type { Decision, RunSummary } from "../../../types/agent";
 import { getPersonas } from "../../sim/personas";
 import type { AgentRun } from "../../sim/triage";
 import { buildClaims } from "../generate";
@@ -185,10 +184,20 @@ describe("coverage layers", () => {
 
 describe("Nemotron review", () => {
   const claim = claims.find((c) => !c.silent)!;
-  const silent: Claim = claims.find((c) => c.silent)!;
-  const done = (result: PipelineResult["result"]): AgentRun => ({
+  const silent = claims.find((c) => c.silent)!;
+  const done = (over: Partial<Decision> = {}, extra: Partial<RunSummary> = {}): AgentRun => ({
     key: "k", conversation: [], status: "done",
-    result: { analysis_id: "a", from: "f", text: "t", received_at: "", messages: [{ kind: "update", body: "Update text", sent_at: "", delivered: true }], result },
+    result: {
+      id: "r", caseId: "c", status: "completed", trigger: "message", model: "nemotron", promptVersion: "test",
+      createdAt: "", startedAt: null, finishedAt: null, usage: null, error: null, activity: null,
+      progress: { phase: "done", label: "Done", queuePosition: null, elapsedSeconds: null, etaSeconds: null, step: null },
+      failure: null, humanInterventionNeeded: false,
+      reply: { id: "m", kind: "reply", status: "sent", body: "Update text", sentAt: "", lastError: null },
+      decision: { verified: true, citations: [], decision: {
+        severity: 50, severity_reason: "Damage reported", immediate_danger: false, summary: "Fence down.",
+        reported_facts: [], unknowns: [], findings: [], next_action: "reply", decision_reason: "Review complete", reply: "Update text", ...over,
+      } }, ...extra,
+    },
   });
 
   it("keeps the quick read while offline, loading or running", () => {
@@ -197,32 +206,32 @@ describe("Nemotron review", () => {
     assert.equal(reviewClaim(claim, { key: "k", conversation: [], status: "running" }, true).state, "reviewing");
     assert.equal(reviewClaim(claim, { key: "k", conversation: [], status: "error" }, true).state, "unavailable");
   });
-
   it("never reviews a household that hasn't said anything", () => {
     assert.equal(reviewClaim(silent, undefined, true).state, "none");
   });
-
-  it("keeps the quick read when the agent is unavailable", () => {
-    const r = reviewClaim(claim, done({ status: "agent_unavailable", flagged_for_human: true, error: "down" }), true);
-    assert.deepEqual([r.state, r.severity], ["unavailable", claim.quick.severity]);
+  it("treats an emergency as critical and shows the persisted reply", () => {
+    const r = reviewClaim(claim, done({ immediate_danger: true, next_action: "human_review" }), true);
+    assert.deepEqual([r.state, r.severity, r.reply], ["human_review", "critical", "Update text"]);
   });
-
-  it("treats an emergency as critical", () => {
-    const r = reviewClaim(claim, done({ status: "emergency", triage: 4, flagged_for_human: true, reason: "trapped" }), true);
-    assert.deepEqual([r.state, r.severity, r.reply], ["reviewed", "critical", "Update text"]);
-  });
-
-  it("replaces the quick read with the model's analysis", () => {
-    const citation = { doc_id: "SF-HOME-OK", form_number: "HW-2136", section: "X", page: 3, quote: "q" };
-    const item = { approved: false, citations: [citation, citation] };
-    const r = reviewClaim(claim, done({
-      status: "complete", triage: 2, summary: "Fence down.", claim_types: ["home"], claim_amount_usd: 900,
-      approved_amount_usd: 0, claim_approved: false, flagged_for_human: true, people: [], items: [item] as never,
-    }), true);
+  it("maps the runtime decision and deduplicates resolved citations", () => {
+    const run = done();
+    const citation = { chunk_id: "SF-HOME-OK#1", doc_id: "SF-HOME-OK", form_number: "HW-2136", section: "X", page: 3, quote: "q", url: "/api/policies?form=SF-HOME-OK#page=3" };
+    run.result!.decision!.citations = [citation, citation];
+    const r = reviewClaim(claim, run, true);
     assert.deepEqual([r.state, r.severity, r.risk], ["reviewed", "medium", "Moderate damage"]);
-    assert.equal(r.summary, "Fence down. Estimated $900. 1 item needs a claims specialist.");
+    assert.equal(r.summary, "Fence down.");
     assert.equal(r.citations.length, 1);
-    assert.deepEqual(r.lines, ["home"]);
   });
-
+  it("shows expected limit handoffs as human intervention and preserves technical failures", () => {
+    const run = done({}, { status: "failed", decision: null, humanInterventionNeeded: true });
+    run.status = "error";
+    assert.equal(reviewClaim(claim, run, true).state, "human_review");
+    run.result!.humanInterventionNeeded = false;
+    assert.equal(reviewClaim(claim, run, true).state, "unavailable");
+  });
+  it("does not display an undelivered reply", () => {
+    const run = done();
+    run.result!.reply!.status = "held";
+    assert.equal(reviewClaim(claim, run, true).reply, null);
+  });
 });

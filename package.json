@@ -7,13 +7,15 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test:agent": "tsx --test src/lib/agent/__tests__/*.test.ts",
-    "test:claims": "tsx --test src/lib/claims/__tests__/*.test.ts",
-    "agent:index": "tsx scripts/build-policy-index.ts",
-    "agent:samples": "tsx scripts/run-samples.ts",
-    "agent:smoke": "tsx scripts/nemotron-smoke.ts",
     "personas": "tsx scripts/export-personas.ts",
-    "policies": "tsx scripts/fetch-policies.ts"
+    "policies": "tsx scripts/fetch-policies.ts",
+    "test": "tsx --test src/__tests__/*.test.ts src/lib/claims/__tests__/*.test.ts",
+    "knowledge:ingest": "tsx scripts/ingest-policies.ts",
+    "agent:worker": "tsx scripts/agent-worker.ts",
+    "agent:run": "tsx scripts/agent-run.ts",
+    "evals": "tsx scripts/run-evals.ts",
+    "gpu:bench": "tsx scripts/gpu-benchmark.ts",
+    "test:claims": "tsx --test src/lib/claims/__tests__/*.test.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",
@@ -32,7 +34,7 @@
   },
   "devDependencies": {
     "@tailwindcss/turbopack": "^4",
-    "@types/node": "^20",
+    "@types/node": "^24.19.2",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",

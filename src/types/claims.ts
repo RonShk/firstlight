@@ -1,4 +1,4 @@
-import type { Citation } from "../lib/agent/schemas";
+import type { Citation } from "../knowledge/citations";
 import type { Persona, Policy, PolicyForm, PolicyLine } from "./sim";
 
 export type Severity = "critical" | "high" | "medium" | "low";
@@ -37,7 +37,7 @@ export interface Claim {
   quick: QuickRead;
 }
 
-export type ReviewState = "quick" | "reviewing" | "reviewed" | "offline" | "unavailable" | "none";
+export type ReviewState = "quick" | "reviewing" | "reviewed" | "offline" | "unavailable" | "human_review" | "none";
 
 export interface ClaimReview {
   state: ReviewState;
