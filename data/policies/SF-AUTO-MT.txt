@@ -1,0 +1,3120 @@
+[page 1]
+State Farm®
+Car Policy
+Booklet
+Montana
+Policy Form 9826C
+Notice of Important Provisions
+Please read the policy carefully, especially all
+exclusions and conditions.
+For a comprehensive description of your
+coverage, refer to your policy, endorsements,
+and Declarations.
+If there is an accident, contact your State Farm
+agent, visit statefarm.com or the mobile app.
+(See “INSURED’S DUTIES” in this policy
+booklet.)
+
+[page 2]
+9826C
+©, Copyright, State Farm Mutual Automobile Insurance Company, 2024
+TABLE OF CONTENTS
+THIS POLICY ................................................................. 1
+DEFINITIONS ................................................................. 1
+LIABILITY COVERAGE ................................................. 3
+Additional Definition.................................................... 3
+Insuring Agreement .................................................... 4
+Supplementary Payments .......................................... 4
+Limit ............................................................................ 5
+Nonduplication............................................................ 5
+Exclusions .................................................................. 5
+If Other Liability Coverage Applies ............................. 6
+MEDICAL PAYMENTS COVERAGE .............................. 8
+Additional Definitions .................................................. 8
+Insuring Agreement .................................................... 9
+Determining Medical Expenses .................................. 9
+Limit ............................................................................ 9
+Nonduplication............................................................ 9
+Exclusions ................................................................ 10
+If Other Medical Payments Coverage or
+Similar Vehicle Insurance Applies ............................ 10
+Our Payment Options ............................................... 11
+UNINSURED MOTOR VEHICLE COVERAGE ............ 11
+Additional Definitions ................................................ 11
+Insuring Agreement .................................................. 12
+Notice of Tenative Settlement .................................. 12
+Deciding Fault and Amount ...................................... 12
+Limit .......................................................................... 13
+Nonduplication.......................................................... 13
+Exclusions ................................................................ 13
+If Other Uninsured Motor Vehicle Coverage
+Applies ...................................................................... 14
+Our Payment Options ............................................... 14
+UNDERINSURED MOTOR VEHICLE COVERAGE ...... 14
+Additional Definitions ................................................ 14
+Insuring Agreement .................................................. 15
+Notice of Tentative Settlement ................................. 15
+Deciding Fault and Amount ...................................... 15
+Limit .......................................................................... 16
+Nonduplication .......................................................... 16
+Exclusions ................................................................ 16
+If Other Underinsured Motor Vehicle
+Coverage Applies ..................................................... 17
+Our Payment Options ............................................... 17
+PHYSICAL DAMAGE COVERAGES ........................... 18
+Deductible ................................................................ 18
+Additional Definitions ................................................ 18
+Insuring Agreements ................................................ 20
+Supplementary Pet Injury Coverage ........................ 21
+Supplementary Payments – Comprehensive
+Coverage and Collision Coverage ............................ 21
+Limit and Loss Settlement – Comprehensive
+Coverage and Collision Coverage .............................. 22
+Limit – Car Rental and Travel Expenses
+Coverage .................................................................. 23
+Nonduplication .......................................................... 24
+Exclusions ................................................................ 24
+If Other Physical Damage Coverage or Similar
+Coverage Applies ...................................................... 26
+Financed Vehicle ...................................................... 26
+Our Payment Options .............................................. 26
+DEATH, DISMEMBERMENT AND LOSS OF
+SIGHT COVERAGE AND LOSS OF EARNINGS
+COVERAGE.................................................................. 27
+DEATH, DISMEMBERMENT AND LOSS OF
+SIGHT COVERAGE ................................................. 27
+Additional Definitions ........................................... 27
+Insuring Agreement ............................................. 27
+Benefit ................................................................. 27
+LOSS OF EARNINGS COVERAGE ......................... 28
+Additional Definitions ........................................... 28
+Insuring Agreement ............................................. 28
+
+[page 3]
+9826C
+©, Copyright, State Farm Mutual Automobile Insurance Company, 2024
+Limit ..................................................................... 28
+Exclusions – Death, Dismemberment and Loss of
+Sight Coverage and Loss of Earnings Coverage ..... 28
+Our Payment Options – Death, Dismemberment
+and Loss of Sight Coverage and Loss of Earnings
+Coverage .................................................................. 29
+INSURED’S DUTIES .................................................... 29
+Notice to Us of an Accident or Loss ......................... 29
+Notice to Us of a Claim or Lawsuit ........................... 29
+Insured’s Duty to Cooperate With Us ....................... 29
+Questioning Under Oath........................................... 29
+Other Duties Under the Physical
+Damage Coverages ................................................. 30
+Other Duties Under Medical Payments Coverage,
+Uninsured Motor Vehicle Coverage, Underinsured
+Motor Vehicle Coverage, Death, Dismemberment
+and Loss of Sight Coverage, or Loss of Earnings
+Coverage .................................................................. 30
+GENERAL TERMS ....................................................... 31
+When Coverage Applies........................................... 31
+Where Coverage Applies ......................................... 31
+Required Out-of-State Coverage .............................. 31
+Financial Responsibility Certification ........................ 32
+Limited Coverage in Mexico ..................................... 32
+Newly Owned or Newly Leased Car ......................... 32
+Changes to This Policy ............................................. 33
+Premium ................................................................... 33
+Renewal ................................................................... 34
+Nonrenewal .............................................................. 34
+Cancellation .............................................................. 34
+Assignment ............................................................... 35
+Bankruptcy or Insolvency of the Insured .................. 35
+Concealment or Fraud .............................................. 35
+Our Right to Recover Our Payments ........................ 35
+Legal Action Against Us ........................................... 35
+Choice of Law ........................................................... 36
+Severability ............................................................... 36
+Our Rights Regarding Claim Information ................. 36
+
+[page 4]
+1 9826C
+©, Copyright, State Farm Mutual Automobile Insurance Company, 2024
+THIS POLICY
+1. This policy consists of:
+a. the most recently issued Declarations;
+b. the policy booklet version shown on that Decla-
+rations; and
+c. any applicable endorsements shown on that
+Declarations.
+2. This policy contains all of the agreements between all
+named insureds who are shown on the Declarations
+and all applicants and:
+a. us; and
+b. any of our agents.
+3. We agree to provide insurance according to the terms
+of this policy:
+a. based on payment of premium for the coverages
+chosen; and
+b. unless otherwise stated on the Declarations, in
+reliance on the following statements:
+(1) Neither you nor any member of your
+household has, within the past three years,
+had either:
+(a) a license to drive; or
+(b) a vehicle registration
+suspended, revoked, or refused.
+(2) Your cars are used for pleasure and busi-
+ness.
+4. All named insureds shown on the Declarations and
+all applicants agree by acceptance of this policy
+that:
+a. the statements in 3.b. above are made by such
+named insured or applicant and are true; and
+b. we provide this insurance on the basis those
+statements are true.
+5. Your purchase of this policy may allow:
+a. you to purchase or obtain certain coverages,
+coverage options, coverage deductibles, cover-
+age limits, or coverage terms on other products
+from the State Farm Companies, subject to
+their applicable eligibility rules; or
+b. the premium or price for other products or ser-
+vices purchased by you, including non-insur-
+ance products or services, to vary. Such other
+products or services must be provided by the
+State Farm Companies or by an organization
+that has entered into an agreement or contract
+with the State Farm Companies. The State
+Farm Companies do not warrant the merchant-
+ability, fitness, or quality of any product or ser-
+vice offered or provided by that organization.
+DEFINITIONS
+We define certain words and phrases below for use
+throughout the policy. Each coverage includes additional
+definitions only for use with that coverage. These defini-
+tions apply to the singular, plural, possessive, and any
+other form of these words and phrases. Defined words and
+phrases are printed in boldface italics.
+The words “spouse”, “marriage”, “married”, and “marital”
+refer to the legal union between two persons that is rec-
+ognized by and valid under the law of the state into which
+such union was entered.
+Bodily Injury means bodily injury to a person and sick-
+ness, disease, or death that results from it.
+Car means a land motor vehicle with four or more wheels,
+designed for use primarily on public roads. Car does not
+include:
+1. Any vehicle while located for use as a dwelling or
+other premises; or
+2. A truck-tractor designed to pull any type of trailer.
+Car Business means a business or job where the purpose
+is to sell, lease, rent, repair, service, modify, transport,
+store, or park land motor vehicles or any type of trailer.
+Fungi means any type or form of fungus or fungi and in-
+cludes:
+
+[page 5]
+2 9826C
+©, Copyright, State Farm Mutual Automobile Insurance Company, 2024
+1. Mold;
+2. Mildew; and
+3. Any of the following that are produced or released by
+fungi:
+a. Mycotoxins;
+b. Spores;
+c. Scents; or
+d. Byproducts.
+Newly Acquired Car means a car newly owned by you
+or a resident relative. A car ceases to be a newly ac-
+quired car on the earlier of:
+1. the effective date and time when that car is added to
+the “VEHICLE SCHEDULE” of this policy;
+2. the effective date and time of a policy, including any
+binder, issued by us or any other company that de-
+scribes the car as an insured vehicle; or
+3. the end of the 14th calendar day immediately follow-
+ing the date the car is delivered to you or a resident
+relative.
+If this policy does not provide Comprehensive Coverage
+or Collision Coverage for any vehicle shown in the “VEHI-
+CLE SCHEDULE” on the Declarations and a newly ac-
+quired car is not otherwise afforded comprehensive
+coverage or collision coverage by any other policy, then:
+1. this policy will provide Comprehensive Coverage or
+Collision Coverage for that newly acquired car and
+a temporary substitute car replacing that newly ac-
+quired car; and
+2. the Definition of Covered Vehicle found in Physical
+Damage Coverages is changed to read:
+Covered Vehicle means:
+1. a newly acquired car; and
+2. a temporary substitute car that is tempo-
+rarily replacing a newly acquired car.
+A covered vehicle also includes the parts and
+equipment that are common to the use of the ve-
+hicle as a vehicle.
+Non-Owned Car means a car that is in the lawful posses-
+sion of you or any resident relative and that neither:
+1. is owned by:
+a. you;
+b. any resident relative;
+c. any other person who resides primarily in your
+household; or
+d. an employer of any person described in a., b.,
+or c. above; nor
+2. has been operated by, rented by, or in the possession
+of:
+a. you; or
+b. any resident relative
+during any part of each of the 31 or more consecutive
+days immediately prior to the date of the accident or
+loss.
+Occupying means in, on, entering, or exiting.
+Our means the Company issuing this policy as shown on
+the Declarations.
+Owned By means:
+1. owned by;
+2. registered to; or
+3. leased, if the lease is written for a period of 31 or more
+consecutive days, to.
+Pedestrian means a person who is not occupying:
+1. a motorized vehicle; or
+2. a vehicle designed to be pulled by a motorized vehi-
+cle.
+Person means a human being.
+Private Passenger Car means:
+1. a car of the private passenger type, other than a
+pickup truck, van, minivan, or sport utility vehicle, de-
+signed primarily to carry persons and their luggage;
+or
+2. a pickup truck, van, minivan, or sport utility vehicle:
+a. while not used for:
+(1) wholesale; or
+(2) retail
+pick up or delivery; and
+b. that has a Gross Vehicle Weight Rating of
+10,000 pounds or less.
+
+[page 6]
+3 9826C
+©, Copyright, State Farm Mutual Automobile Insurance Company, 2024
+Resident Relative means a person, other than you, who
+resides primarily with the first person shown as a named
+insured on the Declarations and who is:
+1. related to you by blood, marriage, or adoption, includ-
+ing your unmarried and unemancipated child who is
+away at school and otherwise maintains their primary
+residence with the first person shown as a named
+insured on the Declarations; or
+2. a ward or a foster child of you or a person described
+in 1. above.
+State Farm Companies means one or more of the follow-
+ing:
+1. State Farm Mutual Automobile Insurance Company;
+2. State Farm Fire and Casualty Company; and
+3. Subsidiaries or affiliates of either 1. or 2. above.
+Temporary Substitute Car means a car that is in the law-
+ful possession of the person operating it and that:
+1. replaces a your car or a newly acquired car for a
+short time while that car is out of use due to its:
+a. breakdown;
+b. repair;
+c. servicing;
+d. damage; or
+e. theft; and
+2. neither you nor the person operating it own or have
+registered.
+If a car qualifies as both a non-owned car and a tempo-
+rary substitute car, then coverage will apply as if the car
+were either.
+Trailer means:
+1. a trailer:
+a. designed to be pulled by a private passenger
+car;
+b. not designed to carry persons; and
+c. while not used as premises for office, store, or
+display purposes; or
+2. a farm implement or farm wagon while being pulled
+on public roads by a car.
+Us means the Company issuing this policy as shown on
+the Declarations.
+We means the Company issuing this policy as shown on
+the Declarations.
+You or Your means the named insured or named insureds
+shown on the Declarations. If a named insured shown on
+the Declarations is a person, then “you” or “your” includes
+the spouse of the first person shown as a named insured
+if the spouse resides primarily with that named insured.
+Your Car means the car or cars shown in the “VEHICLE
+SCHEDULE” on the Declarations. Your Car does not in-
+clude a car that you no longer own or lease.
+LIABILITY COVERAGE
+This policy provides Liability Coverage if a premium is
+shown under “Coverage Symbol A” in the “POLICY PRE-
+MIUM” schedules on the Declarations.
+Additional Definition
+Insured means:
+1. you and resident relatives for:
+a. the ownership, maintenance, or use of:
+(1) a your car;
+(2) a newly acquired car; or
+(3) a trailer; and
+b. the maintenance or use of:
+(1) a non-owned car; or
+(2) a temporary substitute car;
+2. you for the maintenance or use of a car owned by,
+or furnished by an employer to, a person who resides
+primarily in the household of the first person shown
+as a named insured on the Declarations. That car
+cannot be owned by you or furnished by your em-
+ployer;
+3. any other person for their use of:
+a. a your car;
+b. a newly acquired car;
+c. a temporary substitute car; or
+
+[page 7]
+4 9826C
+©, Copyright, State Farm Mutual Automobile Insurance Company, 2024
+d. a trailer while attached to a car described in a.,
+b., or c. above.
+Such vehicle must be used with your consent; and
+4. any other person or organization vicariously liable for
+the use of a vehicle by an insured as defined in 1.,
+2., or 3. above, but only for such vicarious liability.
+This provision applies only if the vehicle is:
+a. neither owned by, nor hired by, that other per-
+son or organization, unless the vehicle is a your
+car or a newly acquired car; and
+b. neither available for, nor being used for, carrying
+persons for a charge.
+Insured does not include the United States of America or
+any of the Federal Government’s departments or agen-
+cies.
+Insuring Agreement
+1. We will pay damages, including punitive or exemplary
+damages, an insured becomes legally liable to pay
+because of:
+a. bodily injury to others; and
+b. damage to property
+caused by an accident that involves a vehicle for
+which that insured is provided Liability Coverage by
+this policy.
+2. We have the right to:
+a. investigate, negotiate, and settle any claim or
+lawsuit;
+b. defend an insured in any claim or lawsuit, with
+attorneys chosen by us; and
+c. appeal any award or legal decision
+for damages payable under this policy’s Liability Cov-
+erage.
+Supplementary Payments
+We will pay, in addition to the damages described in the
+Insuring Agreement of this policy’s Liability Coverage,
+those items listed below that result from such accident:
+1. Attorney fees for attorneys chosen by us to defend
+an insured who is sued for such damages. We have
+no duty to pay attorney fees incurred after we deposit
+in court or pay the amount due under the Insuring
+Agreement of this policy’s Liability Coverage;
+2. Court costs awarded by the court against an insured
+and resulting from that part of the lawsuit:
+a. that seeks damages payable under this policy’s
+Liability Coverage; and
+b. against which we defend an insured with attor-
+neys chosen by us.
+We have no duty to pay court costs incurred after we
+deposit in court or pay the amount due under the In-
+suring Agreement of this policy’s Liability Coverage;
+3. Interest the insured is legally liable to pay on dam-
+ages payable under the Insuring Agreement of this
+policy’s Liability Coverage:
+a. before a judgment, but only the interest on the
+lesser of:
+(1) that part of the damages we pay; or
+(2) this policy’s applicable Liability Coverage
+limit; and
+b. after a judgment.
+We have no duty to pay interest that accrues after we
+deposit in court, pay, or offer to pay, the amount due
+under the Insuring Agreement of this policy’s Liabil-
+ity Coverage. We also have no duty to pay interest
+that accrues on any damages paid or payable by a
+party other than the insured or us;
+4. Premiums for bonds, provided by a company chosen
+by us, required to appeal a decision in a lawsuit
+against an insured. We have no duty to:
+a. pay for any bond with a face amount that ex-
+ceeds this policy’s applicable Liability Coverage
+limit;
+b. furnish or apply for any bonds; or
+c. pay premiums for bonds purchased after we de-
+posit in court, pay, or offer to pay, the amount
+due under the Insuring Agreement of this pol-
+icy’s Liability Coverage; and
+5. The following costs and expenses if related to and in-
+curred after a lawsuit has been filed against an in-
+sured:
+a. Loss of wages or salary, but not other income,
+up to $250 for each day an insured attends, at
+our request:
+(1) an arbitration;
+
+[page 8]
+5 9826C
+©, Copyright, State Farm Mutual Automobile Insurance Company, 2024
+(2) a mediation; or
+(3) a trial of a lawsuit; and
+b. Reasonable expenses incurred by an insured at
+our request other than loss of wages, salary, or
+other income.
+The amount of any of the costs or expenses listed
+above that are incurred by an insured must be re-
+ported to us before we will pay such incurred costs
+or expenses.
+Limit
+The Liability Coverage limit is shown in the “COVERAGES
+AND LIMITS” schedule on the Declarations.
+1. The limit for bodily injury is shown under “Bodily In-
+jury Limit – Each Person, Each Accident.”
+a. The dollar amount shown under “Each Person”
+is the most we will pay for all damages resulting
+from bodily injury to any one person injured in
+any one accident, including all damages sus-
+tained by other persons as a result of that bod-
+ily injury.
+b. The dollar amount shown under “Each Accident”
+is the most we will pay, subject to the limit for
+“Each Person”, for all damages resulting from
+bodily injury to two or more persons injured in
+any one accident.
+2. The limit for damage to property is shown under
+“Property Damage Limit – Each Accident”. The dollar
+amount shown is the most we will pay for all damages
+resulting from damage to property in any one acci-
+dent.
+3. The limit shown for Liability Coverage is the most we
+will pay regardless of the number of:
+a. insureds;
+b. claims made;
+c. vehicles insured;
+d. premiums shown on the Declarations; or
+e. vehicles involved in the accident.
+Nonduplication
+We will not pay any damages or expenses under Liability
+Coverage:
+1. that have already been paid as expenses under Med-
+ical Payments Coverage of any policy issued by the
+State Farm Companies to you or any resident rel-
+ative; or
+2. that have already been paid under Uninsured Motor
+Vehicle Coverage or Underinsured Motor Vehicle
+Coverage of any policy issued by the State Farm
+Companies to you or any resident relative.
+Exclusions
+THERE IS NO COVERAGE FOR AN INSURED:
+1. WHO INTENTIONALLY CAUSES BODILY INJURY
+OR DAMAGE TO PROPERTY;
+2. OR FOR THAT INSURED’S INSURER FOR ANY
+OBLIGATION UNDER ANY TYPE OF WORKERS’
+COMPENSATION, DISABILITY, OR SIMILAR LAW;
+3. FOR BODILY INJURY TO THAT INSURED’S EM-
+PLOYEE WHICH ARISES OUT OF THAT EM-
+PLOYEE’S EMPLOYMENT. This exclusion does not
+apply to that insured’s household employee who is
+neither covered, nor required to be covered, under
+workers’ compensation insurance;
+4. FOR BODILY INJURY TO THAT INSURED’S FEL-
+LOW EMPLOYEE WHILE THE FELLOW EM-
+PLOYEE IS IN THE COURSE AND SCOPE OF
+THAT PERSON’S EMPLOYMENT. This exclusion
+does not apply to you and resident relatives who
+are legally liable for bodily injury to fellow employ-
+ees;
+5. FOR DAMAGES ARISING OUT OF THE OWNER-
+SHIP, MAINTENANCE, OR USE OF A VEHICLE
+WHILE IT IS RENTED TO OR LEASED TO OTHERS
+BY AN INSURED, INCLUDING PERSONAL VEHI-
+CLE SHARING, PEER-TO-PEER CAR SHARING,
+OR OTHER SIMILAR PROGRAM;
+6. FOR DAMAGES ARISING OUT OF THE OWNER-
+SHIP, MAINTENANCE, OR USE OF A VEHICLE
+WHILE IT IS:
+a. MADE AVAILABLE; OR
+b. BEING USED
+TO CARRY PERSONS FOR A CHARGE. This exclu-
+sion does not apply to:
+a. the use of a private passenger car on a share-
+the-expense basis; or
+
+[page 9]
+6 9826C
+©, Copyright, State Farm Mutual Automobile Insurance Company, 2024
+b. you or a resident relative occupying a non-
+owned car as a passenger;
+7. WHILE MAINTAINING OR USING A VEHICLE IN
+CONNECTION WITH THAT INSURED’S EMPLOY-
+MENT IN OR ENGAGEMENT OF ANY KIND IN A
+CAR BUSINESS. This exclusion does not apply to:
+a. you;
+b. any resident relative; or
+c. any agent, employee, or business partner of a.
+or b. above
+while maintaining or using a your car, a newly ac-
+quired car, a temporary substitute car, or a trailer
+owned by you;
+8. WHILE THAT INSURED IS VALET PARKING A VE-
+HICLE;
+9. WHILE MAINTAINING OR USING ANY VEHICLE
+OTHER THAN A YOUR CAR, A NEWLY ACQUIRED
+CAR, A TEMPORARY SUBSTITUTE CAR, OR A
+TRAILER IN ANY BUSINESS OR OCCUPATION
+OTHER THAN A CAR BUSINESS OR VALET
+PARKING. This exclusion does not apply to the
+maintenance or use of a private passenger car;
+10. FOR DAMAGE TO PROPERTY WHILE IT IS:
+a. OWNED BY;
+b. RENTED TO;
+c. USED BY;
+d. IN THE CARE OF; OR
+e. TRANSPORTED BY
+YOU, A RESIDENT RELATIVE, OR THE PERSON
+WHO IS LEGALLY LIABLE FOR THE DAMAGE. This
+exclusion does not apply to damage to a:
+a. motor vehicle owned by the employer of you or
+the employer of any resident relative if such
+damage is caused by an insured while operat-
+ing another motor vehicle;
+b. residence while rented to or leased to an in-
+sured; or
+c. private garage while rented to or leased to an
+insured;
+11. FOR LIABILITY ASSUMED UNDER ANY CON-
+TRACT OR AGREEMENT;
+12. FOR ANY ORDER OF RESTITUTION ISSUED BY A
+COURT IN A CRIMINAL PROCEEDING OR EQUI-
+TABLE ACTION;
+13. WHILE USING A TRAILER WITH A MOTOR VEHI-
+CLE IF THAT INSURED IS NOT PROVIDED LIABIL-
+ITY COVERAGE BY THIS POLICY FOR THE USE
+OF THAT MOTOR VEHICLE;
+14. FOR THE OWNERSHIP, MAINTENANCE, OR USE
+OF ANY VEHICLE WHILE IT IS:
+a. OFF PUBLIC ROADS AND BEING PREPARED
+FOR, USED IN PRACTICE FOR, OR OPER-
+ATED IN ANY RACING CONTEST, SPEED
+CONTEST, HILL-CLIMBING CONTEST, JUMP-
+ING CONTEST, OR ANY SIMILAR CONTEST;
+OR
+b. ON A TRACK DESIGNED PRIMARILY FOR
+RACING OR HIGH-SPEED DRIVING. This ex-
+clusion (14.b.) does not apply if the vehicle is be-
+ing used in connection with an activity other than
+racing, high-speed driving, or any type of com-
+petitive driving; OR
+15. WHO IS AN EMPLOYEE OF THE UNITED STATES
+OF AMERICA OR ANY OF THE FEDERAL GOV-
+ERNMENT’S DEPARTMENTS OR AGENCIES, IF
+THE PROVISIONS OF THE FEDERAL TORT
+CLAIMS ACT APPLY.
+If Other Liability Coverage Applies
+1. If Liability Coverage provided by this policy and one
+or more other Car Policies issued to you or any resi-
+dent relative by the State Farm Companies apply
+to the same accident, then:
+a. the Liability Coverage limits of such policies will
+not be added together to determine the most
+that may be paid; and
+b. the maximum amount that may be paid from all
+such policies combined is the single highest ap-
+plicable limit provided by any one of the policies.
+We may choose one or more policies from which
+to make payment.
+2. The Liability Coverage provided by this policy applies
+as primary coverage for the ownership, maintenance,
+or use of a your car or a trailer attached to it.
+
+[page 10]
+7 9826C
+©, Copyright, State Farm Mutual Automobile Insurance Company, 2024
+a. If:
+(1) this is the only Car Policy issued to you or
+any resident relative by the State Farm
+Companies that provides Liability Cover-
+age which applies to the accident as pri-
+mary coverage; and
+(2) liability coverage provided by one or more
+sources other than the State Farm Com-
+panies also applies as primary coverage
+for the same accident,
+then we will pay the proportion of damages pay-
+able as primary that our applicable limit bears to
+the sum of our applicable limit and the limits of
+all other liability coverage that apply as primary
+coverage.
+b. If:
+(1) more than one Car Policy issued to you or
+any resident relative by the State Farm
+Companies provides Liability Coverage
+which applies to the accident as primary
+coverage; and
+(2) liability coverage provided by one or more
+sources other than the State Farm Com-
+panies also applies as primary coverage
+for the same accident,
+then the State Farm Companies will pay the
+proportion of damages payable as primary that
+the maximum amount that may be paid by the
+State Farm Companies as determined in 1.
+above bears to the sum of such amount and the
+limits of all other liability coverage that apply as
+primary coverage.
+3. Except as provided in 2. above, the Liability Cover-
+age provided by this policy applies as excess cov-
+erage.
+a. If:
+(1) this is the only Car Policy issued to you or
+any resident relative by the State Farm
+Companies that provides Liability Cover-
+age which applies to the accident as ex-
+cess coverage; and
+(2) liability coverage provided by one or more
+sources other than the State Farm Com-
+panies also applies as excess coverage for
+the same accident,
+then we will pay the proportion of damages pay-
+able as excess that our applicable limit bears to
+the sum of our applicable limit and the limits of
+all other liability coverage that apply as excess
+coverage.
+b. If:
+(1) more than one Car Policy issued to you or
+any resident relative by the State Farm
+Companies provides Liability Coverage
+which applies to the accident as excess
+coverage; and
+(2) liability coverage provided by one or more
+sources other than the State Farm Com-
+panies also applies as excess coverage for
+the same accident,
+then the State Farm Companies will pay the
+proportion of damages payable as excess that
+the maximum amount that may be paid by the
+State Farm Companies as determined in 1.
+above bears to the sum of such amount and the
+limits of all other liability coverage that apply as
+excess coverage.
+
+[page 11]
+8 9826C
+©, Copyright, State Farm Mutual Automobile Insurance Company, 2024
+MEDICAL PAYMENTS COVERAGE
+This policy provides Medical Payments Coverage if a pre-
+mium is shown under “Coverage Symbol C” in the “POL-
+ICY PREMIUM” schedules on the Declarations.
+Additional Definitions
+Covered Vehicle means:
+1. a land motor vehicle:
+a. not insured under any policy of motor vehicle in-
+surance;
+b. with four or more wheels, designed for use pri-
+marily on public roads; and
+c. that is in the lawful possession of you or any
+resident relative; and
+2. a trailer attached to a land motor vehicle described
+in 1. above.
+Covered Vehicle does not include:
+1. A truck-tractor designed to pull any type of trailer;
+2. Any vehicle with less than four wheels, including, but
+not limited to, any type of motorcycle or motor
+scooter;
+3. Any vehicle while located for use as a dwelling or
+other premises.
+Insured means:
+1. you and resident relatives:
+a. while occupying:
+(1) a your car;
+(2) a newly acquired car;
+(3) a temporary substitute car;
+(4) a trailer while attached to a car described
+in (1), (2), or (3) above; or
+(5) a covered vehicle; or
+b. if struck as a pedestrian by a motor vehicle or
+any type of trailer; and
+2. any other person while occupying:
+a. a your car;
+b. a newly acquired car;
+c. a temporary substitute car; or
+d. a trailer while attached to a car described in a.,
+b., or c. above.
+Such vehicle must be used with your consent.
+Medical Expenses mean reasonable expenses for med-
+ical services.
+Medical Services mean treatments, procedures, prod-
+ucts, and other services that are:
+1. necessary to achieve maximum medical improve-
+ment for the bodily injury;
+2. rendered by a healthcare provider:
+a. who is licensed as a healthcare provider if a li-
+cense is required by law; and
+b. within the legally authorized scope of that
+healthcare provider’s practice;
+3. commonly and customarily recognized throughout
+the medical profession and within the United States
+of America as appropriate for the treatment of the
+bodily injury;
+4. primarily designed to serve a medical purpose;
+5. not experimental; and
+6. not for research purposes.
+Medical Services do not include thermography, surface
+EMGs, massage therapy unless the massage therapy is
+performed by a licensed physician, or other related proce-
+dures of a similar nature.
+Reasonable Expenses mean the lowest one of the fol-
+lowing charges:
+1. The fee charged by a majority of healthcare providers
+who provide similar medical services in the geo-
+graphical area in which the charges were incurred.
+We may determine such fee through utilization of in-
+dependent sources of our choice, which maintain sta-
+tistical databases deriving data pertinent to charges
+for the same or similar medical services provided in
+the geographical region in which the charges were in-
+curred, as identified by United States postal ZIP
+codes;
+2. The fee specified in any fee schedule:
+
+[page 12]
+9 9826C
+©, Copyright, State Farm Mutual Automobile Insurance Company, 2024
+a. applicable to medical payments coverage, no-
+fault coverage, or personal injury protection cov-
+erage included in motor vehicle liability policies
+issued in the state where medical services are
+provided; and
+b. as prescribed or authorized by the law of the
+state where medical services are provided;
+3. The fees agreed to by both the insured’s healthcare
+provider and us; or
+4. The fees agreed upon between the insured’s
+healthcare provider and a third party when we have
+a contract with such third party.
+An insured’s healthcare provider may charge a fee in ex-
+cess of the amount determined in 1. through 4 above.
+Insuring Agreement
+We will pay:
+1. medical expenses incurred because of bodily in-
+jury that is sustained by an insured and caused by a
+motor vehicle accident. An insured’s healthcare pro-
+vider may charge a fee higher than the amount we
+will pay. We will only pay such medical expenses if:
+a. that insured is first provided medical services
+within one year immediately following the date of
+the accident; and
+b. such medical expenses are for medical ser-
+vices that are provided within three years imme-
+diately following the date of the accident; and
+2. funeral expenses incurred for an insured who dies
+within three years immediately following the date of a
+motor vehicle accident if the death is a direct result of
+bodily injury sustained in such accident.
+Determining Medical Expenses
+We have the right to:
+1. obtain and use:
+a. utilization reviews conducted by utilization re-
+view organizations registered in the State of
+Montana;
+b. peer reviews; and
+c. medical bill reviews
+to determine if the incurred charges are medical ex-
+penses;
+2. use a medical examination of the insured to deter-
+mine if:
+a. the bodily injury was caused by a motor vehicle
+accident; and
+b. the expenses incurred are medical expenses;
+and
+3. enter into a contract with a third party that has an
+agreement with the insured’s healthcare provider to
+charge fees as determined by that agreement.
+Limit
+The Medical Payments Coverage limit is shown in the
+“COVERAGES AND LIMITS” schedule on the Declara-
+tions. The dollar amount shown under “Each Person” is the
+most we will pay for the medical expenses and funeral
+expenses combined, incurred by or on behalf of any one
+insured as a result of any one accident, regardless of the
+number of:
+1. insureds;
+2. claims made;
+3. vehicles insured;
+4. premiums shown on the Declarations; or
+5. vehicles involved in the accident.
+Subject to the “Each Person” limit shown on the Declara-
+tions, the most we will pay for funeral expenses incurred
+for any one insured is $3,000.
+Nonduplication
+We will not pay any medical expenses or funeral ex-
+penses under Medical Payments Coverage:
+1. that have already been paid as damages under Lia-
+bility Coverage, Uninsured Motor Vehicle Coverage,
+or Underinsured Motor Vehicle Coverage of any pol-
+icy issued by the State Farm Companies to you or
+any resident relative; or
+2. that:
+a. have already been paid;
+b. could have been paid; or
+c. could be paid
+to or for the insured under any workers’ compensa-
+tion law, disability benefits law, or similar law.
+
+[page 13]
+10 9826C
+©, Copyright, State Farm Mutual Automobile Insurance Company, 2024
+Exclusions
+THERE IS NO COVERAGE FOR AN INSURED:
+1. TO THE EXTENT ANY WORKERS’ COMPENSA-
+TION LAW OR ANY SIMILAR LAW APPLIES TO
+THAT INSURED’S BODILY INJURY;
+2. WHO IS OCCUPYING A VEHICLE WHILE IT IS
+RENTED TO OR LEASED TO OTHERS BY AN IN-
+SURED, INCLUDING PERSONAL VEHICLE SHAR-
+ING, PEER-TO-PEER CAR SHARING, OR OTHER
+SIMILAR PROGRAM;
+3. WHO IS OCCUPYING A VEHICLE WHILE IT IS:
+a. MADE AVAILABLE; OR
+b. BEING USED
+TO CARRY PERSONS FOR A CHARGE. This exclu-
+sion does not apply to:
+a. the use of a private passenger car on a share-
+the-expense basis; or
+b. an insured while occupying a non-owned car
+as a passenger;
+4. WHILE MAINTAINING OR USING A VEHICLE IN
+CONNECTION WITH THAT INSURED’S EMPLOY-
+MENT IN OR ENGAGEMENT OF ANY KIND IN A
+CAR BUSINESS. This exclusion does not apply to:
+a. you;
+b. any resident relative; or
+c. any agent, employee, or business partner of a.
+or b. above
+while maintaining or using a your car, a newly ac-
+quired car, a temporary substitute car, or a trailer
+owned by you;
+5. WHILE THAT INSURED IS VALET PARKING A VE-
+HICLE;
+6. WHILE MAINTAINING OR USING A NON-OWNED
+CAR IN ANY BUSINESS OR OCCUPATION OTHER
+THAN A CAR BUSINESS OR VALET PARKING.
+This exclusion does not apply to the maintenance or
+use of a private passenger car;
+7. WHO IS EITHER OCCUPYING OR STRUCK AS A
+PEDESTRIAN BY A VEHICLE THAT IS LOCATED
+FOR USE AS A DWELLING OR OTHER PREMISES;
+8. WHO IS STRUCK AS A PEDESTRIAN BY A VEHI-
+CLE THAT:
+a. IS DESIGNED FOR USE PRIMARILY OFF
+PUBLIC ROADS WHILE OFF PUBLIC ROADS;
+OR
+b. RUNS ON RAILS OR CRAWLER-TREADS;
+9. WHOSE BODILY INJURY RESULTS FROM WAR
+OF ANY KIND;
+10. WHOSE BODILY INJURY RESULTS FROM:
+a. NUCLEAR REACTION;
+b. RADIATION OR RADIOACTIVE CONTAMINA-
+TION FROM ANY SOURCE; OR
+c. THE ACCIDENTAL OR INTENTIONAL DETO-
+NATION OF, OR RELEASE OF RADIATION
+FROM, ANY NUCLEAR OR RADIOACTIVE DE-
+VICE;
+11. WHOSE BODILY INJURY RESULTS FROM EXPO-
+SURE TO FUNGI; OR
+12. WHO IS OCCUPYING A VEHICLE WHILE IT IS:
+a. BEING PREPARED FOR, USED IN PRACTICE
+FOR, OR OPERATED IN ANY RACING CON-
+TEST, SPEED CONTEST, HILL-CLIMBING
+CONTEST, JUMPING CONTEST, OR ANY
+SIMILAR CONTEST; OR
+b. ON A TRACK DESIGNED PRIMARILY FOR
+RACING OR HIGH-SPEED DRIVING. This ex-
+clusion (12.b.) does not apply if the vehicle is be-
+ing used in connection with an activity other than
+racing, high-speed driving, or any type of com-
+petitive driving.
+If Other Medical Payments Coverage or Similar Vehi-
+cle Insurance Applies
+1. An insured shall not recover for the same medical
+expenses or funeral expenses under both this cover-
+age and other medical payments coverage or similar
+vehicle insurance.
+2. If Medical Payments Coverage provided by this policy
+and one or more other vehicle coverages or policies
+
+[page 14]
+11 9826C
+©, Copyright, State Farm Mutual Automobile Insurance Company, 2024
+issued to you or any resident relative by the State
+Farm Companies apply to the same bodily injury,
+then:
+a. the Medical Payments Coverage limits of such
+coverages or policies shall not be added to-
+gether to determine the most that may be paid;
+and
+b. the maximum amount that may be paid from all
+such coverages or policies combined is the sin-
+gle highest applicable limit provided by any one
+of the coverages or policies. We may choose
+one or more coverages or policies from which to
+make payment.
+3. The Medical Payments Coverage provided by this
+policy applies as primary coverage for an insured
+who sustains bodily injury while occupying a your
+car or a trailer attached to it.
+If medical payments coverage or other similar vehicle
+insurance provided by one or more sources other
+than this policy also applies as primary coverage,
+then we will pay the proportion of medical expenses
+and funeral expenses payable as primary that our ap-
+plicable limit bears to the sum of our applicable limit
+and the limits of all other medical payments coverage
+or similar vehicle insurance that apply as primary.
+4. Except as provided in 3. above, the Medical Pay-
+ments Coverage provided by this policy applies as
+excess coverage.
+If medical payments coverage or other similar vehicle
+insurance provided by one or more sources other
+than this policy also applies as excess coverage, then
+we will pay the proportion of medical expenses and
+funeral expenses payable as excess that our appli-
+cable limit bears to the sum of our applicable limit and
+the limits of all other medical payments coverage or
+similar vehicle insurance that apply as excess cover-
+age.
+Our Payment Options
+We may, at our option, make payment to one or more of
+the following:
+1. The insured;
+2. The insured’s surviving spouse;
+3. A parent or guardian of the insured, if the insured is
+a minor or an incompetent person;
+4. A person authorized by law to receive such payment;
+or
+5. Any person or organization that provides the medi-
+cal services or funeral services.
+UNINSURED MOTOR VEHICLE COVERAGE
+This policy provides Uninsured Motor Vehicle Coverage if
+a premium is shown under “Coverage Symbol U” in the
+“POLICY PREMIUM” schedules on the Declarations.
+Additional Definitions
+Insured means:
+1. you;
+2. resident relatives;
+3. any other person while occupying:
+a. a your car;
+b. a newly acquired car; or
+c. a temporary substitute car.
+Such vehicle must be used within the scope of your
+consent; and
+4. any person or organization entitled to recover com-
+pensatory damages as a result of bodily injury to an
+insured as defined in 1., 2., or 3. above.
+Uninsured Motor Vehicle means a land motor vehicle:
+1. the ownership, maintenance, and use of which is:
+a. not insured or bonded for bodily injury liability at
+the time of the accident; or
+b. insured or bonded for bodily injury liability at the
+time of the accident; but
+(1) the limits are less than required by the fi-
+nancial responsibility act of Montana; or
+(2) the insuring company:
+(a) denies that its policy provides liability
+coverage for compensatory damages
+that result from the accident; or
+(b) is or becomes insolvent; or
+
+[page 15]
+12 9826C
+©, Copyright, State Farm Mutual Automobile Insurance Company, 2024
+2. the owner and driver of which remain unknown and
+which is the proximate cause of bodily injury to the
+insured.
+The burden of proof is upon the insured to show the
+proximate cause of the accident.
+Uninsured Motor Vehicle does not include a land motor
+vehicle:
+1. owned by, rented to, or operated by a self-insurer
+under any motor vehicle financial responsibility law,
+any motor carrier law, or any similar law;
+2. designed for use primarily off public roads except
+while on public roads; or
+3. while located for use as a dwelling or other premises.
+Insuring Agreement
+We will pay compensatory damages for bodily injury an
+insured is legally entitled to recover from the owner or
+driver of an uninsured motor vehicle. The bodily injury
+must be:
+1. sustained by an insured; and
+2. caused by an accident that involves the operation,
+maintenance, or use of an uninsured motor vehicle
+as a motor vehicle.
+Notice of Tentative Settlement
+1. The insured shall:
+a. notify us of any settlement offer with the owner
+or driver of an uninsured motor vehicle; and
+b. give us a reasonable period of time to make a
+substitute payment to the insured in an amount
+that equals that tentative settlement offer.
+2. If a substitute payment is made by us, then:
+a. such payment shall be considered a payment
+made by or for the owner or driver of the unin-
+sured motor vehicle; and
+b. any subsequent recovery from or on behalf of
+the owner or driver of the uninsured motor ve-
+hicle shall first be used to repay us the amount
+of the substitute payment.
+The decision to make a substitute payment can only
+be made by us. A substitute payment to an insured
+does not reduce or increase the limits of coverage
+otherwise available to that insured under this cover-
+age or any other coverage of your policy.
+3. If we elect to not make a substitute payment within a
+reasonable period of time, then the acceptance of the
+tentative settlement by the insured shall not be con-
+sidered to have prejudiced us with respect to our
+rights of subrogation or reimbursement as to the
+owner or driver of the uninsured motor vehicle.
+Deciding Fault and Amount
+1. a. The insured and we must agree to the answers
+to the following two questions:
+(1) Is the insured legally entitled to recover
+compensatory damages from the owner or
+driver of the uninsured motor vehicle?
+(2) If the insured and we agree that the an-
+swer to 1.a.(1) above is yes, then what is
+the amount of the compensatory damages
+that the insured is legally entitled to re-
+cover from the owner or driver of the unin-
+sured motor vehicle?
+b. If there is no agreement on the answer to either
+question in 1.a. above, then the insured shall:
+(1) file a lawsuit, in a state or federal court that
+has jurisdiction, against:
+(a) us; and
+(b) any other person or organization, in-
+cluding the owner or driver of the un-
+insured motor vehicle, who may still
+be legally liable for the insured’s
+damages;
+(2) consent to a jury trial if requested by us;
+(3) agree that we may contest the issues of li-
+ability and the amount of damages; and
+(4) secure a judgment in that action. The judg-
+ment must be the final result of an actual
+trial and any appeals, if any appeals are
+taken.
+2. We are not bound by any default judgment against
+any person or organization other than us.
+
+[page 16]
+13 9826C
+©, Copyright, State Farm Mutual Automobile Insurance Company, 2024
+3. Regardless of the amount of any award, including any
+judgment or default judgment, we are not obligated to
+pay any amount in excess of the available limit under
+this coverage of this policy.
+Limit
+1. The Uninsured Motor Vehicle Coverage limit is shown
+in the “COVERAGES AND LIMITS” schedule on the
+Declarations under “Bodily Injury Limit – Each Per-
+son, Each Accident”.
+a. The most we will pay for all compensatory dam-
+ages resulting from bodily injury to any one in-
+sured injured in any one accident, including all
+compensatory damages sustained by other in-
+sureds as a result of that bodily injury is the
+lesser of:
+(1) the dollar amount shown under “Bodily In-
+jury Limit – Each Person”; or
+(2) the amount of all compensatory damages
+resulting from that bodily injury reduced
+by the sum of all payments, paid or paya-
+ble, for compensatory damages resulting
+from that bodily injury made by or on be-
+half of any person or organization who is
+or may be held legally liable for the bodily
+injury.
+b. The most we will pay, subject to 1.a. above, for
+all compensatory damages resulting from bod-
+ily injury to two or more insureds injured in any
+one accident is the dollar amount shown under
+“Each Accident.”
+2. The limit shown for Uninsured Motor Vehicle Cover-
+age is the most we will pay regardless of the number
+of:
+a. insureds;
+b. claims made;
+c. vehicles insured;
+d. premiums shown on the Declarations; or
+e. vehicles involved in the accident.
+Nonduplication
+We will not pay under Uninsured Motor Vehicle Coverage
+any damages:
+1. that have already been paid to or for the insured:
+a. by or on behalf of any person or organization
+who is or may be held legally liable for the bodily
+injury to the insured; or
+b. for bodily injury under Liability Coverage of any
+policy issued by the State Farm Companies to
+you or any resident relative;
+2. that:
+a. have already been paid;
+b. could have been paid; or
+c. could be paid
+to or for the insured under any workers’ compensa-
+tion law, disability benefits law, or similar law; or
+3. that have already been paid as expenses under Med-
+ical Payments Coverage of this policy, the medical
+payments coverage of any other policy, or other sim-
+ilar vehicle insurance.
+Exclusions
+THERE IS NO COVERAGE:
+1. TO THE EXTENT IT BENEFITS:
+a. ANY WORKERS’ COMPENSATION OR DISA-
+BILITY BENEFITS INSURANCE COMPANY;
+b. A SELF-INSURER UNDER ANY WORKERS’
+COMPENSATION LAW, DISABILITY BENE-
+FITS LAW, OR SIMILAR LAW; OR
+c. ANY GOVERNMENT OR ANY OF ITS POLITI-
+CAL SUBDIVISIONS OR AGENCIES;
+2. FOR PUNITIVE OR EXEMPLARY DAMAGES;
+3. FOR ANY ORDER OF RESTITUTION ISSUED BY A
+COURT IN A CRIMINAL PROCEEDING; OR
+4. FOR AN INSURED OCCUPYING A VEHICLE
+WHILE IT IS:
+a. MADE AVAILABLE OR BEING USED TO
+CARRY PERSONS FOR A CHARGE. This ex-
+clusion (4.a.) does not apply to:
+(1) the use of a private passenger car on a
+share-the-expense basis; or
+
+[page 17]
+14 9826C
+©, Copyright, State Farm Mutual Automobile Insurance Company, 2024
+(2) you or a resident relative occupying a
+non-owned car as a passenger; OR
+b. RENTED TO OR LEASED TO OTHERS BY AN
+INSURED, INCLUDING PERSONAL VEHICLE
+SHARING, PEER-TO-PEER CAR SHARING,
+OR OTHER SIMILAR PROGRAM.
+If Other Uninsured Motor Vehicle Coverage Applies
+1. If Uninsured Motor Vehicle Coverage provided by
+this policy and one or more other vehicle coverages
+or policies issued to you or any resident relative by
+the State Farm Companies apply to the same bod-
+ily injury, then:
+a. the Uninsured Motor Vehicle Coverage limits of
+such coverages or policies will not be added to-
+gether to determine the most that may be paid;
+and
+b. the maximum amount that may be paid from all
+such coverages or policies combined is the sin-
+gle highest applicable limit provided by any one
+of the coverages or policies. We may choose
+one or more coverages or policies from which to
+make payment.
+2. The Uninsured Motor Vehicle Coverage provided by
+this policy applies as primary coverage for an in-
+sured who sustains bodily injury while occupying
+a your car.
+If uninsured motor vehicle coverage provided by one
+or more sources other than this policy also applies as
+primary coverage for the same accident, then we will
+pay the proportion of damages payable as primary
+that our applicable limit bears to the sum of our ap-
+plicable limit and the limits of all other uninsured mo-
+tor vehicle coverage that apply as primary coverage.
+3. Except as provided in 2. above, the Uninsured Motor
+Vehicle Coverage provided by this policy applies as
+excess coverage.
+If uninsured motor vehicle coverage provided by one
+or more sources other than this policy also applies as
+excess coverage for the same accident, then we will
+pay the proportion of damages payable as excess
+that our applicable limit bears to the sum of our ap-
+plicable limit and the limits of all other uninsured mo-
+tor vehicle coverage that apply as excess coverage.
+Our Payment Options
+We may, at our option, make payment to one or more of
+the following:
+1. The insured;
+2. The insured’s surviving spouse;
+3. A parent or guardian of the insured, if the insured is
+a minor or an incompetent person; or
+4. A person authorized by law to receive such pay-
+ment.
+UNDERINSURED MOTOR VEHICLE COVERAGE
+This policy provides Underinsured Motor Vehicle Cover-
+age if a premium is shown under “Coverage Symbol W” in
+the “POLICY PREMIUM” schedules on the Declarations.
+Additional Definitions
+Insured means:
+1. you;
+2. resident relatives;
+3. any other person who is not insured for underinsured
+motor vehicle coverage under another vehicle policy
+and only while occupying:
+a. a your car;
+b. a newly acquired car; or
+c. a temporary substitute car.
+Such vehicle must be used within the scope of your
+consent; and
+4. any person or organization entitled to recover com-
+pensatory damages as a result of bodily injury to an
+insured as defined in 1., 2., or 3. above.
+Underinsured Motor Vehicle means a land motor vehi-
+cle:
+1. the ownership, maintenance, and use of which is ei-
+ther:
+
+[page 18]
+15 9826C
+©, Copyright, State Farm Mutual Automobile Insurance Company, 2024
+a. insured or bonded for bodily injury liability at the
+time of the accident; or
+b. self-insured under any motor vehicle financial
+responsibility law, any motor carrier law, or any
+similar law; and
+2. for which the total limits of insurance, bonds, and self-
+insurance for bodily injury liability from all sources:
+a. are less than the amount of the insured’s dam-
+ages; or
+b. have been reduced by payments to persons
+other than you and resident relatives to less
+than the amount of the insured’s damages.
+Underinsured Motor Vehicle does not include a land mo-
+tor vehicle:
+1. whose ownership, maintenance, or use is provided
+Liability Coverage by this policy;
+2. owned by, rented to, or furnished or available for the
+regular use of you or any resident relative;
+3. owned by or rented to any government or any of its
+political subdivisions or agencies;
+4. designed for use primarily off public roads except
+while on public roads;
+5. while located for use as a dwelling or other premises;
+or
+6. defined as an uninsured motor vehicle under Unin-
+sured Motor Vehicle Coverage of this policy.
+Insuring Agreement
+We will pay compensatory damages for bodily injury an
+insured is legally entitled to recover from the owner or
+driver of an underinsured motor vehicle. The bodily in-
+jury must be:
+1. sustained by an insured; and
+2. caused by an accident that involves the operation,
+maintenance, or use of an underinsured motor ve-
+hicle as a motor vehicle.
+We will pay only if the full amount of all available limits of
+all bodily injury liability bonds, policies, and self-insurance
+plans that apply to the insured’s bodily injury have been
+used up by payment of judgments or settlements, or have
+been offered to the insured in writing.
+Notice of Tentative Settlement
+1. The insured shall:
+a. notify us of any settlement offer with the owner
+or driver of an underinsured motor vehicle;
+and
+b. give us a reasonable period of time to make a
+substitute payment to the insured in an amount
+that equals that tentative settlement offer.
+2. If a substitute payment is made by us, then:
+a. such payment shall be considered a payment
+made by or for the owner or driver of the under-
+insured motor vehicle; and
+b. any subsequent recovery from or on behalf of
+the owner or driver of the underinsured motor
+vehicle shall first be used to repay us the
+amount of the substitute payment.
+The decision to make a substitute payment can only
+be made by us. A substitute payment to an insured
+does not reduce or increase the limits of coverage
+otherwise available to that insured under this cover-
+age or any other coverage of your policy.
+3. If we elect to not make a substitute payment within a
+reasonable period of time, then the acceptance of the
+tentative settlement by the insured shall not be con-
+sidered to have prejudiced us with respect to our
+rights of subrogation or reimbursement as to the
+owner or driver of the underinsured motor vehicle.
+Deciding Fault and Amount
+1. a. The insured and we must agree to the answers
+to the following two questions:
+(1) Is the insured legally entitled to recover
+compensatory damages from the owner or
+driver of the underinsured motor vehi-
+cle?
+(2) If the insured and we agree that the an-
+swer to 1.a.(1) above is yes, then what is
+the amount of the compensatory damages
+that the insured is legally entitled to re-
+cover from the owner or driver of the un-
+derinsured motor vehicle?
+b. If there is no agreement on the answer to either
+question in 1.a. above, then the insured shall:
+
+[page 19]
+16 9826C
+©, Copyright, State Farm Mutual Automobile Insurance Company, 2024
+(1) file a lawsuit, in a state or federal court that
+has jurisdiction, against:
+(a) us; and
+(b) any other person or organization, in-
+cluding the owner and driver of the un-
+derinsured motor vehicle, who may
+still be legally liable for the insured’s
+damages;
+(2) consent to a jury trial if requested by us;
+(3) agree that we may contest the issues of li-
+ability and the amount of damages; and
+(4) secure a judgment in that action. The judg-
+ment must be the final result of an actual
+trial and any appeals, if any appeals are
+taken.
+2. We are not bound by any default judgment against
+any person or organization other than us.
+3. Regardless of the amount of any award, including any
+judgment or default judgment, we are not obligated to
+pay any amount in excess of the available limit under
+this coverage of this policy.
+Limit
+1. The Underinsured Motor Vehicle Coverage limit is
+shown in the “COVERAGES AND LIMITS” schedule
+on the Declarations under “Bodily Injury Limit – Each
+Person, Each Accident”.
+a. The most we will pay for all compensatory dam-
+ages resulting from bodily injury to any one in-
+sured injured in any one accident, including all
+compensatory damages sustained by other in-
+sureds as a result of that bodily injury, is the
+lesser of:
+(1) the dollar amount shown under “Each Per-
+son”; or
+(2) the amount of all compensatory damages
+resulting from that bodily injury reduced
+by the sum of all payments, paid or paya-
+ble, for damages resulting from that bodily
+injury made by or on behalf of any person
+or organization who is or may be held le-
+gally liable for that bodily injury.
+b. The most we will pay, subject to 1.a. above, for
+all compensatory damages resulting from bod-
+ily injury to two or more insureds injured in any
+one accident is the dollar amount shown under
+“Each Accident”.
+2. The limit shown for Underinsured Motor Vehicle Cov-
+erage is the most we will pay regardless of the num-
+ber of:
+a. insureds;
+b. claims made;
+c. vehicles insured;
+d. premiums shown on the Declarations; or
+e. vehicles involved in the accident.
+Nonduplication
+We will not pay under Underinsured Motor Vehicle Cover-
+age any damages:
+1. that have already been paid to or for the insured:
+a. by or on behalf of any person or organization
+who is or may be held legally liable for the bodily
+injury to the insured; or
+b. for bodily injury under Liability Coverage of any
+policy issued by the State Farm Companies to
+you or any resident relative; or
+2. that:
+a. have already been paid;
+b. could have been paid; or
+c. could be paid
+to or for the insured under any workers’ compensa-
+tion law, disability benefits law, or similar law; or
+3. that have already been paid as expenses under Med-
+ical Payments Coverage of this policy, the medical
+payments coverage of any other policy, or other sim-
+ilar vehicle insurance.
+Exclusions
+THERE IS NO COVERAGE:
+1. FOR AN INSURED WHO, WITHOUT OUR WRIT-
+TEN CONSENT, SETTLES WITH ANY PERSON OR
+
+[page 20]
+17 9826C
+©, Copyright, State Farm Mutual Automobile Insurance Company, 2024
+ORGANIZATION WHO MAY BE LIABLE FOR THE
+BODILY INJURY AND IN SO DOING IMPAIRS OUR
+RIGHT TO RECOVER OUR PAYMENTS;
+2. TO THE EXTENT IT BENEFITS:
+a. ANY WORKERS’ COMPENSATION OR DISA-
+BILITY BENEFITS INSURANCE COMPANY;
+b. A SELF-INSURER UNDER ANY WORKERS’
+COMPENSATION LAW, DISABILITY BENE-
+FITS LAW, OR SIMILAR LAW; OR
+c. ANY GOVERNMENT OR ANY OF ITS POLITI-
+CAL SUBDIVISIONS OR AGENCIES;
+3. FOR PUNITIVE OR EXEMPLARY DAMAGES;
+4. FOR COSTS OR ATTORNEY FEES INCURRED BY
+OR ON BEHALF OF OR AWARDED TO THE IN-
+SURED;
+5. FOR ANY ORDER OF RESTITUTION ISSUED BY A
+COURT IN A CRIMINAL PROCEEDING; OR
+6. FOR AN INSURED OCCUPYING A VEHICLE
+WHILE IT IS:
+a. MADE AVAILABLE OR BEING USED TO
+CARRY PERSONS FOR A CHARGE. This ex-
+clusion (6.a.) does not apply to:
+(1) the use of a private passenger car on a
+share-the-expense basis; or
+(2) you or a resident relative occupying a
+non-owned car as a passenger; OR
+b. RENTED TO OR LEASED TO OTHERS BY AN
+INSURED, INCLUDING PERSONAL VEHICLE
+SHARING, PEER-TO-PEER CAR SHARING,
+OR OTHER SIMILAR PROGRAM.
+If Other Underinsured Motor Vehicle Coverage Applies
+1. If Underinsured Motor Vehicle Coverage provided by
+this policy and one or more other vehicle coverages
+or policies issued to you or any resident relative by
+the State Farm Companies apply to the same bod-
+ily injury, then:
+a. the Underinsured Motor Vehicle Coverage limits
+of such coverages or policies will not be added
+together to determine the most that may be paid;
+and
+b. the maximum amount that may be paid from all
+such coverages or policies combined is the sin-
+gle highest applicable limit provided by any one
+of the coverages or policies. We may choose
+one or more coverages or policies from which to
+make payment.
+2. The Underinsured Motor Vehicle Coverage provided
+by this policy applies as primary coverage for an in-
+sured who sustains bodily injury while occupying
+a your car.
+If underinsured motor vehicle coverage provided by
+one or more sources other than this policy also ap-
+plies as primary coverage for the same accident, then
+we will pay the proportion of damages payable as pri-
+mary that our applicable limit bears to the sum of our
+applicable limit and the limits of all other underinsured
+motor vehicle coverage that apply as primary cover-
+age.
+3. Except as provided in 2. above, the Underinsured
+Motor Vehicle Coverage provided by this policy ap-
+plies as excess coverage.
+If underinsured motor vehicle coverage provided by
+one or more sources other than this policy also ap-
+plies as excess coverage for the same accident, then
+we will pay the proportion of damages payable as ex-
+cess that our applicable limit bears to the sum of our
+applicable limit and the limits of all other underinsured
+motor vehicle coverage that apply as excess cover-
+age.
+Our Payment Options
+We may, at our option, make payment to one or more of
+the following:
+1. The insured;
+2. The insured’s surviving spouse;
+3. A parent or guardian of the insured, if the insured is
+a minor or an incompetent person; or
+4. A person authorized by law to receive such pay-
+ment.
+
+[page 21]
+18 9826C
+©, Copyright, State Farm Mutual Automobile Insurance Company, 2024
+PHYSICAL DAMAGE COVERAGES
+The physical damage coverages are Comprehensive Cov-
+erage, Collision Coverage, Emergency Road Service Cov-
+erage, and Car Rental and Travel Expenses Coverage.
+This policy provides:
+1. Comprehensive Coverage if a premium is shown un-
+der “Coverage Symbol D”;
+2. Collision Coverage if a premium is shown under
+“Coverage Symbol G”;
+3. Emergency Road Service Coverage if a premium is
+shown under “Coverage Symbol H”;
+4. Car Rental and Travel Expenses Coverage if a pre-
+mium is shown under “Coverage Symbol R1”
+in the “POLICY PREMIUM” schedules on the Declara-
+tions.
+Deductible
+1. The Comprehensive Coverage deductible, if any, that
+applies to a covered vehicle that is:
+a. a your car is the deductible dollar amount
+shown in the “POLICY PREMIUM” schedules on
+the Declarations for that your car.
+b. a newly acquired car is the lesser of:
+(1) the lowest Comprehensive Coverage de-
+ductible dollar amount shown in the “POL-
+ICY PREMIUM” schedules on the
+Declarations for any vehicle for which a
+premium is shown under “Coverage Sym-
+bol D” in the “POLICY PREMIUM” sched-
+ules on the Declarations; or
+(2) $500.
+c. a temporary substitute car, a non-owned car,
+a non-owned trailer, or a non-owned camper
+is the lowest deductible dollar amount shown in
+the “POLICY PREMIUM” schedules on the Dec-
+larations for any vehicle for which a premium is
+shown under “Coverage Symbol D” in the “POL-
+ICY PREMIUM” schedules on the Declarations.
+d. a camper is the deductible dollar amount shown
+in the “POLICY PREMIUM” schedules on the
+Declarations for the your car on which the
+camper is designed to be mounted or installed.
+If both the your car and the camper are dam-
+aged by the same loss, then only one deductible
+will apply.
+2. The Collision Coverage deductible that applies to a
+covered vehicle that is:
+a. a your car is the deductible dollar amount
+shown in the “POLICY PREMIUM” schedules on
+the Declarations for that your car.
+b. a newly acquired car is the lesser of:
+(1) the lowest Collision Coverage deductible
+dollar amount shown in the “POLICY PRE-
+MIUM” schedules on the Declarations for
+any vehicle for which a premium is shown
+under “Coverage Symbol G” in the “POL-
+ICY PREMIUM” schedules on the Declara-
+tions; or
+(2) $500.
+c. a temporary substitute car, a non-owned car,
+a non-owned trailer, or a non-owned camper
+is the lowest deductible dollar amount shown in
+the “POLICY PREMIUM” schedules on the Dec-
+larations for any vehicle for which a premium is
+shown under “Coverage Symbol G” in the “POL-
+ICY PREMIUM” schedules on the Declarations.
+d. a camper is the deductible dollar amount shown
+in the “POLICY PREMIUM” schedules on the
+Declarations for the your car on which the
+camper is designed to be mounted or installed.
+If both the your car and the camper are dam-
+aged by the same loss caused by collision,
+then only one deductible will apply.
+Additional Definitions
+Covered Vehicle means:
+1. a your car, but only for those coverages for which a
+premium for that your car is shown under the corre-
+sponding “Coverage Symbol” in the “POLICY PRE-
+MIUM” schedules on the Declarations;
+
+[page 22]
+19 9826C
+©, Copyright, State Farm Mutual Automobile Insurance Company, 2024
+2. a newly acquired car if a premium is shown under
+the corresponding “Coverage Symbol” in the “POL-
+ICY PREMIUM” schedules on the Declarations;
+3. a temporary substitute car if a premium is shown
+under the corresponding “Coverage Symbol” in the
+“POLICY PREMIUM” schedules on the Declarations;
+4. a camper that is:
+a. shown on the Declarations; and
+b. designed to be mounted or installed on a your
+car described in 1. above, but only for those cov-
+erages for which a premium is shown for that
+your car under the corresponding “Coverage
+Symbol” in the “POLICY PREMIUM” schedules
+on the Declarations;
+5. a non-owned car:
+a. if a premium is shown under the corresponding
+“Coverage Symbol” in the “POLICY PREMIUM”
+schedules on the Declarations; and
+b. while it is:
+(1) being driven by an insured; or
+(2) in the custody of an insured if at the time
+of the loss it is:
+(a) not being driven; or
+(b) being driven by a person other than
+an insured and being occupied by an
+insured;
+6. a non-owned trailer:
+a. if a premium is shown under the corresponding
+“Coverage Symbol” in the “POLICY PREMIUM”
+schedules on the Declarations; and
+b. while it is being used by an insured; and
+7. a non-owned camper:
+a. if a premium is shown under the corresponding
+“Coverage Symbol” in the “POLICY PREMIUM”
+schedules on the Declarations; and
+b. while it is being used by an insured.
+A covered vehicle also includes the parts and equipment
+that are common to the use of the vehicle as a vehicle.
+However, parts and equipment of trailers and campers
+must be securely fixed as a permanent part of the trailer
+or camper.
+Daily Transportation Charge means the sum of:
+1. the daily rental rate, including mileage charges and
+related taxes, incurred when an insured rents a car
+from a car business; and
+2. commercial transportation expenses incurred by an
+insured.
+Insured means you and resident relatives.
+Loss means:
+1. direct, sudden, and accidental damage to; or
+2. total or partial theft of
+a covered vehicle. Loss does not include any reduction
+in the value of any covered vehicle after it has been re-
+paired, as compared to its value before it was damaged.
+Loss Caused By Collision means a loss caused by:
+1. a covered vehicle hitting or being hit by another ve-
+hicle or another object; or
+2. the overturning of a covered vehicle.
+Any loss caused by missiles, falling objects, windstorm,
+hail, fire, explosion, earthquake, water, flood, total or par-
+tial theft, malicious mischief, vandalism, riot, civil commo-
+tion, or hitting or being hit by a bird or an animal is not a
+Loss Caused By Collision.
+Non-Owned Camper means a camper designed to be
+mounted on a pickup truck that is in the lawful possession
+of an insured and that neither:
+1. is owned by:
+a. an insured;
+b. any other person who resides primarily in your
+household; or
+c. an employer of any person described in a. or b.
+above; nor
+2. has been used by, rented by, or in the possession of
+an insured during any part of each of the 31 or more
+consecutive days immediately prior to the date of the
+loss.
+Non-Owned Trailer means a trailer that is in the lawful
+possession of an insured and that neither:
+1. is owned by:
+
+[page 23]
+20 9826C
+©, Copyright, State Farm Mutual Automobile Insurance Company, 2024
+a. an insured;
+b. any other person who resides primarily in your
+household; or
+c. an employer of any person described in a. or b.
+above; nor
+2. has been used by, rented by, or in the possession of
+an insured during any part of each of the 31 or more
+consecutive days immediately prior to the date of the
+loss.
+Insuring Agreements
+1. Comprehensive Coverage
+We will pay:
+a. for loss, except loss caused by collision, to a
+covered vehicle; and
+b. transportation expenses incurred by an insured
+as a result of the total theft of a covered vehicle
+owned by you. These transportation expenses
+are payable:
+(1) during the period that:
+(a) starts on the date you report the theft
+to us; and
+(b) ends on the earliest of:
+(i) the date the vehicle is returned to
+your possession in a drivable
+condition;
+(ii) the date the vehicle has been re-
+placed;
+(iii) seven days after the date we of-
+fer to pay for the loss if the vehi-
+cle has not yet been recovered;
+or
+(iv) seven days after the date we of-
+fer to pay for the loss if the vehi-
+cle is recovered, but is a total loss
+as determined by us; and
+(2) during the period that:
+(a) starts on the date the vehicle is left
+at a repair facility if the stolen vehi-
+cle is recovered, returned to your
+possession in a drivable condition,
+and has unrepaired damage that re-
+sulted from the total theft; and
+(b) ends on the date the vehicle is re-
+paired.
+These transportation expenses must be re-
+ported to us before we will pay such incurred ex-
+penses.
+2. Collision Coverage
+We will pay for loss caused by collision to a cov-
+ered vehicle.
+3. Emergency Road Service Coverage
+We will pay the fair cost incurred by an insured for:
+a. up to one hour of labor to repair a covered ve-
+hicle at the place of its breakdown;
+b. towing to the nearest repair facility where neces-
+sary repairs can be made if a covered vehicle
+is not drivable;
+c. towing a covered vehicle out of a location
+where it is stuck if the vehicle is on or immedi-
+ately next to a public road;
+d. delivery of gas, oil, battery, or tire necessary to
+return a covered vehicle to driving condition.
+We do not pay the cost of the gas, oil, battery, or
+tire; and
+e. up to one hour of labor for locksmith services to
+unlock a covered vehicle if its key is lost, sto-
+len, or locked inside the vehicle.
+4. Car Rental and Travel Expenses Coverage
+a. Car Rental and Transportation Reimburse-
+ment Expense
+We will pay the daily transportation charge in-
+curred while a covered vehicle owned by you
+is not drivable or is being repaired as a result of
+a loss which would be payable under Compre-
+hensive Coverage or Collision Coverage.
+We will pay the daily transportation charge in-
+curred during a period that:
+(1) starts on the date:
+
+[page 24]
+21 9826C
+©, Copyright, State Farm Mutual Automobile Insurance Company, 2024
+(a) the vehicle is not drivable as a result
+of the loss; or
+(b) the vehicle is left at a repair facility if
+the vehicle is drivable; and
+(2) ends on the earliest of:
+(a) the date the vehicle has been repaired
+or replaced;
+(b) the date we offer to pay for the loss if
+the vehicle is repairable but you
+choose to delay repairs; or
+(c) seven days after we offer to pay for
+the loss if the vehicle is:
+(i) a total loss as determined by us;
+or
+(ii) stolen and not recovered.
+The amount of any such daily transportation
+charge incurred by an insured must be re-
+ported to us before we will pay such amount.
+b. Travel Expenses
+We will pay expenses for commercial transpor-
+tation, lodging, and meals if a covered vehicle
+owned by you is not drivable as a result of a
+loss which would be payable under Compre-
+hensive Coverage or Collision Coverage. The
+loss must occur more than 50 miles from your
+home. We will only pay these expenses if they
+are incurred by:
+(1) an insured during the period that:
+(a) starts after the loss occurs; and
+(b) ends on the earlier of:
+(i) the insured’s arrival at their des-
+tination or home if the vehicle is
+left behind for repairs; or
+(ii) the repair of the vehicle if the in-
+sured waits for repairs before
+continuing on to their destination
+or returning home; and
+(2) you, or any person you choose, to travel
+to retrieve the vehicle and drive it to either
+the original destination or your home if the
+vehicle was left behind for repairs.
+These expenses must be reported to us before
+we will pay such incurred expenses.
+c. Rental Car – Repayment of Deductible Expense
+We will pay the comprehensive coverage de-
+ductible or collision coverage deductible an in-
+sured is required to pay the owner of a car
+rented or loaned from a car business.
+The deductible amount must be reported to us
+before we will pay.
+Supplementary Pet Injury Coverage
+We will pay:
+1. veterinary expenses incurred for treatments, proce-
+dures, or products for a cat or dog injured in a loss.
+Such injury must be diagnosed within 30 days of the
+date of loss; and
+2. the cost to replace the cat or dog, if such injury results
+in death.
+The cat or dog must be occupying a covered vehicle
+which sustains a loss for which we make a payment under
+Comprehensive Coverage or Collision Coverage. These
+expenses must be incurred within one year from the date
+of loss and must be reported to us before we will pay.
+We will not pay more than $1,000 per animal. Subject to
+the per animal limit, we will not pay more than $2,000 per
+loss.
+Supplementary Payments – Comprehensive Coverage
+and Collision Coverage
+If the covered vehicle sustains loss for which we make a
+payment under Comprehensive Coverage or Collision Cov-
+erage, then we will pay reasonable expenses incurred to:
+1. tow the covered vehicle immediately after the loss:
+a. for a reasonable distance from the location of
+the loss to any one repair facility chosen by an
+insured or the owner of the covered vehicle, if
+the covered vehicle is not drivable; or
+b. to any one repair facility or commercial storage
+facility, neither of which was chosen by an in-
+sured or the owner of the covered vehicle. We
+will also pay reasonable expenses incurred to
+
+[page 25]
+22 9826C
+©, Copyright, State Farm Mutual Automobile Insurance Company, 2024
+tow the covered vehicle for a reasonable dis-
+tance from this facility to any one repair facility
+chosen by an insured or the owner of the cov-
+ered vehicle, if the covered vehicle is not driv-
+able;
+2. store the covered vehicle, if it is not drivable imme-
+diately after the loss, at:
+a. any one repair facility or commercial storage fa-
+cility, neither of which was chosen by an in-
+sured or the owner of the covered vehicle; and
+b. any one repair facility chosen by the owner of
+the covered vehicle, and we determine such
+vehicle is a total loss.
+If the owner of the covered vehicle consents, then
+we may move the covered vehicle at our expense
+to reduce storage costs. If the owner of the covered
+vehicle does not consent, then we will pay only the
+storage costs that would have resulted if we had
+moved the damaged covered vehicle; and
+3. clean up debris from the covered vehicle at the lo-
+cation of the loss. The most we will pay to clean up
+the debris is $250 for any one loss.
+Limit and Loss Settlement – Comprehensive Coverage
+and Collision Coverage
+1. We have the right to choose to settle with you or the
+owner of the covered vehicle in one of the following
+ways:
+a. Pay the cost to repair the covered vehicle mi-
+nus any applicable deductible. No deductible ap-
+plies to the repair of windshield glass.
+(1) We have the right to choose one of the fol-
+lowing to determine the cost to repair the
+covered vehicle:
+(a) The cost agreed to by both the owner
+of the covered vehicle and us;
+(b) A bid or repair estimate approved by
+us; or
+(c) A repair estimate that is written based
+upon or adjusted to:
+(i) reasonable repair costs and la-
+bor rates as determined by us for
+the repair market where the cov-
+ered vehicle is to be repaired;
+(ii) the prevailing competitive price.
+Prevailing competitive price
+means prices charged by a ma-
+jority of the repair market as de-
+termined by a survey made by us
+for the area where the covered
+vehicle is to be repaired;
+(iii) the lower of paintless dent repair
+pricing established by an agree-
+ment we have with a third party or
+the paintless dent repair price that
+is competitive in the market; or
+(iv) a combination of (i), (ii), or (iii)
+above.
+If asked, we will identify at least one
+facility that will perform the repairs
+with the pricing and labor rates identi-
+fied by us.
+The repair estimate will include parts suffi-
+cient to restore the covered vehicle to its
+pre-loss condition. You agree with us that
+the repair estimate may include new, used,
+recycled, and reconditioned parts. Any of
+these parts may be either original equip-
+ment manufacturer parts or non-original
+equipment manufacturer parts, and you
+agree these parts are sufficient to restore
+the covered vehicle to its pre-loss condi-
+tion.
+You also agree that replacement glass
+need not have any insignia, logo, trade-
+mark, etching, or other marking that was on
+the replaced glass.
+(2) The cost to repair the covered vehicle
+does not include any reduction in the value
+of the covered vehicle after it has been re-
+paired, as compared to its value before it
+was damaged.
+(3) If the repair or replacement of a part results
+in betterment of that part, then you or the
+owner of the covered vehicle must pay for
+the amount of the betterment;
+
+[page 26]
+23 9826C
+©, Copyright, State Farm Mutual Automobile Insurance Company, 2024
+b. Pay the actual cash value of the covered vehi-
+cle minus any applicable deductible.
+(1) The owner of the covered vehicle and we
+must agree upon the actual cash value of
+the covered vehicle. If there is disagree-
+ment as to the actual cash value of the cov-
+ered vehicle, then the disagreement will
+be resolved by appraisal upon written re-
+quest of the owner or us, using the follow-
+ing procedures:
+(a) The owner and we will each select a
+competent appraiser.
+(b) The two appraisers will select a third
+competent appraiser. If they are una-
+ble to agree on a third appraiser within
+30 days, then either the owner or we
+may petition a court that has jurisdic-
+tion to select the third appraiser.
+(c) Each party will pay the cost of its own
+appraiser, attorneys, and expert wit-
+nesses, as well as any other expenses
+incurred by that party. Both parties will
+share equally the cost of the third ap-
+praiser.
+(d) The appraisers shall only determine
+the actual cash value of the covered
+vehicle. Appraisers shall have no au-
+thority to decide any other questions
+of fact, decide any questions of law, or
+conduct appraisal on a class-wide or
+class-representative basis.
+(e) A written appraisal that is both agreed
+upon by and signed by any two ap-
+praisers, and that also contains an ex-
+planation of how they arrived at their
+appraisal, will be binding on the owner
+of the covered vehicle and us.
+(f) We do not waive any of our rights by
+submitting to an appraisal.
+(2) The damaged covered vehicle must be
+given to us in exchange for our payment,
+unless we agree that the owner may keep
+it. If the owner keeps the covered vehicle,
+then our payment will be reduced by the
+value of the covered vehicle after the
+loss; or
+c. Return the stolen covered vehicle to its owner
+and pay, as described in 1.a. above, for any di-
+rect, sudden, and accidental damage that re-
+sulted from the theft.
+2. The most we will pay for transportation expenses un-
+der Comprehensive Coverage is $25 per day subject
+to an aggregate limit of $750 per loss.
+3. The most we will pay for loss to a non-owned trailer
+or a non-owned camper is $2,500.
+Limit – Car Rental and Travel Expenses Coverage
+1. Car Rental and Transportation Reimbursement
+Expense
+a. The limit for Car Rental and Transportation Re-
+imbursement Expense is shown in the “COVER-
+AGES AND LIMITS” schedule on the
+Declarations.
+(1) The most we will pay per day for the daily
+transportation charge incurred as a result
+of any one loss to a covered vehicle
+owned by you is shown under “Each Day”
+for that covered vehicle owned by you. If:
+(a) a dollar amount is shown, then we will
+pay the daily transportation charge
+up to that dollar amount; or
+(b) a percentage amount is shown, then
+we will pay that percentage of the
+daily transportation charge.
+(2) Subject to (1) above, the most we will pay
+for daily transportation charge incurred
+as a result of any one loss to a covered
+vehicle owned by you is the dollar amount
+shown under “Each Loss” for that covered
+vehicle owned by you.
+b. The Car Rental and Transportation Reimburse-
+ment Expense limit that applies to a newly ac-
+quired car is the highest limit shown in the
+
+[page 27]
+24 9826C
+©, Copyright, State Farm Mutual Automobile Insurance Company, 2024
+“COVERAGES AND LIMITS” schedule on the
+Declarations.
+2. Travel Expenses
+The most we will pay for Travel Expenses incurred by
+all insureds as a result of any one loss is $500.
+3. Rental Car – Repayment of Deductible Expense
+The most we will pay for Rental Car – Repayment of
+Deductible Expense incurred as a result of any one
+loss is $500.
+Nonduplication
+We will not pay for any loss or expense under the Physical
+Damage Coverages for which the insured or owner of the
+covered vehicle has already received payment from, or
+on behalf of, a party who is legally liable for the loss or
+expense.
+Exclusions
+THERE IS NO COVERAGE FOR:
+1. ANY COVERED VEHICLE THAT IS:
+a. INTENTIONALLY DAMAGED; OR
+b. STOLEN
+BY, OR AT THE DIRECTION OF, AN INSURED;
+2. ANY COVERED VEHICLE WHILE IT IS RENTED TO
+OR LEASED TO OTHERS, BY AN INSURED, IN-
+CLUDING PERSONAL VEHICLE SHARING, PEER-
+TO-PEER CAR SHARING OR OTHER SIMILAR
+PROGRAM;
+3. ANY COVERED VEHICLE WHILE IT IS:
+a. MADE AVAILABLE; OR
+b. BEING USED
+TO CARRY PERSONS FOR A CHARGE. This exclu-
+sion does not apply to the use of a private passen-
+ger car on a share-the-expense basis;
+4. ANY COVERED VEHICLE DUE TO:
+a. THEFT;
+b. CONVERSION;
+c. EMBEZZLEMENT; OR
+d. SECRETION
+BY AN INSURED, A CONSIGNEE, AN AGENT OF
+A CONSIGNEE, OR A PERSON WHO OBTAINS
+POSSESSION OF THE COVERED VEHICLE WITH
+THE PERMISSION OF A CONSIGNEE OR AGENT
+OF A CONSIGNEE;
+5. LOSS TO A COVERED VEHICLE OWNED BY YOU
+IF AN INSURED VOLUNTARILY RELINQUISHES
+POSSESSION OF THAT CAR TO A PERSON OR
+ORGANIZATION UNDER AN ACTUAL OR PRE-
+SUMED SALES AGREEMENT;
+6. ANY COVERED VEHICLE TO THE EXTENT OUR
+PAYMENT WOULD BENEFIT ANY CARRIER OR
+OTHER BAILEE FOR HIRE THAT IS LIABLE FOR
+LOSS TO SUCH COVERED VEHICLE;
+7. LOSS TO ANY COVERED VEHICLE DUE TO
+FUNGI. THIS APPLIES REGARDLESS OF
+WHETHER OR NOT THE FUNGI RESULT FROM A
+LOSS THAT IS PAYABLE UNDER ANY OF THE
+PHYSICAL DAMAGE COVERAGES. WE WILL
+ALSO NOT PAY FOR ANY TESTING OR REMEDI-
+ATION OF FUNGI, OR ANY ADDITIONAL COSTS
+REQUIRED TO REPAIR ANY COVERED VEHICLE
+THAT ARE DUE TO THE EXISTENCE OF FUNGI;
+8. LOSS TO ANY COVERED VEHICLE THAT RE-
+SULTS FROM:
+a. NUCLEAR REACTION;
+b. RADIATION OR RADIOACTIVE CONTAMINA-
+TION FROM ANY SOURCE; OR
+c. THE ACCIDENTAL OR INTENTIONAL DETO-
+NATION OF, OR RELEASE OF RADIATION
+FROM, ANY NUCLEAR OR RADIOACTIVE DE-
+VICE;
+9. LOSS TO ANY COVERED VEHICLE THAT RE-
+SULTS FROM THE TAKING OF OR SEIZURE OF
+THAT COVERED VEHICLE BY ANY GOVERNMEN-
+TAL AUTHORITY;
+10. LOSS TO ANY COVERED VEHICLE THAT RE-
+SULTS FROM WAR OF ANY KIND;
+11. A COVERED VEHICLE THAT IS A YOUR CAR
+WHILE SUBJECT TO ANY:
+a. LIEN AGREEMENT;
+b. RENTAL AGREEMENT;
+c. LEASE AGREEMENT; OR
+
+[page 28]
+25 9826C
+©, Copyright, State Farm Mutual Automobile Insurance Company, 2024
+d. SALES AGREEMENT
+NOT SHOWN ON THE DECLARATIONS;
+12. ANY NON-OWNED CAR WHILE IT IS:
+a. BEING MAINTAINED OR USED BY ANY PER-
+SON WHILE THAT PERSON IS EMPLOYED IN
+OR ENGAGED IN ANY WAY IN A CAR BUSI-
+NESS; OR
+b. USED IN ANY BUSINESS OR OCCUPATION
+OTHER THAN A CAR BUSINESS. This exclu-
+sion (12.b.) does not apply to a private passen-
+ger car;
+13. ANY PART OR EQUIPMENT OF A COVERED VE-
+HICLE IF THAT PART OR EQUIPMENT:
+a. FAILS OR IS DEFECTIVE; OR
+b. IS DAMAGED AS A DIRECT RESULT OF:
+(1) WEAR AND TEAR;
+(2) FREEZING; OR
+(3) MECHANICAL, ELECTRICAL, OR ELEC-
+TRONIC BREAKDOWN OR MALFUNC-
+TION
+OF THAT PART OR EQUIPMENT.
+This exclusion does not apply if the loss is the result
+of theft of the covered vehicle;
+14. ANY PART OR EQUIPMENT:
+a. THAT IS NOT LEGAL FOR USE IN OR ON THE
+COVERED VEHICLE IN THE JURISDICTION
+WHERE THE COVERED VEHICLE IS REGIS-
+TERED; OR
+b. THE USE OF WHICH IS NOT LEGAL IN THE
+JURISDICTION WHERE THE COVERED VE-
+HICLE IS REGISTERED BECAUSE OF HOW
+OR WHERE THAT PART OR EQUIPMENT IS
+INSTALLED IN OR ON THE COVERED VEHI-
+CLE.
+However, if there is a legal version of the part or
+equipment that is necessary for the safe operation of
+the covered vehicle, then we will pay the cost that
+we would otherwise have paid to repair the vehicle
+with the legal version of the part or equipment. We
+will not pay any cost necessary to modify the vehicle
+for installation of the legal version of the part or equip-
+ment;
+15. TIRES. This exclusion does not apply if:
+a. loss is caused by missiles, falling objects, wind-
+storm, hail, fire, explosion, earthquake, water,
+flood, total or partial theft, malicious mischief,
+vandalism, riot, civil commotion, or hitting or be-
+ing hit by a bird or an animal; or
+b. loss caused by collision to another part of the
+covered vehicle causes loss to tires;
+16. REMOVABLE PRODUCTS USED FOR STORAGE
+OF AUDIO, VIDEO, OR OTHER DATA, INCLUDING
+BUT NOT LIMITED TO TAPES, DISCS, AND
+MEMORY CARDS, NOR IS THERE COVERAGE
+FOR THE RECONSTRUCTION OF DATA CON-
+TAINED THEREIN;
+17. ANY EQUIPMENT USED TO DETECT OR INTER-
+FERE WITH SPEED MEASURING DEVICES;
+18. A CAMPER, INCLUDING ITS PARTS AND ITS
+EQUIPMENT, THAT IS:
+a. DESIGNED TO BE MOUNTED ON A PICKUP
+TRUCK;
+b. OWNED BY AN INSURED; AND
+c. NOT SHOWN ON THE DECLARATIONS; OR
+19. ANY COVERED VEHICLE WHILE IT IS:
+a. BEING PREPARED FOR, USED IN PRACTICE
+FOR, OR OPERATED IN ANY RACING CON-
+TEST, SPEED CONTEST, HILL-CLIMBING
+CONTEST, JUMPING CONTEST, OR ANY
+SIMILAR CONTEST; OR
+b. ON A TRACK DESIGNED PRIMARILY FOR
+RACING OR HIGH-SPEED DRIVING. This ex-
+clusion (19.b.) does not apply if the vehicle is be-
+ing used in connection with an activity other than
+racing, high-speed driving, or any type of com-
+petitive driving.
+
+[page 29]
+26 9826C
+©, Copyright, State Farm Mutual Automobile Insurance Company, 2024
+If Other Physical Damage Coverage or Similar Cover-
+age Applies
+1. If the same loss or expense is payable under more
+than one of the physical damage coverages provided
+by this policy, then only the one coverage that pays
+the most for that loss or expense applies.
+2. If any of the physical damage coverages provided by
+this policy and one or more other policies issued to
+an insured by the State Farm Companies apply to
+the same loss or expense, then only one policy ap-
+plies. We will select a policy that pays the most for
+the loss or expense.
+3. The physical damage coverages provided by this pol-
+icy apply as primary coverage for a loss to a your
+car.
+If similar coverage provided by one or more sources
+other than the State Farm Companies also applies as
+primary coverage for the same loss or expense, then
+the State Farm Companies will pay the proportion of
+the loss or expense payable as primary that the maxi-
+mum amount that may be paid by the State Farm
+Companies bears to the sum of such amount and the
+limits of all other similar coverage that applies as pri-
+mary coverage.
+4. Except as provided in 3. above, the physical damage
+coverages provided by this policy apply as excess
+coverage.
+If similar coverage provided by one or more sources
+other than the State Farm Companies also applies
+as excess coverage for the same loss or expense,
+then the State Farm Companies will pay the propor-
+tion of the loss or expense payable as excess that
+the maximum amount that may be paid by the State
+Farm Companies bears to the sum of such amount
+and the limits of all other similar coverage that applies
+as excess coverage.
+Financed Vehicle
+1. If a creditor is shown on the Declarations in relation
+to any vehicle shown in the “VEHICLE SCHEDULE”
+on the Declarations, then any Comprehensive Cover-
+age or Collision Coverage provided by this policy for
+that vehicle also applies to that creditor’s interest in
+that vehicle. Coverage for the creditor’s interest is
+only provided for a loss that is payable to you.
+However, if this policy is cancelled or nonrenewed,
+then we will provide coverage for the creditor’s inter-
+est until we notify the creditor of the termination of
+such coverage. This coverage for the creditor’s inter-
+est is only provided for a loss that would have been
+payable to you if this policy had not been cancelled
+or nonrenewed. The date such termination is effective
+will be at least 10 days after the date we provide no-
+tice of the termination to the creditor.
+2. If we pay such creditor, then we are entitled to the
+creditor’s right of recovery against you to the extent
+of our payment. Our right of recovery does not impair
+the creditor’s right to recover the full amount of its
+claim.
+Our Payment Options
+1. Comprehensive Coverage and Collision Cover-
+age
+a. We may, at our option, make payment to one or
+more of the following for loss to a covered ve-
+hicle owned by you:
+(1) You;
+(2) The repairer; or
+(3) A creditor shown on the Declarations, to the
+extent of its interest.
+b. We may, at our option, make payment to one or
+more of the following for loss to a covered ve-
+hicle not owned by you:
+(1) You;
+(2) The owner of such vehicle;
+(3) The repairer; or
+(4) A creditor, to the extent of its interest.
+2. Emergency Road Service Coverage and Car
+Rental and Travel Expenses Coverage
+We may, at our option, make payment to one or more
+of the following:
+a. You;
+b. The insured who incurred the expense; or
+c. Any party that provided the service for which
+payment is owed.
+
+[page 30]
+27 9826C
+©, Copyright, State Farm Mutual Automobile Insurance Company, 2024
+DEATH, DISMEMBERMENT AND LOSS OF SIGHT COVERAGE AND
+LOSS OF EARNINGS COVERAGE
+DEATH, DISMEMBERMENT AND LOSS OF SIGHT
+COVERAGE
+This policy provides Death, Dismemberment and Loss of
+Sight Coverage if a premium is shown under “Coverage
+Symbol S” in the “POLICY PREMIUM” schedules on the
+Declarations.
+Additional Definition
+Insured means a person whose name is shown under
+“Death, Dismemberment and Loss of Sight Coverage –
+Persons Insured” on the Declarations.
+Insuring Agreement
+We will pay the highest applicable benefit shown in the fol-
+lowing Death, Dismemberment and Loss of Sight Benefits
+Schedules if an insured:
+1. dies; or
+2. suffers dismemberment or permanent loss of sight,
+as described in the schedule
+as the direct result of an accident that involves the use of
+a land motor vehicle or any type of trailer as a vehicle and
+not due to any other cause.
+The insured must be occupying or be struck as a pedes-
+trian by a land motor vehicle or any type of trailer at the
+time of the accident. The death, dismemberment, or per-
+manent loss of sight must occur within 90 days immedi-
+ately following the date of the accident.
+Benefit
+The applicable benefit shown in the schedule is the most
+we will pay for any one insured in any one accident. Any
+benefit paid or payable for dismemberment or permanent
+loss of sight reduces the death benefit.
+The benefits shown in the schedules are doubled for an
+insured who at the time of the accident was occupying a
+private passenger car and using a seat belt in the man-
+ner recommended by the vehicle’s manufacturer.
+Death, Dismemberment and
+Loss of Sight Benefits Schedules
+If the dollar amount shown under “Limit” in the “COVERAGES AND LIMITS” schedule on the Declarations is $5,000, then
+we will pay the applicable benefit shown below for death or for the described dismemberment or permanent loss of sight:
+Death $5,000
+Loss of both hands; both feet; all sight of both eyes; one hand and one foot; or one hand or one foot and all
+sight of one eye
+$5,000
+Loss of one hand or one foot; or all sight of one eye $2,500
+Loss of the thumb and a finger on one hand; or any three fingers $1,500
+Loss of any two fingers $1,000
+The hand must be cut off through or above the wrist. The foot must be cut off through or above the ankle. The whole
+thumb or finger must be cut off.
+If the dollar amount shown under “Limit” in the “COVERAGES AND LIMITS” schedule on the Declarations is $10,000, then
+we will pay the applicable benefit shown below for death or for the described dismemberment or permanent loss of sight:
+Death $10,000
+Loss of both hands; both feet; all sight of both eyes; one hand and one foot; or one hand or one foot and all
+sight of one eye
+$10,000
+Loss of one hand or one foot; or all sight of one eye $5,000
+Loss of the thumb and a finger on one hand; or any three fingers $3,000
+Loss of any two fingers $2,000
+The hand must be cut off through or above the wrist. The foot must be cut off through or above the ankle. The whole
+thumb or finger must be cut off.
+
+[page 31]
+28 9826C
+©, Copyright, State Farm Mutual Automobile Insurance Company, 2024
+LOSS OF EARNINGS COVERAGE
+This policy provides Loss of Earnings Coverage if a pre-
+mium is shown under “Coverage Symbol Z” in the “POL-
+ICY PREMIUM” schedules on the Declarations.
+Additional Definitions
+Insured means a person whose name is shown under
+“Loss of Earnings Coverage – Persons Insured” on the
+Declarations.
+Total Disability means an insured’s inability to work, ei-
+ther full or part time, in their occupation or any other similar
+occupation for which they are reasonably fitted by educa-
+tion, training, or experience.
+Weekly Earnings means 85% of all earnings for the in-
+sured’s services before any deductions. When weekly
+earnings cannot be determined on a weekly basis an av-
+erage will be used. The average is 85% of the total earn-
+ings for the 52 weeks just prior to the accident divided by
+52.
+Insuring Agreement
+We will pay the insured’s loss of weekly earnings, which
+occur while the insured is living, due to continuous total
+disability that:
+1. is the direct result of bodily injury caused by an ac-
+cident that involves the use of a land motor vehicle or
+any type of trailer as a vehicle and not due to any
+other cause. At the time of the accident, the insured
+must be occupying or be struck as a pedestrian by
+a land motor vehicle or any type of trailer; and
+2. starts within 20 days immediately following the date
+of the accident and lasts for a period of at least 30
+consecutive days. We will not pay for the first seven
+days of the 30 day period.
+Limit
+The most we will pay any one insured is:
+1. $250 for each full workweek of total disability; and
+2. a pro rata portion of $250 for less than a full workweek
+of total disability.
+Subject to 1. and 2. above, the most we will pay any one
+insured for all loss of weekly earnings due to any one
+accident is $15,000.
+We will pay once every two weeks the insured’s loss of
+weekly earnings owed.
+Exclusions – Death, Dismemberment and Loss of
+Sight Coverage and Loss of Earnings Coverage
+DEATH, DISMEMBERMENT AND LOSS OF SIGHT
+COVERAGE AND LOSS OF EARNINGS COVERAGE DO
+NOT APPLY TO AN INSURED:
+1. WHILE IN THE COURSE AND SCOPE OF THEIR
+EMPLOYMENT IN A CAR BUSINESS;
+2. WHILE OCCUPYING, LOADING, OR UNLOADING:
+a. AN EMERGENCY VEHICLE IN THE COURSE
+AND SCOPE OF THEIR EMPLOYMENT;
+b. A VEHICLE, OTHER THAN AN EMERGENCY
+VEHICLE, WHILE USED IN THE:
+(1) INSURED’S BUSINESS; OR
+(2) COURSE AND SCOPE OF THEIR EM-
+PLOYMENT IN OTHER THAN A CAR
+BUSINESS.
+This exclusion (2.b.) does not apply if the vehicle
+is a private passenger car;
+c. A MILITARY VEHICLE; OR
+d. A VEHICLE WHILE IT IS:
+(1) BEING PREPARED FOR, USED IN
+PRACTICE FOR, OR OPERATED IN ANY
+PREARRANGED OR ORGANIZED RAC-
+ING CONTEST, SPEED CONTEST, HILL-
+CLIMBING CONTEST, JUMPING CON-
+TEST, OR ANY SIMILAR CONTEST; OR
+(2) ON A TRACK DESIGNED PRIMARILY
+FOR RACING OR HIGH-SPEED DRIV-
+ING. This exclusion (2.d.(2)) does not ap-
+ply if the vehicle is being used in connection
+with an activity other than racing, high-
+speed driving, or any type of competitive
+driving;
+3. WHILE OCCUPYING, LOADING, UNLOADING, OR
+WHO IS STRUCK AS A PEDESTRIAN BY:
+a. A MOTOR VEHICLE THAT RUNS ON RAILS
+OR CRAWLER-TREADS;
+b. A MOTOR VEHICLE THAT IS DESIGNED FOR
+USE PRIMARILY OFF PUBLIC ROADS WHILE
+OFF PUBLIC ROADS; OR
+
+[page 32]
+29 9826C
+©, Copyright, State Farm Mutual Automobile Insurance Company, 2024
+c. A MOTOR VEHICLE OR ANY TYPE OF
+TRAILER, EITHER OF WHICH IS LOCATED
+FOR USE AS A DWELLING OR OTHER PREM-
+ISES; OR
+4. FOR DEATH, DISMEMBERMENT, LOSS OF
+SIGHT, OR TOTAL DISABILITY THAT RESULTS
+FROM:
+a. WAR OF ANY KIND;
+b. NUCLEAR REACTION, RADIATION OR RADI-
+OACTIVE CONTAMINATION FROM ANY
+SOURCE, OR THE ACCIDENTAL OR INTEN-
+TIONAL DETONATION OF, OR RELEASE OF
+RADIATION FROM, ANY NUCLEAR OR RADI-
+OACTIVE DEVICE;
+c. THE DISCHARGE OF A FIREARM;
+d. EXPOSURE TO FUNGI;
+e. SUICIDE OR ATTEMPTED SUICIDE REGARD-
+LESS OF WHETHER THE INSURED WAS
+SANE OR INSANE; OR
+f. DISEASE except pus-forming infection due to
+bodily injury sustained in the accident.
+Our Payment Options – Death, Dismemberment and
+Loss of Sight Coverage and Loss of Earnings Coverage
+We may, at our option, make payment to one or more of
+the following:
+1. The insured;
+2. The insured’s surviving spouse;
+3. A parent or guardian of the insured, if the insured is
+a minor or an incompetent person; or
+4. A person or organization authorized by law to receive
+such payment.
+INSURED’S DUTIES
+1. Notice to Us of an Accident or Loss
+The insured must give us or one of our agents notice
+of the accident or loss as soon as reasonably possi-
+ble. The notice must give us:
+a. your name;
+b. the names and addresses of all persons in-
+volved in the accident or loss;
+c. the hour, date, place, and facts of the accident
+or loss; and
+d. the names and addresses of witnesses to the
+accident or loss.
+2. Notice to Us of a Claim or Lawsuit
+a. If a claim is made against an insured, then that
+insured must immediately send us every de-
+mand, notice, and claim received.
+b. If a lawsuit is filed against an insured, then that
+insured must immediately send us every sum-
+mons and legal process received.
+3. Insured’s Duty to Cooperate With Us
+a. The insured must cooperate with us and, when
+asked, assist us in:
+(1) making settlements;
+(2) securing and giving evidence; and
+(3) attending, and getting witnesses to attend,
+depositions, hearings, and trials.
+b. The insured must not, except at their own cost,
+voluntarily:
+(1) make any payment to others; or
+(2) assume any obligation to others
+unless authorized by the terms of this policy.
+c. Any person or organization making claim under
+this policy must, when we require, give us proof
+of loss on forms we furnish.
+4. Questioning Under Oath
+Under:
+a. Liability Coverage, each insured;
+b. Medical Payments Coverage, Uninsured Motor
+Vehicle Coverage, Underinsured Motor Vehicle
+Coverage, Death, Dismemberment and Loss of
+Sight Coverage, or Loss of Earnings Coverage,
+each insured, or any other person or organiza-
+tion making claim or seeking payment; and
+c. Physical Damage Coverages, each insured or
+owner of a covered vehicle, or any other per-
+son or organization making claim or seeking
+payment;
+
+[page 33]
+30 9826C
+©, Copyright, State Farm Mutual Automobile Insurance Company, 2024
+must, at our option, submit to an examination under
+oath, provide a statement under oath, or do both, as
+reasonably often as we require. Such person or or-
+ganization must answer questions under oath, asked
+by anyone we name, and sign copies of the answers.
+We may require each person or organization an-
+swering questions under oath to answer the ques-
+tions with only that person’s or organization’s legal
+representative, our representatives, any person or
+persons designated by us to record the questions
+and answers, and no other person present.
+5. Other Duties Under the Physical Damage Cover-
+ages
+When there is a loss, you or the owner of the cov-
+ered vehicle must:
+a. protect the covered vehicle from additional
+damage. We will pay any reasonable expense
+incurred to do so that is reported to us;
+b. make a prompt report to the police when the
+loss is the result of theft;
+c. allow us to:
+(1) inspect any damaged property:
+(a) before its repair or disposal; and
+(b) during its repair;
+(2) test any part or equipment before that
+part or equipment is removed or re-
+paired; and
+(3) move the covered vehicle at our expense
+in order to conduct such inspection or test-
+ing;
+d. provide us all:
+(1) records;
+(2) receipts;
+(3) invoices; and
+(4) authorizations
+that we request and allow us to make copies; and
+e. not abandon the covered vehicle to us.
+6. Other Duties Under Medical Payments Coverage,
+Uninsured Motor Vehicle Coverage, Underin-
+sured Motor Vehicle Coverage, Death, Dismem-
+berment and Loss of Sight Coverage, or Loss of
+Earnings Coverage
+A person making claim under:
+a. Medical Payments Coverage, Uninsured Motor
+Vehicle Coverage, Underinsured Motor Vehicle
+Coverage, Death, Dismemberment and Loss of
+Sight Coverage, or Loss of Earnings Coverage
+must:
+(1) notify us of the claim and give us all the
+details about the death, injury, treatment,
+and other information that we may need as
+soon as reasonably possible after the in-
+jured insured is first examined or treated
+for the injury. If the insured is unable to
+give us notice, then any other person may
+give us the required notice;
+(2) be examined as reasonably often as we
+may require by physicians chosen and paid
+by us. A copy of the report will be sent to
+the person upon written request;
+(3) provide written authorization for us to
+obtain medical bills, medical records, wage
+information, salary information, employ-
+ment information, and any other infor-
+mation we deem necessary to substantiate
+the claim.
+Such authorizations must not:
+(a) restrict us from performing our busi-
+ness functions in:
+(i) obtaining records, bills, infor-
+mation, and data; nor
+(ii) using or retaining records, bills,
+information, and data collected or
+received by us;
+(b) require us to violate federal or state
+laws or regulations;
+(c) prevent us from fulfilling our data re-
+porting and data retention obligations
+to insurance regulators; or
+
+[page 34]
+31 9826C
+©, Copyright, State Farm Mutual Automobile Insurance Company, 2024
+(d) prevent us from disclosing claim infor-
+mation and data:
+(i) to enable performance of our
+business functions;
+(ii) to meet our reporting obligations
+to insurance regulators;
+(iii) to meet our reporting obligations
+to insurance data consolidators;
+and
+(iv) as otherwise permitted by law.
+If an injured insured is a minor, unable to act,
+or dead, then their legal representative must
+provide us with the written authorization.
+If the holder of the information refuses to pro-
+vide it to us despite the authorization, then
+at our request the person making claim or
+their legal representative must obtain the in-
+formation and promptly provide it to us;
+(4) submit to us all information we need to
+comply with federal and state laws and reg-
+ulations; and
+(5) allow us to inspect the vehicle that the in-
+sured occupied in the accident;
+b. Uninsured Motor Vehicle Coverage must report
+an accident involving a motor vehicle whose
+owner and driver remain unknown to the police
+within 24 hours and to us within 30 days;
+c. Uninsured Motor Vehicle Coverage and Under-
+insured Motor Vehicle Coverage must send us
+immediately a copy of all lawsuit papers if the
+insured files a lawsuit against the party liable for
+the accident; and
+d. Loss of Earnings Coverage must:
+(1) make a claim under this policy;
+(2) report to us when that person has a total
+disability; and
+(3) provide proof of continued total disability
+when we ask for it.
+GENERAL TERMS
+1. When Coverage Applies
+The coverages provided by this policy are shown on
+the Declarations and apply to accidents and losses
+that occur during the policy period. The policy period
+is shown on the Declarations and is for successive
+periods of six months each for which the renewal pre-
+mium is paid. The policy period begins and ends at
+12:01 AM Standard Time at the address shown on
+the Declarations.
+2. Where Coverage Applies
+The coverages provided by this policy are shown on
+the Declarations and apply to accidents and losses
+that occur:
+a. in the United States of America and its territories
+and possessions;
+b. in Canada; and
+c. while a vehicle for which coverage is provided
+by this policy is being shipped between the ports
+of the United States of America, its territories, its
+possessions, and Canada.
+Death, Dismemberment and Loss of Sight Coverage
+and Loss of Earnings Coverage apply anywhere in
+the world.
+3. Required Out-of-State Coverage
+If:
+a. this policy provides Liability Coverage and an in-
+sured, as defined under the Liability Coverage
+of this policy, is in another state of the United
+States of America, a territory or possession of
+the United States of America, the District of Co-
+lumbia, or any province or territory of Canada,
+and as a nonresident becomes subject to its mo-
+tor vehicle compulsory insurance law, financial
+responsibility law, or similar law; and
+b. this policy does not provide at least the minimum
+amounts and types of coverage required by
+such law for such nonresident,
+then this policy will be interpreted to provide the min-
+imum amounts and types of coverage required by
+such law for such nonresident.
+
+[page 35]
+32 9826C
+©, Copyright, State Farm Mutual Automobile Insurance Company, 2024
+This provision does not apply to coverage required by
+law for motor carriers of passengers or motor carriers
+of property.
+4. Financial Responsibility Certification
+When this policy is certified under any law as proof of
+future financial responsibility, and while required dur-
+ing the policy period, this policy will comply with such
+law to the extent required.
+5. Limited Coverage in Mexico
+This policy does not provide Mexican auto insurance
+and does not comply with Mexican auto insurance re-
+quirements. If you or any other insured plan to drive
+in Mexico, then auto insurance providing coverage in
+Mexico should be purchased from a Mexican insur-
+ance company.
+Subject to the above paragraph, the following cover-
+ages apply in Mexico, but only for accidents and
+losses that occur in Mexico within 50 miles of the
+United States of America border and only for insureds
+as defined under each of the following coverages:
+a. Liability Coverage
+For claims brought against an insured in Mexico,
+the Supplementary Payments provision of this
+policy’s Liability Coverage is changed to read:
+We may, in addition to the damages de-
+scribed in item 1. of the Insuring Agree-
+ment of this policy’s Liability Coverage, pay
+or reimburse, at our option, reasonable at-
+torney fees for an attorney licensed in Mex-
+ico to appear for and provide advice to
+insureds as defined under this policy’s Li-
+ability Coverage. The amount of such attor-
+ney fees incurred by an insured must be
+reported to us before we will make pay-
+ment.
+b. Medical Payments Coverage
+c. Uninsured Motor Vehicle Coverage and Un-
+derinsured Motor Vehicle Coverage
+The phrase “state or federal court that has juris-
+diction” in item 1.b.(1) under Deciding Fault
+and Amount is changed to a Montana state
+court or the United States District Court that has
+jurisdiction”.
+d. Physical Damage Coverages
+Any amount payable for the repair or replace-
+ment of the covered vehicle under the Limit
+and Loss Settlement – Comprehensive Cov-
+erage and Collision Coverage provision of this
+policy will be limited to the cost to repair or re-
+place the covered vehicle in the United States
+of America.
+WE HAVE NO DUTY TO PROVIDE A DEFENSE
+FOR YOU OR ANY OTHER INSURED IN ANY
+CRIMINAL, CIVIL, OR OTHER ACTION.
+WE HAVE NO DUTY TO PAY ANY CLAIM OR COST
+THAT WOULD NOT BE PAYABLE UNDER THIS
+POLICY IF THE ACCIDENT OR LOSS HAD OC-
+CURRED IN THE STATE OF MONTANA IN THE
+UNITED STATES OF AMERICA.
+All other policy provisions not in conflict with the pro-
+visions in this Limited Coverage in Mexico provision
+of this policy apply.
+If Other Coverage Applies
+Any coverage provided by this Limited Coverage in
+Mexico provision is excess over any other applicable
+insurance.
+Legal Action Against Us
+Any legal action against us arising out of an accident
+or loss occurring in Mexico must be brought in a
+Montana state court or a United States District Court
+that has jurisdiction.
+6. Newly Owned or Newly Leased Car
+If you want to insure a car newly owned by you with
+the State Farm Companies after that car ceases to
+be a newly acquired car, then you must either:
+a. request we replace a car currently shown on the
+Declarations of this policy with the car newly
+owned by you and pay us any added amount
+due. If you make such request while this policy
+is in force and:
+(1) before the car newly owned by you
+ceases to be a newly acquired car, then
+that car newly owned by you will be in-
+sured by this policy as a your car begin-
+ning on the date the car newly owned by
+you is delivered to you. The added amount
+
+[page 36]
+33 9826C
+©, Copyright, State Farm Mutual Automobile Insurance Company, 2024
+due will be calculated based on that date;
+or
+(2) after the car newly owned by you ceases
+to be a newly acquired car, then that car
+newly owned by you will be insured by this
+policy as a your car beginning on the date
+and time you make the request. The added
+amount due will be calculated based on
+that date; or
+b. apply to the State Farm Companies for sepa-
+rate coverage to insure the car newly owned by
+you. Such coverage will be provided only if both
+the applicant and the vehicle are eligible for cov-
+erage at the time of the application. A vehicle
+newly owned by you or newly leased by you is
+not eligible for coverage under this policy if this
+policy is endorsed with the Certificate of Guar-
+anteed Renewal endorsement; or
+c. apply to the State Farm Companies for a sep-
+arate policy to insure the car newly owned by
+you. Such policy will be issued only if both the
+applicant and the vehicle are eligible for cover-
+age at the time of the application.
+If a resident relative wants to insure a car newly
+owned by the resident relative with the State Farm
+Companies after that car ceases to be a newly ac-
+quired car, then the resident relative must apply to
+the State Farm Companies for a separate policy to
+insure the car newly owned by the resident relative.
+Such policy will be issued only if both the applicant
+and the vehicle are eligible for coverage at the time
+of the application.
+7. Changes to This Policy
+a. Changes in Policy Provisions
+We may only change the provisions of this policy
+by:
+(1) issuing a revised policy booklet, a revised
+Declarations, or an endorsement; or
+(2) revising this policy to give broader cover-
+age without an additional premium charge.
+If any coverage provided by this policy is
+changed to give broader coverage, then we
+will give you the broader coverage as of the
+date we make the change effective in the
+state of Montana without issuing a revised
+policy booklet, a revised Declarations, or
+an endorsement.
+b. Change of Interest
+(1) No change of interest in this policy is effec-
+tive unless we consent in writing.
+(2) Except under Death, Dismemberment and
+Loss of Sight Coverage, and Loss of Earnings
+Coverage, if a person shown as a named
+insured on the Declarations dies, then the
+definition of insured under each of the cov-
+erages provided by this policy is changed
+to include:
+(a) any person with lawful custody of a
+your car, a newly acquired car, or a
+temporary substitute car until a legal
+representative is qualified; and then
+(b) the legal representative of the de-
+ceased named insured.
+This only applies while such person is
+maintaining or using a your car, a newly
+acquired car, or a temporary substitute
+car.
+c. Joint and Individual Interests
+If you consists of more than one person or en-
+tity, then each acts for all to change or cancel
+the policy.
+d. Change of Policy Address
+We may change the named insured’s policy ad-
+dress as shown on the Declarations and in our
+records to the most recent address provided to
+us by:
+(1) you; or
+(2) the United States Postal Service.
+8. Premium
+a. Unless as otherwise provided by an alternative
+payment plan in effect with the State Farm
+Companies with respect to the premium for this
+policy, the premium is due and payable in full on
+or before the first day of the policy period shown
+on the most recently issued Declarations.
+
+[page 37]
+34 9826C
+©, Copyright, State Farm Mutual Automobile Insurance Company, 2024
+b. The renewal premium for this policy will be
+based upon the rates in effect, the coverages
+carried, the applicable limits, deductibles, and
+other elements that affect the premium that ap-
+ply at the time of renewal.
+c. The premium for this policy may vary based
+upon:
+(1) the purchase of other products or services
+from the State Farm Companies;
+(2) the purchase of products or services from
+an organization that has entered into an
+agreement or contract with the State Farm
+Companies. The State Farm Companies
+do not warrant the merchantability, fitness,
+or quality of any product or service offered
+or provided by that organization; or
+(3) an agreement, concerning the insurance
+provided by this policy, that the State Farm
+Companies has with an organization of
+which you are a member, employee, sub-
+scriber, licensee, or franchisee.
+d. The premium for this policy is based upon infor-
+mation we have received from you or other
+sources. You must inform us if any information
+regarding the following is incorrect or incom-
+plete, or changes during the policy period, and
+you must answer questions we ask regarding
+the following:
+(1) Your cars, or their use, including annual
+mileage;
+(2) The persons who regularly drive a your
+car, including newly licensed family mem-
+bers;
+(3) Your marital status; or
+(4) The location where your cars are primarily
+garaged.
+If the above information or any other information
+used to determine the premium is incorrect, in-
+complete, changes during the policy period, or is
+not provided to us when we ask, then we may
+decrease or increase the premium during the
+policy period. If we decrease the premium dur-
+ing the policy period, then we will provide a re-
+fund or a credit in the amount of the decrease. If
+we increase the premium during the policy pe-
+riod, then you must pay the amount of the in-
+crease.
+9. Renewal
+We agree to renew this policy for the next policy pe-
+riod upon payment of the renewal premium when
+due, unless we provide a nonrenewal notice or a can-
+cellation notice as set forth in the Nonrenewal and
+Cancellation provisions.
+10. Nonrenewal
+If we decide not to renew this policy, then, at least
+45 days before the end of the current policy period,
+we will provide a nonrenewal notice to a named in-
+sured shown on the Declarations.
+11. Cancellation
+a. How You May Cancel
+You may cancel this policy by providing to us
+advance notice of the date cancellation is effec-
+tive. We may confirm the cancellation in writing.
+b. How and When We May Cancel
+We may cancel this policy by providing notice to
+a named insured shown on the Declarations.
+The notice will provide the date cancellation is
+effective.
+(1) If we provide a cancellation notice because
+the premium is not paid when due,
+then the date cancellation is effective will
+be at least 10 days after the date notice is
+provided.
+Otherwise, the date cancellation is effective
+will be at least 45 days after the date notice
+is provided.
+(2) After this policy has been in force for more
+than 59 days, we will not cancel this policy
+before the end of the current policy period
+unless:
+(a) the premium is not paid when due; or
+(b) you, any resident relative, or any
+other person who usually drives a
+your car has had their driver’s license
+under suspension or revocation:
+
+[page 38]
+35 9826C
+©, Copyright, State Farm Mutual Automobile Insurance Company, 2024
+(i) during the policy period; or
+(ii) during the 180 days immediately
+before the effective date of the
+policy if the policy is a renewal.
+c. Return of Unearned Premium
+If you or we cancel this policy the premium will
+be earned on a pro rata basis.
+Any unearned premium may be returned within
+a reasonable time after cancellation. Delay in
+the return of any unearned premium does not af-
+fect the cancellation date.
+12. Assignment
+No assignment of benefits or other transfer of rights
+is binding upon us unless approved by us.
+13. Bankruptcy or Insolvency of the Insured
+Bankruptcy or insolvency of the insured or their es-
+tate will not relieve us of our obligations under this
+policy.
+14. Concealment or Fraud
+There is no coverage under this policy if you or any
+other person insured under this policy has made
+false statements with the intent to conceal or misrep-
+resent any material fact or circumstance in connec-
+tion with any claim under this policy.
+15. Our Right to Recover Our Payments
+Death, Dismemberment and Loss of Sight Coverage
+and Loss of Earnings Coverage payments are not re-
+coverable by us. Under all other coverages, the fol-
+lowing apply:
+a. Subrogation
+If we are obligated under this policy to make
+payment to or for a person or organization who
+has a legal right to collect from another person
+or organization, then we will be subrogated to
+that right to the extent of our payment.
+The person or organization to or for whom we
+make payment must help us recover our pay-
+ments by:
+(1) doing nothing to impair that legal right;
+(2) executing any documents we may need to
+assert that legal right; and
+(3) taking legal action through our representa-
+tives when we ask.
+b. Reimbursement
+If we make payment under this policy and the
+person or organization to or for whom we make
+payment recovers or has recovered from an-
+other person or organization, then the person
+or organization to or for whom we make pay-
+ment must:
+(1) hold in trust for us the proceeds of any re-
+covery; and
+(2) reimburse us to the extent of our pay-
+ments.
+16. Legal Action Against Us
+Legal action may not be brought against us until there
+has been full compliance with all the provisions of this
+policy. In addition, legal action may only be brought
+against us regarding:
+a. Liability Coverage after the amount of damages
+an insured is legally liable to pay has been fi-
+nally determined by:
+(1) judgment after an actual trial, and any ap-
+peals of that judgment if any appeals are
+taken; or
+(2) agreement between the claimant and us.
+b. Medical Payments Coverage if the legal action
+relating to this coverage is brought against us
+within four years immediately following the date
+of the accident.
+c. Uninsured Motor Vehicle Coverage and Under-
+insured Motor Vehicle Coverage if the insured
+or that insured’s legal representative within
+three years immediately following the date of the
+accident:
+(1) presents either an Uninsured Motor Vehicle
+Coverage claim or an Underinsured Motor
+Vehicle Coverage claim to us; and
+(2) files a lawsuit in accordance with the De-
+ciding Fault and Amount provision of the
+involved coverage.
+
+[page 39]
+36 9826C
+©, Copyright, State Farm Mutual Automobile Insurance Company, 2024
+Except as provided in c.(2) above, no other legal
+action may be brought against us relating to Un-
+insured Motor Vehicle Coverage or Underin-
+sured Motor Vehicle Coverage for any other
+causes of action that arise out of or are related
+to these coverages until there has been full com-
+pliance with the provisions titled Consent to
+Settlement and Deciding Fault and Amount.
+d. Physical Damage Coverages if the legal action
+relating to these coverages is brought against
+us within one year immediately following the
+date of the accident or loss.
+17. Conformity With Montana Statutes
+The provisions of this policy conform to the minimum
+requirements of Montana law and control over any
+conflicting statutes of any state in which the insured
+resides on or after the effective date of this policy.
+18. Choice of Law
+Without regard to choice of law rules, the law of the
+state of:
+a. Montana will control, except as provided in b.
+below, in the event of any disagreement as to
+the interpretation and application of any provi-
+sion in this policy; and
+b. Illinois will control in the event of any disagree-
+ment as to the interpretation and application of
+this policy’s:
+(1) Mutual Conditions provision found on the
+most recently issued Declarations, if this
+policy was issued by the State Farm Mutual
+Automobile Insurance Company; or
+(2) Participating Policy provision found on the
+most recently issued Declarations, if this
+policy was issued by any subsidiary or affil-
+iate of the State Farm Mutual Automobile
+Insurance Company.
+19. Severability
+If any provision of this policy is held invalid or unen-
+forceable by a court that has jurisdiction, then:
+a. such provision will remain in full force to the ex-
+tent not held invalid or unenforceable; and
+b. all other provisions of this policy will remain valid
+and enforceable.
+20. Our Rights Regarding Claim Information
+a. We will collect, receive, obtain, use, and retain
+all the items described in item b.(1) below and
+use and retain the information described in item
+b.(3)(b) below, in accordance with applicable
+federal and state laws and regulations and con-
+sistent with the performance of our business
+functions.
+b. Subject to a. above, we will not be restricted in
+or prohibited from:
+(1) collecting, receiving, or obtaining records,
+receipts, invoices, medical bills, medical
+records, wage information, salary infor-
+mation, employment information, data, and
+any other information;
+(2) using any of the items described in item
+b.(1) above; or
+(3) retaining:
+(a) any of the items in item b.(1) above; or
+(b) any other information we have in our
+possession as a result of our pro-
+cessing, handling, or otherwise re-
+solving claims submitted under this
+policy.
+c. We may disclose any of the items in item b.(1)
+above and any of the information described in
+item b.(3)(b) above:
+(1) to enable performance of our business
+functions;
+(2) to meet our reporting obligations to insur-
+ance regulators;
+(3) to meet our reporting obligations to insur-
+ance data consolidators;
+(4) to meet other obligations required by law;
+and
+(5) as otherwise permitted by law.
+d. Our rights under a., b., and c. above shall not be
+impaired by any:
+(1) authorization related to any claim submit-
+ted under this policy; or
+(2) act or omission of an insured or a legal rep-
+resentative acting on an insured’s behalf.

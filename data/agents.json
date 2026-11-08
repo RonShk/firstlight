@@ -1,0 +1,92 @@
+[
+ {
+  "id": "AG-01",
+  "name": "Dana Whitfield",
+  "city": "Moore",
+  "state": "OK",
+  "phone": "(405) 555-0142",
+  "lat": 35.335,
+  "lon": -97.48
+ },
+ {
+  "id": "AG-02",
+  "name": "Marcus Reyes",
+  "city": "Moore",
+  "state": "OK",
+  "phone": "(405) 555-0177",
+  "lat": 35.326,
+  "lon": -97.505
+ },
+ {
+  "id": "AG-03",
+  "name": "Priya Natarajan",
+  "city": "South Oklahoma City",
+  "state": "OK",
+  "phone": "(405) 555-0118",
+  "lat": 35.405,
+  "lon": -97.55
+ },
+ {
+  "id": "AG-04",
+  "name": "Tom Haskell",
+  "city": "South Oklahoma City",
+  "state": "OK",
+  "phone": "(405) 555-0193",
+  "lat": 35.38,
+  "lon": -97.5
+ },
+ {
+  "id": "AG-05",
+  "name": "Keisha Lawson",
+  "city": "Oklahoma City",
+  "state": "OK",
+  "phone": "(405) 555-0126",
+  "lat": 35.49,
+  "lon": -97.52
+ },
+ {
+  "id": "AG-06",
+  "name": "Renee Begay",
+  "city": "Norman",
+  "state": "OK",
+  "phone": "(405) 555-0131",
+  "lat": 35.222,
+  "lon": -97.44
+ },
+ {
+  "id": "AG-07",
+  "name": "Caleb Fontaine",
+  "city": "Edmond",
+  "state": "OK",
+  "phone": "(405) 555-0165",
+  "lat": 35.653,
+  "lon": -97.478
+ },
+ {
+  "id": "AG-08",
+  "name": "Victor Huang",
+  "city": "Midwest City",
+  "state": "OK",
+  "phone": "(405) 555-0156",
+  "lat": 35.449,
+  "lon": -97.4
+ },
+ {
+  "id": "AG-09",
+  "name": "Shonda Graves",
+  "city": "Mustang",
+  "state": "OK",
+  "phone": "(405) 555-0110",
+  "lat": 35.384,
+  "lon": -97.724
+ },
+ {
+  "id": "AG-10",
+  "name": "Luis Cardenas",
+  "city": "Yukon",
+  "state": "OK",
+  "phone": "(405) 555-0172",
+  "lat": 35.507,
+  "lon": -97.762
+ }
+]

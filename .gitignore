@@ -22,3 +22,6 @@ next-env.d.ts
 
 # debug
 npm-debug.log*
+
+# agent response cache
+/.cache/
