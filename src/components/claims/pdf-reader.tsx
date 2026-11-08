@@ -37,13 +37,13 @@ function PolicyPage({ pdf, number, root, ratio }: { pdf: PDFDocumentProxy; numbe
 }
 
 /** Full-screen continuous document with lazy rendering and one small page/close control. */
-export function PdfReader({ docId, initialPage = 1, onClose }: { docId: string; initialPage?: number; onClose: () => void }) {
+export function PdfReader({ docId, url: source, initialPage = 1, onClose, label = "policy" }: { docId?: string; url?: string; initialPage?: number; onClose?: () => void; label?: string }) {
   const scroll = useRef<HTMLDivElement>(null);
   const [pdf, setPdf] = useState<PDFDocumentProxy | null>(null);
   const [page, setPage] = useState(initialPage);
   const [ratio, setRatio] = useState(0.77);
   const [error, setError] = useState<string | null>(null);
-  const url = `/api/policy-documents/${encodeURIComponent(docId)}`;
+  const url = source ?? `/api/policy-documents/${encodeURIComponent(docId ?? "")}`;
   useEffect(() => {
     let disposed = false;
     let task: import("pdfjs-dist").PDFDocumentLoadingTask | undefined;
@@ -73,7 +73,7 @@ export function PdfReader({ docId, initialPage = 1, onClose }: { docId: string; 
     if (current) setPage(Number(current.dataset.pageNumber));
   };
   return <div className="relative h-full bg-[#e8e8e8]">
-    <div className="absolute top-3 left-1/2 z-10 flex -translate-x-1/2 items-center gap-3 rounded-md border border-black/10 bg-white/95 px-3 py-1.5 text-xs shadow-sm"><span aria-live="polite">Page {page} / {pdf?.numPages ?? "…"}</span><button autoFocus onClick={onClose} aria-label="Close policy" className="cursor-pointer px-1 text-lg leading-none">×</button></div>
-    <div ref={scroll} aria-label="Policy document" onScroll={updatePage} className="h-full overflow-auto px-4 py-4">{error ? <p role="alert" className="mx-auto mt-14 max-w-lg rounded bg-white p-5 text-sm">Could not load this document. <a className="text-brand underline" href={url} target="_blank" rel="noreferrer">Open PDF</a></p> : !pdf ? <p role="status" className="mt-14 text-center text-sm text-subtle">Loading document…</p> : Array.from({ length: pdf.numPages }, (_, i) => <PolicyPage key={i} pdf={pdf} number={i + 1} root={scroll} ratio={ratio} />)}</div>
+    <div className="absolute top-3 left-1/2 z-10 flex -translate-x-1/2 items-center gap-3 rounded-md border border-black/10 bg-white/95 px-3 py-1.5 text-xs shadow-sm"><span aria-live="polite">Page {page} / {pdf?.numPages ?? "…"}</span>{onClose && <button autoFocus onClick={onClose} aria-label={`Close ${label}`} className="cursor-pointer px-1 text-lg leading-none">×</button>}</div>
+    <div ref={scroll} aria-label={`${label[0].toUpperCase()}${label.slice(1)} document`} onScroll={updatePage} className="h-full overflow-auto px-4 py-4">{error ? <p role="alert" className="mx-auto mt-14 max-w-lg rounded bg-white p-5 text-sm">Could not load this document. <a className="text-brand underline" href={url} target="_blank" rel="noreferrer">Open PDF</a></p> : !pdf ? <p role="status" className="mt-14 text-center text-sm text-subtle">Loading document…</p> : Array.from({ length: pdf.numPages }, (_, i) => <PolicyPage key={i} pdf={pdf} number={i + 1} root={scroll} ratio={ratio} />)}</div>
   </div>;
 }

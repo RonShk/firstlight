@@ -40,13 +40,23 @@ export const OPS_SCHEMA = `
     id TEXT PRIMARY KEY, case_id TEXT NOT NULL, run_id TEXT NOT NULL UNIQUE, channel TEXT NOT NULL,
     recipient TEXT NOT NULL, body TEXT NOT NULL, status TEXT NOT NULL, attempts INTEGER NOT NULL DEFAULT 0,
     last_error TEXT, created_at TEXT NOT NULL, sent_at TEXT);
-  CREATE INDEX IF NOT EXISTS outbox_pending ON outbox(status, created_at);`;
+  CREATE INDEX IF NOT EXISTS outbox_pending ON outbox(status, created_at);
+  CREATE TABLE IF NOT EXISTS filed_claims (
+    id TEXT PRIMARY KEY, case_id TEXT NOT NULL UNIQUE, run_id TEXT, payload TEXT NOT NULL, filed_at TEXT NOT NULL);
+  CREATE TABLE IF NOT EXISTS claim_settlements (
+    claim_id TEXT PRIMARY KEY, amount_cents INTEGER NOT NULL CHECK(amount_cents>0), status TEXT NOT NULL,
+    transaction_id TEXT, created_at TEXT NOT NULL);`;
 
 /** Additive migrations for databases created by earlier versions. */
 const MIGRATIONS = [
   "ALTER TABLE runs ADD COLUMN available_at INTEGER",
   "ALTER TABLE runs ADD COLUMN deferrals INTEGER NOT NULL DEFAULT 0",
   "ALTER TABLE outbox ADD COLUMN kind TEXT NOT NULL DEFAULT 'reply'",
+  // Claim lifecycle: pending (drafted, awaiting human confirmation) -> confirmed (filed) | denied.
+  "ALTER TABLE filed_claims ADD COLUMN status TEXT NOT NULL DEFAULT 'pending'",
+  "ALTER TABLE filed_claims ADD COLUMN source TEXT NOT NULL DEFAULT 'manual'",
+  "ALTER TABLE filed_claims ADD COLUMN decided_at TEXT",
+  "ALTER TABLE filed_claims ADD COLUMN decision_note TEXT",
 ];
 
 export function openOps(file: string): Sqlite {
@@ -55,6 +65,8 @@ export function openOps(file: string): Sqlite {
   for (const sql of MIGRATIONS) {
     try { db.exec(sql); } catch (e) { if (!/duplicate column/i.test((e as Error).message)) throw e; }
   }
+  // Earlier builds used filed/approved; map them onto the confirmation lifecycle.
+  db.exec("UPDATE filed_claims SET status='pending' WHERE status='filed'; UPDATE filed_claims SET status='confirmed' WHERE status='approved';");
   return db;
 }
 

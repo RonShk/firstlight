@@ -1,6 +1,7 @@
 "use client";
 
-import { createContext, useContext, useEffect, useMemo, useState, useSyncExternalStore } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState, useSyncExternalStore } from "react";
+import type { FiledClaim } from "@/cases/claim-files";
 import type { AgentStatus, CaseView, RunSummary } from "@/types/agent";
 import type { ClaimMessage, ClaimView } from "@/types/claims";
 import { buildClaims, SNAPSHOT_MINUTE } from "@/lib/claims/generate";
@@ -23,6 +24,11 @@ interface ClaimsContextValue {
   isAssigned: (id: string) => boolean;
   toggleAssigned: (id: string) => void;
   threadFor: (claim: ClaimView) => ClaimMessage[];
+  /** Every drafted/confirmed/denied claim, refreshed every few seconds. */
+  filedClaims: FiledClaim[];
+  /** The claim for a household, via its case. */
+  claimFor: (personaId: string) => FiledClaim | undefined;
+  refreshClaims: () => Promise<void>;
 }
 
 const ClaimsContext = createContext<ClaimsContextValue | null>(null);
@@ -41,6 +47,20 @@ export function ClaimsProvider({ children }: { children: React.ReactNode }) {
   const [ready, setReady] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [stored, setStored] = useState<Record<string, CaseView["messages"]>>({});
+
+  const [filedClaims, setFiledClaims] = useState<FiledClaim[]>([]);
+  const refreshClaims = useCallback(async () => {
+    const r = await fetch("/api/claim-files");
+    if (r.ok) setFiledClaims((await r.json()).claims);
+  }, []);
+  useEffect(() => {
+    let active = true;
+    const load = () => fetch("/api/claim-files").then((r) => (r.ok ? r.json() : null)).then((d) => { if (active && d) setFiledClaims(d.claims); }).catch(() => {});
+    void load();
+    const timer = setInterval(load, 5_000);
+    return () => { active = false; clearInterval(timer); };
+  }, []);
+  const claimsByCase = useMemo(() => new Map(filedClaims.map((c) => [c.caseId, c])), [filedClaims]);
 
   const [queue] = useState(() => new AgentQueue());
   const queueVersion = useSyncExternalStore(queue.subscribe, queue.getVersion, () => 0);
@@ -111,6 +131,9 @@ export function ClaimsProvider({ children }: { children: React.ReactNode }) {
       queue.restore(claim.id, turns, await summary.json(), true);
     },
     agent,
+    filedClaims,
+    claimFor: (id) => { const caseId = queue.runsFor(id).at(-1)?.caseId; return caseId ? claimsByCase.get(caseId) : undefined; },
+    refreshClaims,
     isRead: (id) => read.has(id),
     markRead: (id) => setRead((s) => (s.has(id) ? s : new Set(s).add(id))),
     isAssigned: (id) => assigned.has(id),
