@@ -3,11 +3,11 @@
 import type { PolicyLine } from "@/types/sim";
 import type { ClaimView, ReviewState } from "@/types/claims";
 import { cn } from "@/lib/utils";
-import { ageLabel, sectionLabel } from "@/lib/claims/format";
+import { sectionLabel } from "@/lib/claims/format";
 import { DOCUMENT_FORMS, LINE_LABEL, appliesNote } from "@/lib/claims/policy-documents";
+import { AGENTS } from "@/lib/sim/data";
 import { HOUSEHOLD_LABELS } from "@/lib/sim/personas";
 import { ADJUSTER, useClaims } from "./claims-provider";
-import { SEVERITY_META } from "./severity";
 
 const REVIEW_LABEL: Record<ReviewState, string> = {
   quick: "Quick read",
@@ -54,29 +54,13 @@ interface ClaimDetailProps {
 }
 
 export function ClaimDetail({ claim, onConversation, onDocuments }: ClaimDetailProps) {
-  const { isAssigned, toggleAssigned, threadFor } = useClaims();
+  const { isAssigned, toggleAssigned } = useClaims();
   const { persona: p, review } = claim;
-  const severity = SEVERITY_META[review.severity];
   const assigned = isAssigned(claim.id);
-  const messages = threadFor(claim).filter((m) => m.from !== "note").length;
   const typeLabel = `${review.lines[0] ? LINE_LABEL[review.lines[0]] : "General"} · ${claim.peril}`;
 
   return (
     <div className="px-[36px] pt-[36px] pb-[48px]">
-      <div className="flex items-start justify-between gap-6">
-        <div className="min-w-0">
-          <div className="flex items-center gap-3">
-            <h1 className="truncate text-[24px] font-bold text-ink">{p.name}</h1>
-            <span className={cn("shrink-0 rounded-full px-2.5 py-0.5 text-[14px] font-semibold", severity.chip)}>{severity.label}</span>
-          </div>
-          <p className="mt-1 text-[14.5px] text-subtle">Claim {claim.number} · {typeLabel} · Received {ageLabel(claim.minutesAgo)} ago</p>
-        </div>
-        <div className="flex shrink-0 gap-[22px] pt-1 text-[15.5px] font-semibold text-ink">
-          <button type="button" onClick={onConversation} className="cursor-pointer hover:underline">Conversation ({messages})</button>
-          <button type="button" disabled={!claim.documents.length} onClick={() => onDocuments()} className="cursor-pointer hover:underline disabled:cursor-default disabled:text-disabled disabled:no-underline">Policy documents ({claim.documents.length})</button>
-        </div>
-      </div>
-
       <section className="mt-[42px] border-b border-line pb-[45px]">
         <h2 className="text-[16px] font-semibold text-ink">{claim.subject}</h2>
         {claim.body.length ? (
@@ -119,10 +103,8 @@ export function ClaimDetail({ claim, onConversation, onDocuments }: ClaimDetailP
             <div className="mt-1.5 flex flex-wrap gap-x-[22px] gap-y-1 text-[15px] font-semibold text-ink">
               {review.citations.map((c) => {
                 const text = `${DOCUMENT_FORMS[c.doc_id]?.name ?? "Form"} ${c.form_number} · ${sectionLabel(c.section)}`;
-                return claim.documents.some((d) => d.form.id === c.doc_id) ? (
-                  <button key={`${c.doc_id}:${c.section}`} type="button" title={c.quote} onClick={() => onDocuments(c.doc_id, c.page)} className="cursor-pointer text-left hover:underline">{text}</button>
-                ) : (
-                  <span key={`${c.doc_id}:${c.section}`} title={c.quote} className="font-normal text-subtle">{text}</span>
+                return (
+                  <button key={`${c.doc_id}:${c.section}:${c.quote}`} type="button" title={c.quote} onClick={() => onDocuments(c.doc_id, c.page)} className="cursor-pointer text-left hover:underline">{text}</button>
                 );
               })}
             </div>
@@ -146,11 +128,15 @@ export function ClaimDetail({ claim, onConversation, onDocuments }: ClaimDetailP
           <PolicyRow claim={claim} line="home" />
           <PolicyRow claim={claim} line="umbrella" />
           <Detail label="Claim type">{typeLabel}</Detail>
-          <Detail label="Location">{p.address.city}, {p.address.state}</Detail>
+          <Detail label="Location">{p.address.street}, {p.address.city}, {p.address.state} {p.address.zip}</Detail>
+          <Detail label="Occupation">{p.occupation}{p.selfEmployed ? " · Self-employed" : ""}</Detail>
+          <Detail label="Housing">{p.housing === "own" ? "Homeowner" : "Renter"}</Detail>
+          <Detail label="Local agent">{AGENTS.find((a) => a.id === p.agentId)?.name ?? "Not assigned"}</Detail>
           <Detail label="Household">{HOUSEHOLD_LABELS[p.householdType]} · {p.members.length} {p.members.length === 1 ? "person" : "people"}</Detail>
           {p.vulnerabilities.length ? <Detail label="Household flags">{p.vulnerabilities.join(" · ")}</Detail> : null}
           <Detail label="Assigned to">{assigned ? ADJUSTER : "Unassigned"}</Detail>
         </dl>
+        <div className="mt-6 grid gap-3 xl:grid-cols-2">{p.members.map((m) => <article key={`${m.name}:${m.relation}`} className="rounded-lg border border-line p-4"><h3 className="text-sm font-semibold">{m.name} · {m.age}</h3><p className="mt-1 text-xs text-subtle">{m.relation}{m.limitedMobility ? " · Limited mobility" : ""}{m.medicalNeeds ? ` · ${m.medicalNeeds}` : ""}</p></article>)}</div>
       </section>
     </div>
   );

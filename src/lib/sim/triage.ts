@@ -80,7 +80,7 @@ function buildThread(p: Persona, truth: WorldTruth, t: number, live: ThreadMessa
     thread.push({ at: at0 + SILENT_AFTER, from: "system", text: `Checking on you again, ${name}. Reply 1 if you're safe, 2 if you need help. We're here.` });
   }
   for (const run of runs) {
-    if (run.status !== "queued" && replyDelivered(run) && run.finishedAt !== undefined) thread.push({ at: run.finishedAt, from: "agent", text: run.result!.reply!.body });
+    if (run.status !== "queued" && replyDelivered(run) && run.finishedAt !== undefined && run.finishedAt <= t) thread.push({ at: run.finishedAt, from: "agent", text: run.result!.reply!.body });
   }
   return thread.sort((a, b) => a.at - b.at);
 }

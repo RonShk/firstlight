@@ -6,7 +6,7 @@ import { describe, it } from "node:test";
 import type { Persona, Policy } from "../../../types/sim";
 import type { Decision, RunSummary } from "../../../types/agent";
 import { getPersonas } from "../../sim/personas";
-import type { AgentRun } from "../../sim/triage";
+import { triageAt, type AgentRun } from "../../sim/triage";
 import { buildClaims } from "../generate";
 import { DOCUMENT_FORMS, coverageLayers, selectDocuments } from "../policy-documents";
 import { quickRead } from "../quick-read";
@@ -229,6 +229,17 @@ describe("Nemotron review", () => {
     run.result!.humanInterventionNeeded = false;
     assert.equal(reviewClaim(claim, run, true).state, "unavailable");
   });
+  it("does not show a future agent reply while replaying the simulation", () => {
+    const run = done();
+    run.finishedAt = 200;
+    const truth = { personaId: claim.id, intensity: 0.5, impactAt: 0, damage: "minor" as const,
+      injured: false, medicalUrgent: false, displaced: false, vehicleDamaged: false,
+      uninsuredLoss: false, severity: 30, expectedRoute: "human_review" as const,
+      replyTimes: [2], messages: ["Window damage"] };
+    assert.ok(!triageAt(claim.persona, truth, 100, [], [run], true).thread.some((m) => m.from === "agent"));
+    assert.ok(triageAt(claim.persona, truth, 200, [], [run], true).thread.some((m) => m.from === "agent"));
+  });
+
   it("does not display an undelivered reply", () => {
     const run = done();
     run.result!.reply!.status = "held";

@@ -33,6 +33,19 @@ export class AgentQueue {
     return this.runs.get(personaId) ?? [];
   }
 
+  /** Restore persisted work after a refresh without creating another model run. */
+  restore(personaId: string, conversation: Turn[], result: RunSummary, replace = false) {
+    if (!replace && this.runs.has(personaId)) return;
+    const terminal = ["completed", "failed", "superseded"].includes(result.status);
+    const settled = !result.reply || SETTLED_REPLY.has(result.reply.status);
+    this.runs.set(personaId, [{ key: conversation.map((t) => `${t.from[0]}:${t.text}`).join("␞"),
+      conversation, caseId: result.caseId, runId: result.id, result,
+      status: terminal && settled ? result.status === "completed" ? "done" : "error" : "running",
+      finishedAt: terminal && settled ? this.now() : undefined }]);
+    this.changed();
+    if (!terminal || !settled) this.schedule();
+  }
+
   /** Submit this conversation unless it was already sent. */
   ensure(personaId: string, key: string, conversation: Turn[]) {
     const list = this.runs.get(personaId) ?? [];
@@ -64,6 +77,8 @@ export class AgentQueue {
   }
 
   reset() {
+    if (this.timer) clearTimeout(this.timer);
+    this.timer = null;
     this.epoch++;
     this.runs.clear();
     this.changed();
@@ -116,6 +131,7 @@ export class AgentQueue {
       if (epoch !== this.epoch) return;
       const byId = new Map(runs.map((r) => [r.id, r]));
       for (const { personaId, run } of active) {
+        if (this.runs.get(personaId)?.at(-1)?.runId !== run.runId) continue;
         const s = byId.get(run.runId!);
         if (!s) continue;
         const replySettled = !!s.reply && SETTLED_REPLY.has(s.reply.status);

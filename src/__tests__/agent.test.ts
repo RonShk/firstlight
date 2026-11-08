@@ -579,3 +579,37 @@ describe("model output recovery", () => {
     assert.ok(!events.some((e) => e.type === "tool.completed"));
   });
 });
+
+describe("workspace restoration", () => {
+  it("restores completed work without submitting the conversation again", async () => {
+    const { AgentQueue } = await import("@/lib/sim/agent-queue");
+    const { runSummary } = await import("@/cases/views");
+    const { db, intake } = await setup({ model: scripted([]) });
+    db.run("UPDATE runs SET status='completed' WHERE id=?", intake.run!.id);
+    const summary = runSummary(db, getRun(db, intake.run!.id)!);
+    const queue = new AgentQueue();
+    const turns = [{ from: "policyholder" as const, text: "Roof damaged" }];
+    queue.restore("PH-TEST", turns, summary);
+    const restored = queue.runsFor("PH-TEST")[0];
+    assert.equal(restored.status, "done");
+    assert.equal(restored.caseId, intake.case.id);
+    queue.ensure("PH-TEST", restored.key, turns);
+    assert.equal(queue.runsFor("PH-TEST").length, 1);
+    queue.restore("PH-TEST", [], { ...summary, id: "other" });
+    assert.equal(queue.runsFor("PH-TEST")[0].runId, summary.id);
+    queue.reset();
+  });
+  it("tracks a new run after a simulated customer message and clears its poll timer on reset", async () => {
+    const { AgentQueue } = await import("@/lib/sim/agent-queue");
+    const { runSummary } = await import("@/cases/views");
+    const { db, intake } = await setup({ model: scripted([]) });
+    const queue = new AgentQueue();
+    const summary = runSummary(db, intake.run!);
+    queue.restore("PH-TEST", [], summary);
+    assert.equal(queue.runsFor("PH-TEST")[0].status, "running");
+    queue.restore("PH-TEST", [{ from: "policyholder", text: "New information" }], { ...summary, id: "new-run" }, true);
+    assert.equal(queue.runsFor("PH-TEST")[0].runId, "new-run");
+    queue.reset();
+    assert.deepEqual(queue.runsFor("PH-TEST"), []);
+  });
+});

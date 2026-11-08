@@ -1,24 +1,28 @@
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, useSyncExternalStore } from "react";
-import type { AgentStatus } from "@/types/agent";
+import type { AgentStatus, CaseView, RunSummary } from "@/types/agent";
 import type { ClaimMessage, ClaimView } from "@/types/claims";
 import { buildClaims, SNAPSHOT_MINUTE } from "@/lib/claims/generate";
 import { sortClaims, toView } from "@/lib/claims/review";
 import { AgentQueue } from "@/lib/sim/agent-queue";
-import { conversationKey, type Turn } from "@/lib/sim/triage";
+import { conversationKey, type AgentRun, type Turn } from "@/lib/sim/triage";
 
 export const ADJUSTER = "Jake Stone";
 
 interface ClaimsContextValue {
   claims: ClaimView[];
+  queue: AgentQueue;
+  runFor: (id: string) => AgentRun | undefined;
+  ready: boolean;
+  loadError: string | null;
+  simulateMessage: (claim: ClaimView, text: string) => Promise<void>;
   agent: AgentStatus | null;
   isRead: (id: string) => boolean;
   markRead: (id: string) => void;
   isAssigned: (id: string) => boolean;
   toggleAssigned: (id: string) => void;
   threadFor: (claim: ClaimView) => ClaimMessage[];
-  sendReply: (id: string, text: string) => void;
   requestReview: (claim: ClaimView) => void;
 }
 
@@ -35,7 +39,9 @@ export function ClaimsProvider({ children }: { children: React.ReactNode }) {
   const [agent, setAgent] = useState<AgentStatus | null>(null);
   const [read, setRead] = useState<Set<string>>(new Set());
   const [assigned, setAssigned] = useState<Set<string>>(new Set());
-  const [replies, setReplies] = useState<Record<string, ClaimMessage[]>>({});
+  const [ready, setReady] = useState(false);
+  const [loadError, setLoadError] = useState<string | null>(null);
+  const [stored, setStored] = useState<Record<string, CaseView["messages"]>>({});
 
   const [queue] = useState(() => new AgentQueue());
   const queueVersion = useSyncExternalStore(queue.subscribe, queue.getVersion, () => 0);
@@ -48,23 +54,63 @@ export function ClaimsProvider({ children }: { children: React.ReactNode }) {
       .catch(() => setAgent({ configured: false, model: null, services: { embeddings: null, reranker: null, guard: null, verifier: false }, knowledge: null, queue: null }));
   }, []);
 
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/cases").then(async (res) => {
+      if (!res.ok) throw new Error("Could not restore saved cases");
+      const data = await res.json() as { cases: { customerId: string; messages: CaseView["messages"]; run: RunSummary | null }[] };
+      if (cancelled) return;
+      const byId: Record<string, CaseView["messages"]> = {};
+      for (const c of data.cases) {
+        if (!c.customerId) continue;
+        byId[c.customerId] = c.messages;
+        const turns: Turn[] = c.messages.filter((m) => m.role !== "reviewer").map((m) => ({ from: m.role === "customer" ? "policyholder" : "state_farm", text: m.text }));
+        while (turns.length && turns.at(-1)!.from !== "policyholder") turns.pop();
+        if (c.run) queue.restore(c.customerId, turns, c.run);
+      }
+      setStored(byId);
+    }).catch((e: Error) => { if (!cancelled) setLoadError(e.message); })
+      .finally(() => { if (!cancelled) setReady(true); });
+    return () => { cancelled = true; };
+  }, [queue]);
+
   const online = agent ? agent.configured : null;
   const claims = useMemo(() => {
     void queueVersion;
-    return sortClaims(base.map((c) => toView(c, queue.runsFor(c.id).at(-1), online)));
-  }, [base, queue, queueVersion, online]);
+    return sortClaims(base.map((c) => {
+      const saved = stored[c.id];
+      const body = saved?.filter((m) => m.role === "customer").map((m) => m.text);
+      const restored = body?.length ? { ...c, body, silent: false,
+        thread: saved.map((m) => ({ id: `saved-${m.seq}`, text: m.text, minutesAgo: 0,
+          from: m.role === "customer" ? "policyholder" as const : m.role === "reviewer" ? "note" as const : "state_farm" as const })) } : c;
+      return toView(restored, queue.runsFor(c.id).at(-1), online);
+    }));
+  }, [base, queue, queueVersion, online, stored]);
 
   const requestReview = useCallback(
     (claim: ClaimView) => {
-      if (!online || claim.silent) return;
-      const turns: Turn[] = claim.body.map((text) => ({ from: "policyholder", text }));
+      if (!ready || loadError || !online || claim.silent || queue.runsFor(claim.id).length) return;
+      const turns: Turn[] = claim.thread.filter((m) => m.from !== "note").map((m) => ({ from: m.from === "policyholder" ? "policyholder" : "state_farm", text: m.text }));
+      while (turns.length && turns.at(-1)!.from !== "policyholder") turns.pop();
       queue.ensure(claim.id, conversationKey(turns), turns);
     },
-    [online, queue],
+    [online, queue, ready, loadError],
   );
 
   const value: ClaimsContextValue = {
-    claims,
+    claims, queue, ready, loadError,
+    runFor: (id) => queue.runsFor(id).at(-1),
+    simulateMessage: async (claim, text) => {
+      const previous = queue.runsFor(claim.id).at(-1)?.conversation ?? claim.thread.filter((m) => m.from !== "note").map((m) => ({ from: m.from === "policyholder" ? "policyholder" as const : "state_farm" as const, text: m.text }));
+      const turns: Turn[] = [...previous, { from: "policyholder", text }];
+      const response = await fetch("/api/messages", { method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ channel: "simulation", personaId: claim.id, conversation: turns }) });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error ?? "Could not send simulated message");
+      const summary = await fetch(`/api/runs/${data.runId}`);
+      if (!summary.ok) throw new Error("Message saved, but could not load its run. Reload the workspace.");
+      queue.restore(claim.id, turns, await summary.json(), true);
+    },
     agent,
     isRead: (id) => read.has(id),
     markRead: (id) => setRead((s) => (s.has(id) ? s : new Set(s).add(id))),
@@ -72,11 +118,8 @@ export function ClaimsProvider({ children }: { children: React.ReactNode }) {
     toggleAssigned: (id) => setAssigned((s) => toggled(s, id)),
     threadFor: (claim) => [
       ...claim.thread,
-      ...(claim.review.reply ? [{ id: "automated", from: "state_farm" as const, text: claim.review.reply, minutesAgo: 1 }] : []),
-      ...(replies[claim.id] ?? []),
+      ...(claim.review.reply && !claim.thread.some((m) => m.text === claim.review.reply) ? [{ id: "automated", from: "state_farm" as const, text: claim.review.reply, minutesAgo: 1 }] : []),
     ],
-    sendReply: (id, text) =>
-      setReplies((r) => ({ ...r, [id]: [...(r[id] ?? []), { id: `reply-${r[id]?.length ?? 0}`, from: "adjuster", text, minutesAgo: 0 }] })),
     requestReview,
   };
 
