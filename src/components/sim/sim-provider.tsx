@@ -51,7 +51,7 @@ export function SimProvider({ children }: { children: React.ReactNode }) {
   // Every conversation that's ready goes to the agent. The queue skips ones it has already seen.
   useEffect(() => {
     if (!online) return;
-    for (const e of entries) if (e.conversation && e.conversationKey) queue.ensure(e.persona.id, e.conversationKey, e.conversation);
+    for (const e of entries) if (e.conversation && e.conversationKey) queue.ensure(e.persona.id, e.persona.phone, e.conversationKey, e.conversation);
   }, [entries, online, queue]);
 
   return <SimContext.Provider value={{ personas, truths, entries, agent }}>{children}</SimContext.Provider>;

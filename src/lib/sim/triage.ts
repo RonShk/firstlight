@@ -1,5 +1,6 @@
 import type { Persona, ThreadMessage, TriageStatus, WorldTruth } from "../../types/sim";
-import type { AgentRequest, AgentResult } from "../agent/types";
+import type { PipelineResult } from "../agent/pipeline";
+import type { ClaimRoute } from "../../types/sim";
 
 // All timings are sim minutes after the tornado reaches that person's home.
 /** First check-in goes out. */
@@ -9,7 +10,44 @@ export const SILENT_AFTER = 30;
 /** Still silent by now → escalated to the local agent for a call / welfare check. */
 export const ESCALATE_AFTER = 60;
 
-export type Turn = AgentRequest["conversation"][number];
+export interface Turn {
+  from: "policyholder" | "state_farm";
+  text: string;
+}
+
+// ── Reading a /api/agent/analyze result ──────────────────────────────
+
+const TRIAGE_SEVERITY = { 1: 20, 2: 50, 3: 80, 4: 95 } as const;
+
+/** 0-100 severity for the dashboard, from the pipeline's triage 1-4. Null when the model didn't assess it. */
+export function severityOf(r: PipelineResult): number | null {
+  const a = r.result;
+  if (a.status === "complete" || a.status === "emergency") return TRIAGE_SEVERITY[a.triage];
+  if (a.status === "not_a_claim") return 5;
+  return null;
+}
+
+/** The route the pipeline chose: anything flagged goes to a human; a claim with every item approved is paid now. */
+export function routeOf(r: PipelineResult): ClaimRoute {
+  const a = r.result;
+  if (a.status === "not_a_claim") return "none";
+  if (a.status === "complete" && !a.flagged_for_human) return "auto_approve";
+  return "human_review";
+}
+
+/** One line on why: the danger reason, the claim summary, or the error. */
+export function reasonOf(r: PipelineResult): string {
+  const a = r.result;
+  if (a.status === "emergency") return a.reason;
+  if (a.status === "complete") return a.summary;
+  if (a.status === "not_a_claim") return "Not a loss report";
+  return `Agent unavailable: ${a.error}`;
+}
+
+/** The last text sent back to the customer (the update, 911 line, or help reply; not the "Received" ack). */
+export function replyOf(r: PipelineResult): string {
+  return r.messages.filter((m) => m.kind !== "ack").at(-1)?.body ?? r.messages.at(-1)?.body ?? "";
+}
 
 /** One call to the Nemotron agent for one version of a conversation. */
 export interface AgentRun {
@@ -18,7 +56,7 @@ export interface AgentRun {
   status: "queued" | "running" | "done" | "error";
   /** Sim minute the agent's reply lands on the phone. */
   finishedAt?: number;
-  result?: AgentResult;
+  result?: PipelineResult;
   error?: string;
 }
 
@@ -34,7 +72,7 @@ export interface TriageEntry {
   conversationKey: string | null;
   run?: AgentRun;
   /** Most recent completed assessment, even if a newer message is being re-analyzed. */
-  result?: AgentResult;
+  result?: PipelineResult;
   hasLiveMessages: boolean;
 }
 
@@ -69,7 +107,7 @@ function buildThread(p: Persona, truth: WorldTruth, t: number, live: ThreadMessa
     thread.push({ at: at0 + SILENT_AFTER, from: "system", text: `Checking on you again, ${name}. Reply 1 if you're safe, 2 if you need help. We're here.` });
   }
   for (const run of runs) {
-    if (run.status === "done" && run.result && run.finishedAt !== undefined) thread.push({ at: run.finishedAt, from: "agent", text: run.result.reply });
+    if (run.status === "done" && run.result && run.finishedAt !== undefined) thread.push({ at: run.finishedAt, from: "agent", text: replyOf(run.result) });
   }
   return thread.sort((a, b) => a.at - b.at);
 }
@@ -97,22 +135,28 @@ export function triageAt(p: Persona, truth: WorldTruth, t: number, live: ThreadM
   const run = runs.at(-1);
   const result = [...runs].reverse().find((r) => r.status === "done")?.result;
   const current = !!run && run.key === key;
+  const severity = current && run.status === "done" && run.result ? severityOf(run.result) : null;
+  const lastSeverity = result ? severityOf(result) : null;
 
   let status: TriageStatus;
   let priority: number;
   let priorityReason: string;
-  if (replied && current && run.status === "done" && run.result) {
-    const a = run.result.assessment;
-    status = statusFromSeverity(a.severity);
-    priority = a.severity * 0.86 + vulnerabilityBonus(p);
-    priorityReason = a.severity_reason || a.summary;
-  } else if (replied && (!agentOnline || (current && run.status === "error"))) {
+  if (replied && severity !== null) {
+    status = statusFromSeverity(severity);
+    priority = severity * 0.86 + vulnerabilityBonus(p);
+    priorityReason = reasonOf(run!.result!);
+  } else if (replied && (!agentOnline || (current && (run.status === "error" || run.status === "done")))) {
+    // Offline, a failed request, or a 200 with agent_unavailable: a person has to read it.
     status = "unassessed";
     priority = 55 + vulnerabilityBonus(p);
-    priorityReason = !agentOnline ? "Replied. Agent offline, needs a person to read it." : `Agent error: ${run?.error ?? "unknown"}`;
+    priorityReason = !agentOnline
+      ? "Replied. Agent offline, needs a person to read it."
+      : run!.status === "error"
+        ? `Agent error: ${run!.error ?? "unknown"}`
+        : reasonOf(run!.result!);
   } else if (replied) {
     status = "analyzing";
-    priority = (result ? result.assessment.severity * 0.86 : 55) + vulnerabilityBonus(p);
+    priority = (lastSeverity ?? 55) * (lastSeverity === null ? 1 : 0.86) + vulnerabilityBonus(p);
     priorityReason = result ? "New message, re-assessing" : "Nemotron is reading their message";
   } else if (since >= SILENT_AFTER) {
     status = "silent";
@@ -156,7 +200,7 @@ export interface AgentAccuracy {
 
 /** Score the agent against the simulator's hidden truth. Live-typed conversations aren't scored. */
 export function scoreAgent(entries: TriageEntry[]): AgentAccuracy {
-  const scored = entries.filter((e) => !e.hasLiveMessages && e.run?.status === "done" && e.run.key === e.conversationKey && e.run.result);
+  const scored = entries.filter((e) => !e.hasLiveMessages && e.run?.status === "done" && e.run.key === e.conversationKey && !!e.run.result && severityOf(e.run.result) !== null);
   let within = 0;
   let err = 0;
   let route = 0;
@@ -164,13 +208,13 @@ export function scoreAgent(entries: TriageEntry[]): AgentAccuracy {
   let criticalMissed = 0;
   for (const e of scored) {
     const r = e.run!.result!;
-    const diff = Math.abs(r.assessment.severity - e.truth.severity);
+    const diff = Math.abs(severityOf(r)! - e.truth.severity);
     err += diff;
     if (diff <= 10) within++;
-    if (r.decision.route === e.truth.expectedRoute) route++;
+    if (routeOf(r) === e.truth.expectedRoute) route++;
     if (e.truth.severity >= 90) {
       criticalTotal++;
-      if (r.decision.route !== "human_review") criticalMissed++;
+      if (routeOf(r) !== "human_review") criticalMissed++;
     }
   }
   return { scored: scored.length, severityWithin10: within, severityMae: scored.length ? err / scored.length : 0, routeCorrect: route, criticalTotal, criticalMissed };
