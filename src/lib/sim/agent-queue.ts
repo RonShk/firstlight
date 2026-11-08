@@ -33,6 +33,40 @@ export class AgentQueue {
     return this.runs.get(personaId) ?? [];
   }
 
+  /** Restore persisted work after a refresh without creating another model run. */
+  restore(personaId: string, conversation: Turn[], result: RunSummary, replace = false) {
+    if (!replace && this.runs.has(personaId)) return;
+    const terminal = ["completed", "failed", "superseded"].includes(result.status);
+    const settled = !result.reply || SETTLED_REPLY.has(result.reply.status);
+    this.runs.set(personaId, [{ key: conversation.map((t) => `${t.from[0]}:${t.text}`).join("␞"),
+      conversation, caseId: result.caseId, runId: result.id, result,
+      status: terminal && settled ? result.status === "completed" ? "done" : "error" : "running",
+      finishedAt: terminal && settled ? this.now() : undefined }]);
+    this.changed();
+    if (!terminal || !settled) this.schedule();
+  }
+
+  /** Queue incoming cases together; selecting a card is never required to start processing. */
+  async ensureBatch(inputs: { personaId: string; conversation: Turn[] }[]) {
+    const fresh = inputs.filter((i) => !this.runs.has(i.personaId));
+    if (!fresh.length) return;
+    const epoch = this.epoch;
+    for (const i of fresh) this.runs.set(i.personaId, [{ conversation: i.conversation,
+      key: i.conversation.map((t) => `${t.from[0]}:${t.text}`).join("␞"), status: "queued" }]);
+    this.changed();
+    try {
+      const response = await fetch("/api/messages/batch", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ messages: fresh }) });
+      const data = await response.json();
+      if (epoch !== this.epoch) return;
+      if (!response.ok) throw new Error(data.error ?? "Could not queue incoming cases");
+      const byId = new Map(fresh.map((i) => [i.personaId, i.conversation]));
+      for (const { personaId, run } of data.runs as { personaId: string; run: RunSummary }[]) this.restore(personaId, byId.get(personaId) ?? [], run, true);
+    } catch (e) {
+      if (epoch !== this.epoch) return;
+      for (const i of fresh) this.update(i.personaId, this.runs.get(i.personaId)!.at(-1)!.key, { status: "error", error: (e as Error).message });
+    }
+  }
+
   /** Submit this conversation unless it was already sent. */
   ensure(personaId: string, key: string, conversation: Turn[]) {
     const list = this.runs.get(personaId) ?? [];
@@ -64,6 +98,8 @@ export class AgentQueue {
   }
 
   reset() {
+    if (this.timer) clearTimeout(this.timer);
+    this.timer = null;
     this.epoch++;
     this.runs.clear();
     this.changed();
@@ -111,11 +147,18 @@ export class AgentQueue {
       list.filter((r) => r.status === "running" && r.runId).map((r) => ({ personaId, run: r })));
     if (!active.length) return;
     try {
-      const res = await fetch(`/api/runs?ids=${active.map((a) => a.run.runId).join(",")}`);
-      const { runs } = (await res.json()) as { runs: RunSummary[] };
+      // Each request is below the API's 200-id cap. Every queued case remains observable.
+      const batches = Array.from({ length: Math.ceil(active.length / 100) }, (_, i) => active.slice(i * 100, (i + 1) * 100));
+      const results = await Promise.all(batches.map(async (batch) => {
+        const res = await fetch(`/api/runs?ids=${batch.map((a) => a.run.runId).join(",")}`);
+        if (!res.ok) throw new Error("Could not load run status");
+        return await res.json() as { runs: RunSummary[] };
+      }));
+      const runs = results.flatMap((r) => r.runs);
       if (epoch !== this.epoch) return;
       const byId = new Map(runs.map((r) => [r.id, r]));
       for (const { personaId, run } of active) {
+        if (this.runs.get(personaId)?.at(-1)?.runId !== run.runId) continue;
         const s = byId.get(run.runId!);
         if (!s) continue;
         const replySettled = !!s.reply && SETTLED_REPLY.has(s.reply.status);

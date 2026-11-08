@@ -30,3 +30,10 @@ export function receive(db: Sqlite, input: {
     return { case: record, appended, run, deduplicated };
   });
 }
+
+/** Persist the whole incoming simulation batch before any worker can begin processing it. */
+export function receiveSimulationBatch(db: Sqlite, inputs: { personaId: string; conversation: { from: "policyholder" | "state_farm"; text: string }[] }[]) {
+  return db.tx(() => inputs.map((input) => ({ personaId: input.personaId,
+    result: receive(db, { channel: "simulation", address: `sim:${input.personaId}`, customerId: input.personaId,
+      turns: input.conversation.map((t) => ({ role: t.from === "policyholder" ? "customer" : "company", text: t.text })) }) })));
+}

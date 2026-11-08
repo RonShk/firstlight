@@ -1,6 +1,6 @@
 // Validates a proposed decision against what actually happened in this run. Issues go back to the
 // model to fix; if it cannot, `sanitize` produces a safe decision that routes to a human.
-import { documentUrl, quoteAppears, type Citation as ResolvedCitation } from "../knowledge/citations";
+import { documentUrl, quoteAppears, normalizeText, type Citation as ResolvedCitation } from "../knowledge/citations";
 import type { PolicyholderFile } from "../customers/directory";
 import type { Evidence } from "../tools/types";
 import type { Decision, Finding } from "./schemas";
@@ -32,6 +32,7 @@ export interface Validation {
 export interface RunActions {
   /** Tools that succeeded in this run (e.g. request_human_review, prepare_claim). */
   completedTools: Set<string>;
+  reportedText?: string;
 }
 
 const ordOf = (chunkId: string) => Number(chunkId.slice(chunkId.lastIndexOf("#") + 1));
@@ -56,12 +57,26 @@ export function locateQuote(evidence: Map<string, Evidence>, chunkId: string, qu
 }
 
 /** Checks one finding; used when the agent records it and again on the final decision. */
-export function checkFinding(f: Finding, label: string, evidence: Map<string, Evidence>, customer: PolicyholderFile | null):
+export function checkFinding(f: Finding, label: string, evidence: Map<string, Evidence>, customer: PolicyholderFile | null, reportedText?: string):
   { issues: string[]; citations: Omit<Validation["citations"][number], "finding">[]; finding: Finding } {
   const issues: string[] = [];
   const citations: Omit<Validation["citations"][number], "finding">[] = [];
   const policyIds = new Set(customer?.policies.map((p) => p.policy_id) ?? []);
-  const decisive = f.status === "likely_covered" || f.status === "likely_excluded";
+  const definitive = f.status === "covered" || f.status === "not_covered";
+  const decisive = definitive || f.status === "likely_covered" || f.status === "likely_excluded";
+  const policy = customer?.policies.find((p) => p.policy_id === f.policy_id);
+  if (definitive) {
+    if (!policy) issues.push(`${label}: a definitive assessment requires an identified policy held by this customer.`);
+    if (f.citations.length < 2) issues.push(`${label}: Supply BOTH chunk_id/quote (coverage grant) AND chunk_id_2/quote_2 (the exclusion/condition checked) in the same record_finding call.`);
+    if (f.citations.length >= 2 && normalizeText(f.citations[0].quote) === normalizeText(f.citations[1].quote)) issues.push(`${label}: repeating the same quote does not establish the exclusion/condition check.`);
+    for (const citation of f.citations) {
+      const complete = citation.quote.trim().replace(/["'”’]+$/, "").trim();
+      if (citation.quote !== evidence.get(citation.chunk_id)?.text && (/\.{3}|…/.test(complete) || !/[.;!?]$/.test(complete))) issues.push(`${label}: definitive proof must quote complete sentences or clauses, including their conditions; do not use clipped text or ellipses.`);
+    }
+    if (!f.conditions_explanation) issues.push(`${label}: explain how the quoted exclusion/condition applies to the reported facts.`);
+    const fact = normalizeText(f.reported_fact ?? "");
+    if (fact.length < 6 || !normalizeText(reportedText ?? "").includes(fact)) issues.push(`${label}: include an exact supporting excerpt from the customer's message; profile data and outreach are not proof of a loss.`);
+  }
   if (f.policy_id && !policyIds.has(f.policy_id)) issues.push(`${label} names policy ${f.policy_id}, which is not one of this customer's policies (${[...policyIds].join(", ") || "none"}).`);
   if (f.status === "no_policy" && f.policy_id) issues.push(`${label} is no_policy, so policy_id must be null.`);
   if (decisive && !customer) issues.push(`${label} draws a coverage conclusion without a verified policyholder; mark it unclear.`);
@@ -72,11 +87,20 @@ export function checkFinding(f: Finding, label: string, evidence: Map<string, Ev
     const ev = locateQuote(evidence, c.chunk_id, c.quote);
     if (!ev) {
       issues.push(evidence.has(c.chunk_id) || [...evidence.keys()].some((k) => k.startsWith(c.chunk_id.slice(0, c.chunk_id.lastIndexOf("#") + 1)))
-        ? `${label}: those exact words are not in ${c.chunk_id} or its neighbours. Copy a sentence exactly as written (you may use "..." to skip words).`
+        ? `${label}: those exact words are not in ${c.chunk_id} or its neighbours. Copy a complete sentence exactly as written.`
         : `${label} cites ${c.chunk_id}, which was not retrieved in this run.`);
       continue;
     }
     if (f.policy_id && ev.policy_id && ev.policy_id !== f.policy_id) issues.push(`${label} cites a passage from policy ${ev.policy_id}, not ${f.policy_id}.`);
+    if (definitive && (!OFFICIAL.test(ev.source_type) || !policy || ev.doc_id !== policy.doc_id)) issues.push(`${label}: both proof passages must be from this customer's actual policy form, not another form, overview or court opinion.`);
+    if (definitive && c === f.citations[0] && policy?.home) {
+      const part = /dwelling|coverage a|structure/i.test(f.coverage) ? /dwelling|coverage a/i
+        : /loss of use|coverage c|living expense/i.test(f.coverage) ? /loss of use|coverage c|living expense/i
+        : /personal property|coverage b/i.test(f.coverage) ? /personal property|coverage b/i : null;
+      if (part && (!part.test(ev.section) || /optional policy|liability/i.test(ev.section))) {
+        issues.push(`${label}: the first reference must be the coverage grant for ${f.coverage}, not ${ev.section}. Select the correct coverage part before making a definitive finding.`);
+      }
+    }
     official ||= OFFICIAL.test(ev.source_type);
     fixed.push({ chunk_id: ev.chunk_id, quote: c.quote });
     citations.push({ chunk_id: ev.chunk_id, doc_id: ev.doc_id, form_number: ev.form_number, section: ev.section, page: ev.page,
@@ -92,14 +116,18 @@ export function validateDecision(d: Decision, evidence: Map<string, Evidence>, c
   const issues: string[] = [];
   const citations: Validation["citations"] = [];
   d.findings.forEach((f, i) => {
-    const r = checkFinding(f, `Finding ${i + 1} ("${f.item}")`, evidence, customer);
+    const r = checkFinding(f, `Finding ${i + 1} ("${f.item}")`, evidence, customer, actions?.reportedText);
     issues.push(...r.issues);
     citations.push(...r.citations.map((c) => ({ ...c, finding: i })));
   });
 
   if (d.immediate_danger && !/\b911\b/.test(d.reply)) issues.push("immediate_danger is true but the reply does not tell them to call 911.");
   if (d.immediate_danger && d.next_action !== "human_review") issues.push("immediate_danger requires next_action human_review.");
+  const hasDefinitiveFindings = d.findings.length > 0 && d.findings.every((f) => f.status === "covered" || f.status === "not_covered");
   for (const [pattern, what] of OVERPROMISE) {
+    // A proven determination may be stated directly; it still requires verifier approval before delivery.
+    // Payment, filing and dispatch promises remain prohibited regardless of coverage findings.
+    if (hasDefinitiveFindings && what.startsWith("states coverage as certain")) continue;
     const hit = pattern.exec(d.reply);
     if (hit) issues.push(`The reply ${what}: "${sentenceAround(d.reply, hit.index)}". Nothing in this run made that true; rewrite that sentence conditionally.`);
   }
@@ -124,7 +152,7 @@ export const FALLBACK_REPLY = "Thank you for letting us know. We have your messa
 export function sanitize(d: Decision, evidence: Map<string, Evidence>, customer: PolicyholderFile | null, reason: string): Decision {
   const findings: Finding[] = d.findings.map((f) => {
     const valid = f.citations.filter((c) => locateQuote(evidence, c.chunk_id, c.quote));
-    const keep = valid.length === f.citations.length && (f.status === "unclear" || f.status === "no_policy" || valid.length > 0) && !!customer;
+    const keep = f.status !== "covered" && f.status !== "not_covered" && valid.length === f.citations.length && (f.status === "unclear" || f.status === "no_policy" || valid.length > 0) && !!customer;
     return keep ? f : { ...f, status: "unclear", citations: valid, explanation: `${f.explanation} (Not verified against the policy text; needs review.)`.slice(0, 700) };
   });
   // Once validation is exhausted, the proposed reply is untrusted too. A wording

@@ -31,6 +31,7 @@ export interface RunSummary {
   failure: FailureExplanation | null;
   /** A bounded investigation ended and a human review task was actually queued. */
   humanInterventionNeeded: boolean;
+  humanReview?: { priority: string; reason: string; status: string } | null;
 }
 
 export interface RunView extends RunSummary {
@@ -47,6 +48,8 @@ export function runSummary(db: Sqlite, run: RunRecord, stats: QueueStats = queue
     reply: out ? { id: out.id, status: out.status, kind: out.kind, body: out.body, sentAt: out.sentAt, lastError: out.lastError } : null,
     activity: last?.title ?? null,
     progress: runProgress(db, run, stats, out?.status ?? null),
+    humanReview: db.get<{ priority: string; reason: string; status: string }>(
+      "SELECT priority, reason, status FROM review_requests WHERE run_id=? ORDER BY created_at DESC LIMIT 1", run.id) ?? null,
     failure: run.status === "failed" ? explainFailure(run.error) : null,
     humanInterventionNeeded: run.status === "failed" && isInvestigationLimit(run.error) &&
       !!db.get("SELECT id FROM review_requests WHERE run_id=? AND status='queued' LIMIT 1", run.id),

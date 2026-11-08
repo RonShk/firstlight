@@ -35,7 +35,7 @@ const MAX_ATTEMPTS = 3;
 
 /** What "delivered" means per channel. Simulation and web replies never leave this app. */
 const DELIVERED_TO: Record<Channel, string> = {
-  simulation: "shown on the simulated phone (demo only; no real SMS sent)",
+  simulation: "added to the conversation",
   web: "shown in the web chat (no SMS sent)",
   sms: "sent by SMS",
 };

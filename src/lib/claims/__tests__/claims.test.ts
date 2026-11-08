@@ -6,7 +6,7 @@ import { describe, it } from "node:test";
 import type { Persona, Policy } from "../../../types/sim";
 import type { Decision, RunSummary } from "../../../types/agent";
 import { getPersonas } from "../../sim/personas";
-import type { AgentRun } from "../../sim/triage";
+import { triageAt, type AgentRun } from "../../sim/triage";
 import { buildClaims } from "../generate";
 import { DOCUMENT_FORMS, coverageLayers, selectDocuments } from "../policy-documents";
 import { quickRead } from "../quick-read";
@@ -229,9 +229,74 @@ describe("Nemotron review", () => {
     run.result!.humanInterventionNeeded = false;
     assert.equal(reviewClaim(claim, run, true).state, "unavailable");
   });
+  it("does not show a future agent reply while replaying the simulation", () => {
+    const run = done();
+    run.finishedAt = 200;
+    const truth = { personaId: claim.id, intensity: 0.5, impactAt: 0, damage: "minor" as const,
+      injured: false, medicalUrgent: false, displaced: false, vehicleDamaged: false,
+      uninsuredLoss: false, severity: 30, expectedRoute: "human_review" as const,
+      replyTimes: [2], messages: ["Window damage"] };
+    assert.ok(!triageAt(claim.persona, truth, 100, [], [run], true).thread.some((m) => m.from === "agent"));
+    assert.ok(triageAt(claim.persona, truth, 200, [], [run], true).thread.some((m) => m.from === "agent"));
+  });
+
+  it("shows a specific reason and safety checks for an urgent handoff", async () => {
+    const { reviewHandoff } = await import("../presentation");
+    const run = done({ immediate_danger: true, next_action: "human_review",
+      severity_reason: "Gloria's oxygen has no power and the tank may last only a few hours.",
+      reported_facts: ["Home destroyed", "Gloria needs powered oxygen"],
+      unknowns: ["Whether backup power is available", "Where the household can stay tonight", "Repair costs"] });
+    const handoff = reviewHandoff(run.result, "Frank Price")!;
+    assert.match(handoff.reason, /oxygen has no power/);
+    assert.match(handoff.steps[0], /Call Frank now/);
+    assert.match(handoff.steps[1], /oxygen equipment has power/);
+    assert.match(handoff.steps[2], /stay safely tonight/);
+    assert.equal(handoff.steps.length, 3);
+  });
+
+  it("keeps the recorded reason for a queued review even when the model chose reply", async () => {
+    const { reviewHandoff } = await import("../presentation");
+    const run = done({ next_action: "reply", unknowns: ["Repair estimate for the rear bumper"] }, {
+      humanReview: { priority: "normal", status: "queued", reason: "Customer needs help getting a repair estimate after being rear-ended." },
+    });
+    const handoff = reviewHandoff(run.result, "Dana Reyes")!;
+    assert.match(handoff.reason, /repair estimate/);
+    assert.match(handoff.steps[0], /rear bumper/);
+    assert.doesNotMatch(handoff.steps.join(" "), /immediate safety|urgently/);
+    assert.equal(reviewHandoff(done().result, "Dana Reyes"), null);
+  });
+
+  it("gives a manual review task after an automation failure without inventing loss facts", async () => {
+    const { reviewHandoff } = await import("../presentation");
+    const run = done({}, { status: "failed", decision: null });
+    const handoff = reviewHandoff(run.result, "Dana Reyes")!;
+    assert.match(handoff.reason, /could not complete a reliable assessment/);
+    assert.ok(handoff.steps.some((s) => /messages and policy/.test(s)));
+    assert.doesNotMatch(JSON.stringify(handoff), /oxygen|injury|shelter/);
+  });
+
   it("does not display an undelivered reply", () => {
     const run = done();
     run.result!.reply!.status = "held";
     assert.equal(reviewClaim(claim, run, true).reply, null);
+  });
+});
+
+describe("inbox run labels", () => {
+  it("distinguishes unstarted, queued, running, done, and failed work", async () => {
+    const { agentStatus } = await import("../agent-status");
+    assert.equal(agentStatus().label, "Not started");
+    for (const [status, label] of [["queued", "Queued"], ["running", "Running"], ["done", "Done"], ["error", "Failed"]] as const) {
+      assert.equal(agentStatus({ status, key: "k", conversation: [] }).label, label);
+    }
+  });
+});
+
+describe("plain language presentation", () => {
+  it("keeps conditions and amounts while replacing policy jargon", async () => {
+    const { plainCaseText, findingTitle, activityTitle } = await import("../presentation");
+    assert.equal(plainCaseText("Loss of Use may pay up to $2,000 if the residence premises is uninhabitable."), "temporary living expenses may pay up to $2,000 if the home is unsafe to live in.");
+    assert.equal(findingTitle("Home destruction (Coverage A Dwelling)"), "Home destruction");
+    assert.equal(activityTitle("Reply shown on the simulated phone (demo only; no real SMS sent)"), "Reply added to the conversation");
   });
 });

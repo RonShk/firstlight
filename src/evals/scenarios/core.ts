@@ -17,13 +17,43 @@ const OUTREACH = "State Farm: a tornado was reported near your home. Are you and
 
 export const CORE_SCENARIOS: Scenario[] = [
   {
+    id: "coverage-confirmed-auto", title: "Falling branch on insured parked car: comprehensive coverage with proof",
+    persona: (p) => p.policies.some((x) => x.line === "auto" && x.formId === "SF-AUTO-MT"),
+    messages: [OUTREACH, "Everyone is safe. Yesterday a tree branch fell onto the insured car listed on my auto policy while it was parked in our driveway. It dented the hood. There was no collision, wear, mechanical problem, or other damage. My comprehensive coverage is active. Is the branch damage covered?"],
+    expect: { immediate_danger: false, findings: [{ coverage: /comprehensive|physical damage|coverage d/i, status: ["covered"] }] },
+  },
+  {
+    id: "coverage-confirmed-hail", title: "Direct hail damage: definitive covered finding with proof",
+    persona: (p) => p.policies.some((x) => x.line === "home" && x.formId === "SF-HOME-OK"),
+    messages: [OUTREACH, "Everyone is safe. Hail yesterday tore shingles off our roof and dented the attached gutters. The roof was intact before the storm, with no wear or deterioration. The house is still livable. Is this hail damage covered?"],
+    expect: { immediate_danger: false, findings: [{ coverage: /dwelling|coverage a/i, status: ["covered"] }] },
+  },
+  {
+    id: "coverage-confirmed-fire", title: "Accidental kitchen fire: definitive covered finding with proof",
+    persona: (p) => p.policies.some((x) => x.line === "home" && x.formId === "SF-HOME-OK"),
+    messages: [OUTREACH, "An accidental grease fire on my stove burned the permanently attached kitchen cabinets yesterday. The fire department put it out. Everyone is safe, no injuries. We can still live in the house. Does my home policy cover the burned cabinets?"],
+    expect: { immediate_danger: false, findings: [{ coverage: /dwelling|coverage a/i, status: ["covered"] }] },
+  },
+  {
+    id: "coverage-excluded-wear", title: "Gradual roof deterioration: definitive exclusion with proof",
+    persona: (p) => p.policies.some((x) => x.line === "home" && x.formId === "SF-HOME-OK"),
+    messages: [OUTREACH, "Everyone is safe. Our roof shingles have worn out gradually over twenty years and are crumbling from age. There was no storm damage, accident, sudden event, or resulting damage. I only want insurance to replace the worn-out shingles. Is gradual wear covered?"],
+    expect: { immediate_danger: false, findings: [{ item: /roof|shingle|wear/i, status: ["not_covered"] }] },
+  },
+  {
+    id: "coverage-unknown-cause", title: "Unknown roof damage cause: keep finding unresolved and ask",
+    persona: (p) => p.policies.some((x) => x.line === "home" && x.formId === "SF-HOME-OK"),
+    messages: [OUTREACH, "Everyone is safe. I found damage to my roof but I do not know when it happened or what caused it. There was no storm here that I know of. I have no photos or inspection yet. Is it covered?"],
+    expect: { immediate_danger: false, findings: [{ item: /roof|damage/i, status: ["unclear"] }], next_action: ["ask_customer", "human_review"] },
+  },
+  {
     id: "roof-and-windshield",
     title: "Roof torn off plus smashed windshield: grounded dwelling and auto findings",
     persona: (p) => p.housing === "own" && hasLine(p, "home") && hasLine(p, "auto"),
     messages: [OUTREACH, "Tornado tore part of our roof off and rain is coming into the kids bedroom. Car windshield got smashed by debris too. Is this covered?"],
     expect: {
       severity: [40, 80], immediate_danger: false, tools_called: ["get_policies", "search_policy"],
-      findings: [{ coverage: /dwelling|coverage a/i, status: ["likely_covered", "unclear"] }],
+      findings: [{ coverage: /dwelling|coverage a/i, status: ["covered", "likely_covered", "unclear"] }],
       reply_excludes: [/\bclaim (number|#)/i],
     },
   },
@@ -69,7 +99,7 @@ export const CORE_SCENARIOS: Scenario[] = [
     messages: [OUTREACH, "the house is unlivable, half the walls are down. all 4 of us are ok but we have nowhere to sleep tonight. will insurance pay for a hotel?"],
     expect: {
       severity: [65, 89], immediate_danger: false, tools_called: ["search_policy"],
-      findings: [{ coverage: /loss of use|coverage c|living expense/i, status: ["likely_covered", "unclear"] }],
+      findings: [{ coverage: /loss of use|coverage c|living expense/i, status: ["covered", "likely_covered", "unclear"] }],
     },
   },
   {

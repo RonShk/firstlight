@@ -73,7 +73,7 @@ export class AgentGaveUpError extends Error {
 
 const FINISH = functionSpec("finish_review",
   "Submit your decision: severity, danger, summary, next action and the customer reply. Coverage findings are the ones you recorded with record_finding. Returns accepted, or issues to fix.",
-  FinishInput);
+  Decision.omit({ findings: true }));
 
 export async function executeRun(run: RunRecord, owner: string, deps: AgentDeps, signal: AbortSignal): Promise<RunResult> {
   const { db, limits } = deps;
@@ -276,7 +276,7 @@ async function reviewFinish(call: ToolCall, env: ReviewEnv): Promise<{ feedback:
     if (canRevise) {
       u.revisions++;
       cp.forceFinish = true;
-      return { feedback: { accepted: false, issues, note: "Call finish_review again with every field as real JSON (arrays as arrays, not strings)." }, result: null };
+      return { feedback: { accepted: false, issues, note: "Call finish_review again. OMIT findings entirely: recorded findings are merged automatically. Keep the summary, reasons and reply concise. Send reported_facts and unknowns as arrays, not JSON strings." }, result: null };
     }
     throw new AgentGaveUpError(`Decision never matched the schema: ${z.prettifyError(parsed.error).slice(0, 300)}`, u);
   }
@@ -291,7 +291,7 @@ async function reviewFinish(call: ToolCall, env: ReviewEnv): Promise<{ feedback:
       priority: decision.severity >= 70 ? "high" : "normal", reason: `Follow-up promised to the customer: ${decision.summary}`.slice(0, 400) }) }, ctx, { allowWrites: true });
     if (out.ok) completedTools.add("request_human_review");
   }
-  const validation = validateDecision(decision, ctx.evidence, customer, { completedTools });
+  const validation = validateDecision(decision, ctx.evidence, customer, { completedTools, reportedText: env.transcript.filter((m) => m.role === "customer").map((m) => m.text).join("\n") });
   event({ actor: "agent", type: "decision.proposed", title: `Decision proposed: ${decision.next_action.replace("_", " ")}, severity ${decision.severity}`,
     detail: { decision }, toolCallId: call.id });
   if (validation.issues.length) {
@@ -303,6 +303,7 @@ async function reviewFinish(call: ToolCall, env: ReviewEnv): Promise<{ feedback:
   }
 
   if (!deps.verifier) {
+    if (decision.findings.some((f) => f.status === "covered" || f.status === "not_covered")) decision = sanitize(decision, ctx.evidence, customer, "Definitive coverage assessment requires independent verification");
     event({ actor: "verifier", type: "verifier.skipped", title: "Verifier agent not configured", detail: {} });
     return accept(decision, false, env);
   }
@@ -313,7 +314,8 @@ async function reviewFinish(call: ToolCall, env: ReviewEnv): Promise<{ feedback:
     u.completionTokens += usage.completionTokens;
     event({ actor: "verifier", type: "verifier.reviewed", ms: Date.now() - started,
       title: verdict.verdict === "approve" ? "Verifier agent approved the decision" : `Verifier agent requested ${verdict.issues.length} revision(s)`, detail: verdict });
-    if (verdict.verdict === "revise" && verdict.issues.length) {
+    if (verdict.verdict !== "approve" || verdict.issues.length) {
+      if (!verdict.issues.length) verdict.issues.push("The verifier did not approve this assessment; review its coverage proof.");
       if (canRevise) { u.revisions++; return { feedback: { accepted: false, reviewer_issues: verdict.issues, severity_check: verdict.severity_check }, result: null }; }
       decision = sanitize(decision, ctx.evidence, customer, `Verifier concerns unresolved: ${verdict.issues.join(" | ")}`);
       event({ actor: "system", type: "decision.sanitized", title: "Unresolved verifier concerns routed to a human with a safe reply", detail: { decision } });
@@ -322,6 +324,7 @@ async function reviewFinish(call: ToolCall, env: ReviewEnv): Promise<{ feedback:
     return accept(decision, true, env);
   } catch (e) {
     if (env.signal.aborted) throw e;
+    if (decision.findings.some((f) => f.status === "covered" || f.status === "not_covered")) decision = sanitize(decision, ctx.evidence, customer, "Coverage verification unavailable");
     event({ actor: "verifier", type: "verifier.unavailable", title: "Verifier agent unavailable; decision recorded as unverified", detail: { error: (e as Error).message } });
     return accept(decision, false, env);
   }

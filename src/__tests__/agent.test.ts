@@ -490,7 +490,7 @@ describe("findings recorded one at a time", () => {
       (m) => ({ toolCalls: [call("record_finding", { purpose: "Roof", item: "Roof", coverage: "Coverage A Dwelling", policy_id: "HO-1", status: "likely_covered",
         explanation: "Insured.", chunk_id: firstHit(m).chunk_id, quote: "We will pay for any roof damage whatsoever, always" })] }),
       (m) => {
-        assert.match(String(m.at(-1)!.content), /Not recorded/);
+        assert.match(String(m.at(-1)!.content), /Saved this item as unclear/);
         // Single quotes where the PDF has none, and a quote that starts in the cited passage's text.
         return { toolCalls: [call("record_finding", { purpose: "Roof", item: "Roof", coverage: "Coverage A Dwelling", policy_id: "HO-1", status: "likely_covered",
           explanation: "Insured unless excluded.", chunk_id: firstHit(m).chunk_id, quote: "We will pay for 'accidental direct physical loss' to the property described in Coverage A" })] };
@@ -577,5 +577,213 @@ describe("model output recovery", () => {
     const events = caseEvents(db, intake.case.id);
     assert.ok(events.some((e) => e.type === "model.truncated"));
     assert.ok(!events.some((e) => e.type === "tool.completed"));
+  });
+});
+
+describe("workspace restoration", () => {
+  it("restores completed work without submitting the conversation again", async () => {
+    const { AgentQueue } = await import("@/lib/sim/agent-queue");
+    const { runSummary } = await import("@/cases/views");
+    const { db, intake } = await setup({ model: scripted([]) });
+    db.run("UPDATE runs SET status='completed' WHERE id=?", intake.run!.id);
+    const summary = runSummary(db, getRun(db, intake.run!.id)!);
+    const queue = new AgentQueue();
+    const turns = [{ from: "policyholder" as const, text: "Roof damaged" }];
+    queue.restore("PH-TEST", turns, summary);
+    const restored = queue.runsFor("PH-TEST")[0];
+    assert.equal(restored.status, "done");
+    assert.equal(restored.caseId, intake.case.id);
+    queue.ensure("PH-TEST", restored.key, turns);
+    assert.equal(queue.runsFor("PH-TEST").length, 1);
+    queue.restore("PH-TEST", [], { ...summary, id: "other" });
+    assert.equal(queue.runsFor("PH-TEST")[0].runId, summary.id);
+    queue.reset();
+  });
+  it("tracks a new run after a simulated customer message and clears its poll timer on reset", async () => {
+    const { AgentQueue } = await import("@/lib/sim/agent-queue");
+    const { runSummary } = await import("@/cases/views");
+    const { db, intake } = await setup({ model: scripted([]) });
+    const queue = new AgentQueue();
+    const summary = runSummary(db, intake.run!);
+    queue.restore("PH-TEST", [], summary);
+    assert.equal(queue.runsFor("PH-TEST")[0].status, "running");
+    queue.restore("PH-TEST", [{ from: "policyholder", text: "New information" }], { ...summary, id: "new-run" }, true);
+    assert.equal(queue.runsFor("PH-TEST")[0].runId, "new-run");
+    queue.reset();
+    assert.deepEqual(queue.runsFor("PH-TEST"), []);
+  });
+});
+
+describe("compact final decision contract", () => {
+  it("does not advertise nested findings and safely bounds internal explanations", async () => {
+    const longReason = "Customer reported an auto collision with another passenger hurt. ".repeat(8);
+    let offeredFindings = false;
+    const model: AgentModel = { name: "contract", async turn(_messages, tools) {
+      const finish = tools.find((t) => t.type === "function" && t.function.name === "finish_review");
+      if (finish?.type === "function") offeredFindings = Object.hasOwn((finish.function.parameters?.properties ?? {}) as object, "findings");
+      return { content: null, finishReason: "tool_calls", usage: { promptTokens: 10, completionTokens: 10 },
+        toolCalls: [call("finish_review", { ...decision(), severity_reason: longReason, decision_reason: longReason, summary: longReason.repeat(2) })] };
+    } };
+    const { db, deps, intake } = await setup({ model });
+    const result = await executeRun(claimRun(db, "w1")!, "w1", deps, new AbortController().signal);
+    assert.equal(offeredFindings, false);
+    assert.equal(result.decision.severity_reason, longReason.trim().slice(0, 300));
+    assert.equal(result.decision.decision_reason, longReason.trim().slice(0, 500));
+    assert.equal(result.decision.summary.length, 600);
+    assert.equal(result.decision.reply, decision().reply);
+    assert.ok(!caseEvents(db, intake.case.id).some((e) => e.type === "decision.rejected"));
+  });
+});
+
+describe("verifier prose recovery", () => {
+  it("preserves a revision verdict even when the explanation exceeds the display bound", async () => {
+    const { verifyDecision } = await import("@/agent/verifier");
+    const issue = "The proposed finding confuses collision and comprehensive coverage. ".repeat(10);
+    const model = scripted([() => ({ toolCalls: [call("submit_verdict", { verdict: "revise", severity_check: "reasonable", issues: [issue] })] })]);
+    const result = await verifyDecision(model, { decision: decision(), transcript: [], customer: CUSTOMER, evidence: new Map(), signal: new AbortController().signal });
+    assert.equal(result.verdict.verdict, "revise");
+    assert.equal(result.verdict.issues[0], issue.trim().slice(0, 400));
+  });
+});
+
+describe("incoming case batches", () => {
+  it("persists and queues the whole batch before any case is selected, and deduplicates refreshes", async () => {
+    const { receiveSimulationBatch } = await import("@/cases/intake");
+    const db = openOps(":memory:");
+    const inputs = Array.from({ length: 350 }, (_, i) => ({ personaId: `PH-BATCH-${i}`, conversation: [{ from: "policyholder" as const, text: "A storm damaged my window" }] }));
+    const first = receiveSimulationBatch(db, inputs);
+    assert.equal(first.length, 350);
+    assert.equal(db.get<{ n: number }>("SELECT COUNT(*) AS n FROM runs WHERE status='queued'")!.n, 350);
+    assert.equal(receiveSimulationBatch(db, inputs).filter((r) => r.result.deduplicated).length, 350);
+    assert.equal(db.get<{ n: number }>("SELECT COUNT(*) AS n FROM runs")!.n, 350);
+    assert.equal(db.get<{ n: number }>("SELECT COUNT(*) AS n FROM case_messages")!.n, 350);
+    db.close();
+  });
+});
+
+describe("large queue observation", () => {
+  it("polls every run beyond the API's per-request limit", async (t) => {
+    const { AgentQueue } = await import("@/lib/sim/agent-queue");
+    const { runSummary } = await import("@/cases/views");
+    const { db, intake } = await setup({ model: scripted([]) });
+    const summary = runSummary(db, intake.run!);
+    t.mock.timers.enable({ apis: ["setTimeout"] });
+    const queried: number[] = [];
+    t.mock.method(globalThis, "fetch", async (url: string) => {
+      const ids = new URL(url, "http://localhost").searchParams.get("ids")!.split(",");
+      queried.push(ids.length);
+      return Response.json({ runs: ids.map((id) => ({ ...summary, id, status: "failed" })) });
+    });
+    const queue = new AgentQueue();
+    for (let i = 0; i < 350; i++) queue.restore(`person-${i}`, [], { ...summary, id: `run-${i}` });
+    t.mock.timers.tick(1500);
+    await new Promise<void>((resolve) => setImmediate(resolve));
+    assert.equal(queried.reduce((n, count) => n + count, 0), 350);
+    assert.ok(queried.every((n) => n <= 200));
+    assert.equal(queue.runsFor("person-349")[0].status, "error");
+    queue.reset();
+  });
+});
+
+describe("evidence-backed coverage determinations", () => {
+  const grant = PAGES[0].split("\n")[2];
+  const exclusion = PAGES[2].split("\n")[1];
+  const fact = "Tornado tore shingles off the roof";
+  const proof = (m: Message[]) => {
+    const hits = m.filter((x) => x.role === "tool").flatMap((x) => { try { return JSON.parse(String(x.content)).results ?? []; } catch { return []; } });
+    const a = hits.find((h: { text: string }) => h.text.includes(grant));
+    const b = hits.find((h: { text: string }) => h.text.includes(exclusion));
+    assert.ok(a && b);
+    return { item: "Roof", coverage: "Coverage A Dwelling", policy_id: "HO-1", status: "covered",
+      explanation: "The policy insures wind damage to the roof. Wear and tear does not describe the reported tornado loss.",
+      reported_fact: fact, conditions_explanation: "The reported cause is tornado wind, not the wear and tear excluded in the second clause.",
+      chunk_id: a.chunk_id, quote: grant, chunk_id_2: b.chunk_id, quote_2: exclusion };
+  };
+  const writer = () => scripted([
+    () => ({ toolCalls: [call("search_policy", { purpose: "Read coverage grant", query: "dwelling windstorm roof" })] }),
+    () => ({ toolCalls: [call("search_policy", { purpose: "Check relevant exclusions", query: "wear tear losses not insured" })] }),
+    (m) => ({ toolCalls: [call("record_finding", { purpose: "Record the proven roof determination by reference", ...proof(m), quote: undefined, quote_2: undefined })] }),
+    () => ({ toolCalls: [call("finish_review", decision())] }),
+  ]);
+
+  it("records Covered only with policy proof, customer facts, and independent approval", async () => {
+    const { db, deps } = await setup({ model: writer(), verifier: approve() });
+    const result = await executeRun(claimRun(db, "w1")!, "w1", deps, new AbortController().signal);
+    assert.equal(result.decision.findings[0].status, "covered");
+    assert.equal(result.decision.findings[0].reported_fact, fact);
+    assert.equal(result.citations.length, 2);
+    assert.equal(result.verified, true);
+  });
+
+  it("retains the reported loss when a rejected coverage finding is omitted at finish", async () => {
+    const model = scripted([
+      () => ({ toolCalls: [call("search_policy", { purpose: "Check roof coverage", query: "dwelling windstorm roof" })] }),
+      (m) => ({ toolCalls: [call("record_finding", { purpose: "Assess reported roof damage", item: "Roof", coverage: "Dwelling", policy_id: "HO-1", status: "covered", explanation: "Wind damage is insured.", reported_fact: fact, chunk_id: firstHit(m).chunk_id, quote: grant })] }),
+      () => ({ toolCalls: [call("finish_review", decision())] }),
+    ]);
+    const { db, deps } = await setup({ model, verifier: approve() });
+    const result = await executeRun(claimRun(db, "w1")!, "w1", deps, new AbortController().signal);
+    assert.equal(result.decision.findings.length, 1);
+    assert.equal(result.decision.findings[0].item, "Roof");
+    assert.equal(result.decision.findings[0].status, "unclear");
+    assert.equal(result.citations.length, 1);
+  });
+
+  for (const mode of ["disabled", "unavailable", "rejects", "approve_with_issues", "revise_without_issues"] as const) {
+    it(`keeps coverage unresolved when the verifier ${mode}`, async () => {
+      const verifier: AgentModel | null = mode === "disabled" ? null : mode === "unavailable" ? { name: "down", async turn() { throw new Error("offline"); } } : scripted([() => ({ toolCalls: [call("submit_verdict", { verdict: mode === "approve_with_issues" ? "approve" : "revise", issues: mode === "revise_without_issues" ? [] : ["The proof does not establish the claimed coverage"], severity_check: "reasonable" })] })]);
+      const { db, deps } = await setup({ model: writer(), verifier });
+      deps.limits.maxRevisions = 0;
+      const result = await executeRun(claimRun(db, "w1")!, "w1", deps, new AbortController().signal);
+      assert.equal(result.decision.findings[0].status, "unclear");
+      assert.equal(result.decision.next_action, "human_review");
+      assert.equal(result.verified, false);
+    });
+  }
+
+  it("rejects missing conditions, invented loss facts, and proof from the wrong form", async () => {
+    const { checkFinding } = await import("@/agent/finalize");
+    const evidence = new Map([
+      ["SF-HOME-OK#0", { chunk_id: "SF-HOME-OK#0", doc_id: "SF-HOME-OK", policy_id: "HO-1", form_number: "HW-2136", source_type: "Oklahoma Insurance Dept", section: "Dwelling", page: 1, text: PAGES[0] }],
+      ["SF-HOME-OK#2", { chunk_id: "SF-HOME-OK#2", doc_id: "SF-HOME-OK", policy_id: "HO-1", form_number: "HW-2136", source_type: "Oklahoma Insurance Dept", section: "Exclusions", page: 3, text: PAGES[2] }],
+    ]);
+    const finding = { item: "Roof", coverage: "Dwelling", policy_id: "HO-1", status: "covered" as const, explanation: "Wind loss is insured.", reported_fact: fact,
+      conditions_explanation: "Wear and tear does not describe this tornado loss.", citations: [{ chunk_id: "SF-HOME-OK#0", quote: grant }, { chunk_id: "SF-HOME-OK#2", quote: exclusion }] };
+    assert.deepEqual(checkFinding(finding, "Roof", evidence, CUSTOMER, fact).issues, []);
+    const clipped = { ...finding, citations: [finding.citations[0], { ...finding.citations[1], quote: "We will not pay for any loss to the property described in Coverage A that consists of wear, tear" }] };
+    assert.match(checkFinding(clipped, "Roof", evidence, CUSTOMER, fact).issues.join(), /complete sentences or clauses/);
+    assert.match(checkFinding({ ...finding, citations: finding.citations.slice(0, 1) }, "Roof", evidence, CUSTOMER, fact).issues.join(), /exclusion\/condition/);
+    assert.match(checkFinding({ ...finding, reported_fact: "A fire destroyed the home" }, "Roof", evidence, CUSTOMER, fact).issues.join(), /customer's message/);
+    evidence.get("SF-HOME-OK#0")!.section = "OPTIONAL POLICY PROVISIONS > FIREARMS";
+    assert.match(checkFinding(finding, "Roof", evidence, CUSTOMER, fact).issues.join(), /correct coverage part/);
+    evidence.get("SF-HOME-OK#0")!.section = "Dwelling";
+    evidence.get("SF-HOME-OK#2")!.doc_id = "OTHER-FORM";
+    assert.match(checkFinding(finding, "Roof", evidence, CUSTOMER, fact).issues.join(), /actual policy form/);
+  });
+});
+
+describe("explicit exclusion proof", () => {
+  it("accepts Not covered when the customer's facts establish a cited exclusion", async () => {
+    const fact = "The shingles wore out gradually over many years";
+    const grant = PAGES[0].split("\n")[2];
+    const exclusion = PAGES[2].split("\n")[1];
+    const model = scripted([
+      () => ({ toolCalls: [call("search_policy", { purpose: "Read insuring agreement", query: "dwelling accidental direct physical loss" })] }),
+      () => ({ toolCalls: [call("search_policy", { purpose: "Read wear exclusion", query: "wear tear losses not insured" })] }),
+      (history) => {
+        const hits = history.filter((m) => m.role === "tool").flatMap((m) => JSON.parse(String(m.content)).results ?? []);
+        const a = hits.find((h: { text: string }) => h.text.includes(grant));
+        const b = hits.find((h: { text: string }) => h.text.includes(exclusion));
+        return { toolCalls: [call("record_finding", { purpose: "Apply the wear exclusion to the customer's reported cause", item: "Worn shingles", coverage: "Dwelling", policy_id: "HO-1", status: "not_covered",
+          explanation: "Wear and tear is excluded. The customer says the shingles wore out gradually, rather than being damaged by a new accident.", reported_fact: fact,
+          conditions_explanation: "The quoted wear and tear exclusion applies to the gradual deterioration the customer reported.", chunk_id: a.chunk_id, quote: grant, chunk_id_2: b.chunk_id, quote_2: exclusion })] };
+      },
+      () => ({ toolCalls: [call("finish_review", decision())] }),
+    ]);
+    const { db, deps, intake } = await setup({ model, verifier: approve() });
+    db.run("UPDATE case_messages SET text=? WHERE case_id=? AND role='customer'", fact, intake.case.id);
+    const result = await executeRun(claimRun(db, "w1")!, "w1", deps, new AbortController().signal);
+    assert.equal(result.decision.findings[0].status, "not_covered");
+    assert.equal(result.verified, true);
   });
 });
