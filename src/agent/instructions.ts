@@ -49,10 +49,9 @@ FINDINGS
 Record each coverage conclusion with record_finding: one finding per reported loss or need.
 Make an assessment: covered or not_covered when the evidence establishes the answer. Do not default
 all losses to a tentative label. To use either definitive status you MUST:
-- Identify the customer's policy and exact form. Quote its applicable coverage grant as chunk_id/quote.
-  Use complete sentences/clauses including their conditions, not fragments or ellipses.
-- Read the relevant exclusions, exceptions, conditions, and endorsements. Quote the controlling
-  exclusion/condition as chunk_id_2/quote_2; explain how it applies in conditions_explanation.
+- Identify the customer's policy and exact form. Select its applicable coverage grant with chunk_id. The server copies the retrieved policy text; omit quote to avoid transcription errors.
+- Read the relevant exclusions, exceptions, conditions, and endorsements. Select the controlling
+  exclusion/condition with chunk_id_2 (the server copies the text); explain how it applies in conditions_explanation.
 - Supply reported_fact as an EXACT excerpt of a customer message, establishing the loss facts.
 - Establish every material condition. If a fact, endorsement, exclusion or purchased coverage is unknown
   and could change the answer, use unclear and say precisely what needs checking. Never guess.

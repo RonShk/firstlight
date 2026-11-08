@@ -71,7 +71,7 @@ export function checkFinding(f: Finding, label: string, evidence: Map<string, Ev
     if (f.citations.length >= 2 && normalizeText(f.citations[0].quote) === normalizeText(f.citations[1].quote)) issues.push(`${label}: repeating the same quote does not establish the exclusion/condition check.`);
     for (const citation of f.citations) {
       const complete = citation.quote.trim().replace(/["'”’]+$/, "").trim();
-      if (/\.{3}|…/.test(complete) || !/[.;!?]$/.test(complete)) issues.push(`${label}: definitive proof must quote complete sentences or clauses, including their conditions; do not use clipped text or ellipses.`);
+      if (citation.quote !== evidence.get(citation.chunk_id)?.text && (/\.{3}|…/.test(complete) || !/[.;!?]$/.test(complete))) issues.push(`${label}: definitive proof must quote complete sentences or clauses, including their conditions; do not use clipped text or ellipses.`);
     }
     if (!f.conditions_explanation) issues.push(`${label}: explain how the quoted exclusion/condition applies to the reported facts.`);
     const fact = normalizeText(f.reported_fact ?? "");

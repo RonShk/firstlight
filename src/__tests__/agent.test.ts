@@ -490,7 +490,7 @@ describe("findings recorded one at a time", () => {
       (m) => ({ toolCalls: [call("record_finding", { purpose: "Roof", item: "Roof", coverage: "Coverage A Dwelling", policy_id: "HO-1", status: "likely_covered",
         explanation: "Insured.", chunk_id: firstHit(m).chunk_id, quote: "We will pay for any roof damage whatsoever, always" })] }),
       (m) => {
-        assert.match(String(m.at(-1)!.content), /Not recorded/);
+        assert.match(String(m.at(-1)!.content), /Saved this item as unclear/);
         // Single quotes where the PDF has none, and a quote that starts in the cited passage's text.
         return { toolCalls: [call("record_finding", { purpose: "Roof", item: "Roof", coverage: "Coverage A Dwelling", policy_id: "HO-1", status: "likely_covered",
           explanation: "Insured unless excluded.", chunk_id: firstHit(m).chunk_id, quote: "We will pay for 'accidental direct physical loss' to the property described in Coverage A" })] };
@@ -702,7 +702,7 @@ describe("evidence-backed coverage determinations", () => {
   const writer = () => scripted([
     () => ({ toolCalls: [call("search_policy", { purpose: "Read coverage grant", query: "dwelling windstorm roof" })] }),
     () => ({ toolCalls: [call("search_policy", { purpose: "Check relevant exclusions", query: "wear tear losses not insured" })] }),
-    (m) => ({ toolCalls: [call("record_finding", { purpose: "Record the proven roof determination", ...proof(m) })] }),
+    (m) => ({ toolCalls: [call("record_finding", { purpose: "Record the proven roof determination by reference", ...proof(m), quote: undefined, quote_2: undefined })] }),
     () => ({ toolCalls: [call("finish_review", decision())] }),
   ]);
 
@@ -713,6 +713,20 @@ describe("evidence-backed coverage determinations", () => {
     assert.equal(result.decision.findings[0].reported_fact, fact);
     assert.equal(result.citations.length, 2);
     assert.equal(result.verified, true);
+  });
+
+  it("retains the reported loss when a rejected coverage finding is omitted at finish", async () => {
+    const model = scripted([
+      () => ({ toolCalls: [call("search_policy", { purpose: "Check roof coverage", query: "dwelling windstorm roof" })] }),
+      (m) => ({ toolCalls: [call("record_finding", { purpose: "Assess reported roof damage", item: "Roof", coverage: "Dwelling", policy_id: "HO-1", status: "covered", explanation: "Wind damage is insured.", reported_fact: fact, chunk_id: firstHit(m).chunk_id, quote: grant })] }),
+      () => ({ toolCalls: [call("finish_review", decision())] }),
+    ]);
+    const { db, deps } = await setup({ model, verifier: approve() });
+    const result = await executeRun(claimRun(db, "w1")!, "w1", deps, new AbortController().signal);
+    assert.equal(result.decision.findings.length, 1);
+    assert.equal(result.decision.findings[0].item, "Roof");
+    assert.equal(result.decision.findings[0].status, "unclear");
+    assert.equal(result.citations.length, 1);
   });
 
   for (const mode of ["disabled", "unavailable", "rejects"] as const) {

@@ -1,11 +1,11 @@
 // Typed decisions, findings and replies. The agent submits a Decision through the finish_review tool.
 import { z } from "zod";
 
-export const PROMPT_VERSION = "agentic-rag-2026-11-08-proof-v2";
+export const PROMPT_VERSION = "agentic-rag-2026-11-08-proof-v3";
 
 export const Citation = z.object({
   chunk_id: z.string().describe("chunk_id of a passage you retrieved in this run."),
-  quote: z.string().trim().min(20).max(1600).describe("Exact words copied from that passage."),
+  quote: z.string().trim().min(20).max(12000).describe("Exact words copied from that passage."),
 });
 
 /** Models often write the string "null" or leave a field empty; treat those as null. */
