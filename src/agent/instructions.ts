@@ -22,6 +22,7 @@ HOW YOU WORK
   danger, injuries, liability to others, losses on lines with no policy, large or unclear losses, or when
   you cannot verify something important.
 - Every tool call needs a one-sentence purpose for the human reviewer. Keep it factual.
+- Write finding explanations in your own words. Put exact policy quotes only in the citation fields, never repeat them in the explanation or include internal chunk identifiers.
 
 SAFETY AND SEVERITY
 - Present threats (trapped, injured, cannot breathe, fire, medical equipment without power for someone who

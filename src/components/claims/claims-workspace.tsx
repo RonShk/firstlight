@@ -1,35 +1,33 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Activity, FileText, LayoutDashboard, MessageSquare, Radio } from "lucide-react";
 import type { RunSummary } from "@/types/agent";
 import { cn } from "@/lib/utils";
-import { ClaimDetail } from "./claim-detail";
+import { SituationView } from "./claim-detail";
 import { ClaimList, PAGE_SIZE } from "./claim-list";
 import { useClaims } from "./claims-provider";
 import { CaseTimeline } from "../sim/case-timeline";
 import { CaseMessages, CasePolicies, RunOverview } from "./case-views";
-import { SimulationView } from "./simulation-view";
 
 const TABS = [
-  { id: "overview", label: "Overview", icon: LayoutDashboard },
-  { id: "messages", label: "Messages", icon: MessageSquare },
-  { id: "timeline", label: "Agent timeline", icon: Activity },
-  { id: "policies", label: "Policies", icon: FileText },
+  { id: "overview", label: "Overview" },
+  { id: "situation", label: "Situation" },
+  { id: "messages", label: "Messages" },
+  { id: "timeline", label: "Agent timeline" },
+  { id: "policies", label: "Policies" },
 ] as const;
 type Tab = typeof TABS[number]["id"];
 export function ClaimsWorkspace() {
-  const { claims, markRead, requestReview, runFor, queue, agent, ready, loadError } = useClaims();
-  const [selectedId, setSelectedId] = useState<string | undefined>(() => claims[0]?.id);
+  const { claims, markRead, requestReview, runFor, queue, ready, loadError } = useClaims();
+  const [selectedId, setSelectedId] = useState<string | undefined>(() => claims.find((c) => !c.silent)?.id);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(0);
-  const [view, setView] = useState<"cases" | "simulation">("cases");
   const [tab, setTab] = useState<Tab>("overview");
   const [target, setTarget] = useState<{ docId: string; page: number | null } | null>(null);
-  const visible = useMemo(() => claims.filter((c) => [c.persona.name, c.number, c.subject, ...c.body].some((s) => s.toLowerCase().includes(search.trim().toLowerCase()))), [claims, search]);
+  const visible = useMemo(() => claims.filter((c) => !c.silent && [c.persona.name, c.number, c.subject, ...c.body].some((s) => s.toLowerCase().includes(search.trim().toLowerCase()))), [claims, search]);
   const selected = visible.find((c) => c.id === selectedId) ?? visible[page * PAGE_SIZE] ?? visible[0];
   const run = selected ? runFor(selected.id) : undefined;
-  useEffect(() => { if (selected && view === "cases") requestReview(selected); }, [selected?.id, view, requestReview]); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => { if (selected) requestReview(selected); }, [selected?.id, requestReview]); // eslint-disable-line react-hooks/exhaustive-deps
   const customerId = selected?.id;
   const followRun = useCallback((summary: RunSummary | undefined) => {
     if (!customerId || !summary) return;
@@ -38,25 +36,22 @@ export function ClaimsWorkspace() {
   }, [customerId, queue]);
   const openDocument = (docId: string, p: number | null) => { setTarget({ docId, page: p }); setTab("policies"); };
   return <div className="flex min-h-0 flex-1 flex-col">
-    <div className="flex items-center justify-between gap-4 border-b border-line bg-white px-6">
-      <nav aria-label="Workspace" className="flex gap-6">{(["cases", "simulation"] as const).map((v) => <button key={v} onClick={() => setView(v)} aria-current={view === v ? "page" : undefined} className={cn("cursor-pointer border-b-2 py-3 text-sm font-semibold", view === v ? "border-brand text-brand" : "border-transparent text-subtle")}>{v === "cases" ? "Case workspace" : "Disaster simulation"}</button>)}</nav>
-      <span className="flex items-center gap-2 text-xs text-subtle"><span className={cn("size-2 rounded-full", agent?.configured ? "bg-emerald-600" : "bg-amber-500")} />{agent?.configured ? "Nemotron connected" : "Nemotron offline"} · Demo environment</span>
-    </div>
     {loadError && <p role="alert" className="bg-critical-soft px-6 py-2 text-sm text-critical-ink">{loadError}. Reload before starting another investigation.</p>}
-    {view === "simulation" ? <SimulationView onOpen={(id) => { setSelectedId(id); setSearch(""); setTab("overview"); setView("cases"); }} /> : <div className="flex min-h-0 flex-1">
+    <div className="flex min-h-0 flex-1">
       <ClaimList claims={visible} selectedId={selected?.id} onSelect={(id) => { setSelectedId(id); setTarget(null); markRead(id); }} search={search} onSearch={(s) => { setSearch(s); setPage(0); }} page={Math.min(page, Math.max(0, Math.ceil(visible.length / PAGE_SIZE) - 1))} onPage={(p) => { setPage(p); setSelectedId(visible[p * PAGE_SIZE]?.id); setTarget(null); }} />
       <main className="flex min-w-0 flex-1 flex-col bg-white">
         {selected ? <>
           <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line px-7 py-4"><div><p className="text-xs text-subtle">{selected.number} · {selected.persona.address.city}, {selected.persona.address.state}</p><h1 className="text-xl font-semibold">{selected.persona.name}</h1></div><p className="max-w-xs text-right text-xs text-subtle">{run?.result?.humanInterventionNeeded ? "Human intervention needed" : run?.result?.progress.label ?? run?.error ?? (selected.silent ? "Welfare follow-up needed" : ready ? "Ready for investigation" : "Restoring saved work…")}</p></div>
-          <nav aria-label="Case views" className="flex gap-5 border-b border-line px-7">{TABS.map(({ id, label, icon: Icon }) => <button key={id} aria-current={tab === id ? "page" : undefined} onClick={() => setTab(id)} className={cn("flex cursor-pointer items-center gap-2 border-b-2 py-3 text-sm whitespace-nowrap", tab === id ? "border-brand font-semibold text-brand" : "border-transparent text-subtle")}><Icon className="size-4" />{label}{id === "policies" ? ` (${selected.persona.policies.length})` : ""}</button>)}</nav>
+          <nav aria-label="Case views" className="flex gap-5 border-b border-line px-7">{TABS.map(({ id, label }) => <button key={id} aria-current={tab === id ? "page" : undefined} onClick={() => setTab(id)} className={cn("flex cursor-pointer items-center gap-2 border-b-2 py-3 text-sm whitespace-nowrap", tab === id ? "border-brand font-semibold text-brand" : "border-transparent text-subtle")}>{label}{id === "policies" ? ` (${selected.persona.policies.length})` : ""}</button>)}</nav>
           <div className="thin-scroll min-h-0 flex-1 overflow-y-auto" key={`${selected.id}:${tab}`}>
-            {tab === "overview" && <><RunOverview claim={selected} onOpenDocument={openDocument} /><ClaimDetail claim={selected} onConversation={() => setTab("messages")} onDocuments={(docId, p) => { setTarget(docId ? { docId, page: p ?? null } : null); setTab("policies"); }} /></>}
+            {tab === "overview" && <RunOverview claim={selected} onOpenDocument={openDocument} />}
+            {tab === "situation" && <SituationView claim={selected} />}
             {tab === "messages" && <CaseMessages claim={selected} />}
-            {tab === "timeline" && <div className="p-7"><h2 className="text-lg font-semibold">Investigation timeline</h2><p className="mb-5 mt-1 text-sm text-subtle">Live tool calls, retrieved evidence, verifier checks, reviewer actions, and delivery.</p>{run?.caseId ? <CaseTimeline caseId={run.caseId} onOpenDocument={openDocument} onRun={followRun} /> : <div className="rounded-xl border border-line bg-soft p-6 text-sm"><Radio className="mb-2 size-5 text-brand" />{selected.silent ? "This household has not replied. Review the outreach in Messages and arrange a welfare follow-up." : "The timeline appears when this case is submitted to the agent."}</div>}</div>}
+            {tab === "timeline" && <div className="p-7"><h2 className="text-lg font-semibold">Investigation timeline</h2><p className="mb-5 mt-1 text-sm text-subtle">Live tool calls, retrieved evidence, verifier checks, reviewer actions, and delivery.</p>{run?.caseId ? <CaseTimeline caseId={run.caseId} onOpenDocument={openDocument} onRun={followRun} /> : <div className="rounded-xl border border-line bg-soft p-6 text-sm">{selected.silent ? "This household has not replied. Review the outreach in Messages and arrange a welfare follow-up." : "The timeline appears when this case is submitted to the agent."}</div>}</div>}
             {tab === "policies" && <CasePolicies claim={selected} target={target} />}
           </div>
         </> : <p className="p-8 text-subtle">No cases match your search.</p>}
       </main>
-    </div>}
+    </div>
   </div>;
 }

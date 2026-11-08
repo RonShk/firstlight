@@ -73,7 +73,7 @@ export class AgentGaveUpError extends Error {
 
 const FINISH = functionSpec("finish_review",
   "Submit your decision: severity, danger, summary, next action and the customer reply. Coverage findings are the ones you recorded with record_finding. Returns accepted, or issues to fix.",
-  FinishInput);
+  Decision.omit({ findings: true }));
 
 export async function executeRun(run: RunRecord, owner: string, deps: AgentDeps, signal: AbortSignal): Promise<RunResult> {
   const { db, limits } = deps;
@@ -276,7 +276,7 @@ async function reviewFinish(call: ToolCall, env: ReviewEnv): Promise<{ feedback:
     if (canRevise) {
       u.revisions++;
       cp.forceFinish = true;
-      return { feedback: { accepted: false, issues, note: "Call finish_review again with every field as real JSON (arrays as arrays, not strings)." }, result: null };
+      return { feedback: { accepted: false, issues, note: "Call finish_review again. OMIT findings entirely: recorded findings are merged automatically. Keep the summary, reasons and reply concise. Send reported_facts and unknowns as arrays, not JSON strings." }, result: null };
     }
     throw new AgentGaveUpError(`Decision never matched the schema: ${z.prettifyError(parsed.error).slice(0, 300)}`, u);
   }

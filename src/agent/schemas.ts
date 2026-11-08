@@ -46,7 +46,14 @@ const stringList = (max: number) => z.preprocess(
  * with record_finding (flat arguments, validated immediately), because one large nested JSON object was
  * the main source of malformed decisions. A findings array is still accepted if the model sends one.
  */
+const boundedExplanation = (max: number) => z.preprocess(
+  (v) => typeof v === "string" ? v.trim().slice(0, max) : v, z.string().min(3).max(max));
+
 export const FinishInput = Decision.omit({ findings: true, reported_facts: true, unknowns: true }).extend({
+  // Internal explanations can be shortened without changing coverage, danger, routing or reply.
+  summary: boundedExplanation(600),
+  severity_reason: boundedExplanation(300),
+  decision_reason: boundedExplanation(500),
   reported_facts: stringList(12).default([]),
   unknowns: stringList(8).default([]),
   findings: z.array(Finding).max(10).optional(),

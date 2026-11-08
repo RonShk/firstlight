@@ -27,7 +27,12 @@ export async function verifyDecision(model: AgentModel, input: {
     // Unpinned on purpose: a named tool_choice triggers slow schema-guided decoding on vLLM.
     [spec], "auto", input.signal);
   const call = turn.toolCalls.find((t) => t.name === "submit_verdict");
-  const parsed = call ? Verdict.safeParse(safeJson(call.arguments)) : null;
+  const raw = call ? safeJson(call.arguments) : null;
+  // Long reviewer explanations are still actionable objections, not verifier outages.
+  // Keep the strict model-facing schema; bound prose before validating the returned verdict.
+  const normalized = raw && typeof raw === "object" && "issues" in raw && Array.isArray(raw.issues)
+    ? { ...raw, issues: raw.issues.map((issue: unknown) => typeof issue === "string" ? issue.trim().slice(0, 400) : issue) } : raw;
+  const parsed = call ? Verdict.safeParse(normalized) : null;
   if (!parsed?.success) throw new Error(`Verifier returned no valid verdict${parsed ? `: ${z.prettifyError(parsed.error).slice(0, 200)}` : ""}`);
   return { verdict: parsed.data, usage: turn.usage };
 }

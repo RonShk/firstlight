@@ -613,3 +613,35 @@ describe("workspace restoration", () => {
     assert.deepEqual(queue.runsFor("PH-TEST"), []);
   });
 });
+
+describe("compact final decision contract", () => {
+  it("does not advertise nested findings and safely bounds internal explanations", async () => {
+    const longReason = "Customer reported an auto collision with another passenger hurt. ".repeat(8);
+    let offeredFindings = false;
+    const model: AgentModel = { name: "contract", async turn(_messages, tools) {
+      const finish = tools.find((t) => t.type === "function" && t.function.name === "finish_review");
+      if (finish?.type === "function") offeredFindings = Object.hasOwn((finish.function.parameters?.properties ?? {}) as object, "findings");
+      return { content: null, finishReason: "tool_calls", usage: { promptTokens: 10, completionTokens: 10 },
+        toolCalls: [call("finish_review", { ...decision(), severity_reason: longReason, decision_reason: longReason, summary: longReason.repeat(2) })] };
+    } };
+    const { db, deps, intake } = await setup({ model });
+    const result = await executeRun(claimRun(db, "w1")!, "w1", deps, new AbortController().signal);
+    assert.equal(offeredFindings, false);
+    assert.equal(result.decision.severity_reason, longReason.trim().slice(0, 300));
+    assert.equal(result.decision.decision_reason, longReason.trim().slice(0, 500));
+    assert.equal(result.decision.summary.length, 600);
+    assert.equal(result.decision.reply, decision().reply);
+    assert.ok(!caseEvents(db, intake.case.id).some((e) => e.type === "decision.rejected"));
+  });
+});
+
+describe("verifier prose recovery", () => {
+  it("preserves a revision verdict even when the explanation exceeds the display bound", async () => {
+    const { verifyDecision } = await import("@/agent/verifier");
+    const issue = "The proposed finding confuses collision and comprehensive coverage. ".repeat(10);
+    const model = scripted([() => ({ toolCalls: [call("submit_verdict", { verdict: "revise", severity_check: "reasonable", issues: [issue] })] })]);
+    const result = await verifyDecision(model, { decision: decision(), transcript: [], customer: CUSTOMER, evidence: new Map(), signal: new AbortController().signal });
+    assert.equal(result.verdict.verdict, "revise");
+    assert.equal(result.verdict.issues[0], issue.trim().slice(0, 400));
+  });
+});

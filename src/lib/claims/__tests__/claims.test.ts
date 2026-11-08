@@ -246,3 +246,13 @@ describe("Nemotron review", () => {
     assert.equal(reviewClaim(claim, run, true).reply, null);
   });
 });
+
+describe("inbox run labels", () => {
+  it("distinguishes unstarted, queued, running, done, and failed work", async () => {
+    const { agentStatus } = await import("../agent-status");
+    assert.equal(agentStatus().label, "Not started");
+    for (const [status, label] of [["queued", "Queued"], ["running", "Running"], ["done", "Done"], ["error", "Failed"]] as const) {
+      assert.equal(agentStatus({ status, key: "k", conversation: [] }).label, label);
+    }
+  });
+});

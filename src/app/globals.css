@@ -115,3 +115,7 @@
   scrollbar-width: thin;
   scrollbar-color: #d4d4d4 transparent;
 }
+
+.inbox-scroll { scrollbar-width: auto; scrollbar-color: #999 #f4f4f4; }
+.inbox-scroll::-webkit-scrollbar { width: 12px; }
+.inbox-scroll::-webkit-scrollbar-thumb { background: #999; border: 3px solid #f4f4f4; border-radius: 8px; }
