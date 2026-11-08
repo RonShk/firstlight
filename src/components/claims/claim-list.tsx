@@ -13,8 +13,10 @@ export const PAGE_SIZE = 20;
 interface Props {
   claims: ClaimView[]; selectedId?: string; onSelect: (id: string) => void;
   search: string; onSearch: (s: string) => void; page: number; onPage: (n: number) => void;
+  /** Filter control shown beside the search box. */
+  filter?: React.ReactNode;
 }
-export function ClaimList({ claims, selectedId, onSelect, search, onSearch, page, onPage }: Props) {
+export function ClaimList({ claims, selectedId, onSelect, search, onSearch, page, onPage, filter }: Props) {
   const { isRead, runFor, claimFor } = useClaims();
   const rows = claims.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
   const lastPage = Math.max(0, Math.ceil(claims.length / PAGE_SIZE) - 1);
@@ -27,7 +29,7 @@ export function ClaimList({ claims, selectedId, onSelect, search, onSearch, page
   </nav>;
   return <aside className="flex w-[280px] shrink-0 flex-col border-r border-line bg-white xl:w-[330px]">
     <div className="border-b border-line p-5"><h2 className="font-semibold">Case inbox <span className="ml-1 text-sm font-normal text-subtle">{claims.length}</span></h2>
-      <label className="mt-3 flex items-center gap-2 rounded-lg border border-line px-3 py-2"><Search className="size-4 text-subtle" /><input aria-label="Search cases" value={search} onChange={(e) => onSearch(e.target.value)} placeholder="Name, case, or message" className="min-w-0 flex-1 text-sm outline-none" /></label>
+      <div className="mt-3 flex gap-2"><label className="flex min-w-0 flex-1 items-center gap-2 rounded-lg border border-line px-3 py-2"><Search className="size-4 shrink-0 text-subtle" /><input aria-label="Search cases" value={search} onChange={(e) => onSearch(e.target.value)} placeholder="Name, case, or message" className="min-w-0 flex-1 text-sm outline-none" /></label>{filter}</div>
     </div>
     <div className="inbox-scroll min-h-0 flex-1 overflow-y-auto">{rows.map((c) => { const status = agentStatus(runFor(c.id)); return <button key={c.id} type="button" aria-current={selectedId === c.id || undefined} onClick={() => onSelect(c.id)} className={cn("block w-full cursor-pointer border-b border-line p-5 text-left", selectedId === c.id ? "border-l-2 border-l-brand bg-critical-soft/40" : "hover:bg-soft")}>
       <span className="flex items-center gap-2"><span className={cn("size-1.5 shrink-0 rounded-full", isRead(c.id) ? "bg-transparent" : "bg-brand")} /><span className="min-w-0 flex-1 truncate font-semibold">{c.persona.name}</span><span className="text-xs text-subtle">{ageLabel(c.minutesAgo)}</span></span>

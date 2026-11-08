@@ -5,6 +5,8 @@ import type { FiledClaim } from "@/cases/claim-files";
 import type { AgentStatus, CaseView, RunSummary } from "@/types/agent";
 import type { ClaimMessage, ClaimView } from "@/types/claims";
 import { buildClaims, SNAPSHOT_MINUTE } from "@/lib/claims/generate";
+import { demoSchedule } from "@/lib/claims/demo";
+import excludedHouseholds from "@/lib/claims/excluded-households.json";
 import { sortClaims, toView } from "@/lib/claims/review";
 import { AgentQueue } from "@/lib/sim/agent-queue";
 import { type AgentRun, type Turn } from "@/lib/sim/triage";
@@ -29,6 +31,8 @@ interface ClaimsContextValue {
   /** The claim for a household, via its case. */
   claimFor: (personaId: string) => FiledClaim | undefined;
   refreshClaims: () => Promise<void>;
+  /** Live tornado replay (`npm run demo`). */
+  demo: { enabled: boolean; available: boolean; dedicated: boolean; started: boolean; simMinutes: number; arrived: number; total: number; start: () => Promise<void> };
 }
 
 const ClaimsContext = createContext<ClaimsContextValue | null>(null);
@@ -40,7 +44,8 @@ function toggled(set: Set<string>, id: string): Set<string> {
 }
 
 export function ClaimsProvider({ children }: { children: React.ReactNode }) {
-  const base = useMemo(() => buildClaims(), []);
+  // Households whose agent review was unreliable (see `npm run audit:households`) are left out.
+  const base = useMemo(() => buildClaims().filter((c) => !Object.hasOwn(excludedHouseholds, c.id)), []);
   const [agent, setAgent] = useState<AgentStatus | null>(null);
   const [read, setRead] = useState<Set<string>>(new Set());
   const [assigned, setAssigned] = useState<Set<string>>(new Set());
@@ -70,7 +75,7 @@ export function ClaimsProvider({ children }: { children: React.ReactNode }) {
     fetch("/api/status")
       .then((r) => r.json())
       .then(setAgent)
-      .catch(() => setAgent({ configured: false, model: null, services: { embeddings: null, reranker: null, guard: null, verifier: false }, knowledge: null, queue: null }));
+      .catch(() => setAgent({ configured: false, model: null, services: { embeddings: null, reranker: null, guard: null, verifier: false }, knowledge: null, queue: null, demo: false, replay: false }));
   }, []);
 
   useEffect(() => {
@@ -93,10 +98,40 @@ export function ClaimsProvider({ children }: { children: React.ReactNode }) {
     return () => { cancelled = true; };
   }, [queue]);
 
+  // Demo replay: only tornado households, each appearing when its first text "arrives". In demo mode the
+  // dashboard starts empty; in development the normal queue shows until a replay is started.
+  const schedule = useMemo(() => demoSchedule(base), [base]);
+  const [demoStart, setDemoStart] = useState<number | null>(null);
+  const demoEnabled = !!agent?.demo || demoStart !== null;
+  const [demoNow, setDemoNow] = useState(0);
+  useEffect(() => {
+    if (demoStart === null) return;
+    const timer = setInterval(() => setDemoNow(Date.now()), 500);
+    return () => clearInterval(timer);
+  }, [demoStart]);
+  const demoElapsed = demoStart === null ? 0 : Math.max(0, demoNow - demoStart);
+  const startDemo = useCallback(async () => {
+    const r = await fetch("/api/demo/reset", { method: "POST" });
+    if (!r.ok) throw new Error((await r.json().catch(() => ({}))).error ?? "Could not reset the demo");
+    queue.reset();
+    setStored({});
+    setFiledClaims([]);
+    const now = Date.now();
+    setDemoNow(now);
+    setDemoStart(now);
+  }, [queue]);
+  const scaleMinutes = schedule.simMinutesPerSecond;
+
   const online = agent ? agent.configured : null;
   const claims = useMemo(() => {
     void queueVersion;
-    return sortClaims(base.map((c) => {
+    const source = !demoEnabled ? base : demoStart === null ? [] : base.filter((c) => (schedule.arrivals.get(c.id) ?? Infinity) <= demoElapsed)
+      .map((c) => {
+        // Ages count from each household's arrival, in simulated minutes.
+        const age = Math.max(1, Math.round(((demoElapsed - schedule.arrivals.get(c.id)!) / 1000) * scaleMinutes));
+        return { ...c, minutesAgo: age, thread: c.thread.map((m) => ({ ...m, minutesAgo: Math.max(1, m.minutesAgo - c.minutesAgo + age) })) };
+      });
+    return sortClaims(source.map((c) => {
       const saved = stored[c.id];
       const body = saved?.filter((m) => m.role === "customer").map((m) => m.text);
       const restored = body?.length ? { ...c, body, silent: false,
@@ -104,7 +139,7 @@ export function ClaimsProvider({ children }: { children: React.ReactNode }) {
           from: m.role === "customer" ? "policyholder" as const : m.role === "reviewer" ? "note" as const : "state_farm" as const })) } : c;
       return toView(restored, queue.runsFor(c.id).at(-1), online);
     }));
-  }, [base, queue, queueVersion, online, stored]);
+  }, [base, queue, queueVersion, online, stored, demoEnabled, demoStart, demoElapsed, schedule, scaleMinutes]);
 
   useEffect(() => {
     if (!ready || loadError) return;
@@ -134,6 +169,8 @@ export function ClaimsProvider({ children }: { children: React.ReactNode }) {
     filedClaims,
     claimFor: (id) => { const caseId = queue.runsFor(id).at(-1)?.caseId; return caseId ? claimsByCase.get(caseId) : undefined; },
     refreshClaims,
+    demo: { enabled: demoEnabled, available: !!agent?.replay, dedicated: !!agent?.demo, started: demoStart !== null, simMinutes: Math.round((demoElapsed / 1000) * scaleMinutes),
+      arrived: demoStart === null ? 0 : [...schedule.arrivals.values()].filter((t) => t <= demoElapsed).length, total: schedule.arrivals.size, start: startDemo },
     isRead: (id) => read.has(id),
     markRead: (id) => setRead((s) => (s.has(id) ? s : new Set(s).add(id))),
     isAssigned: (id) => assigned.has(id),

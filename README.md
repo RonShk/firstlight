@@ -31,6 +31,7 @@ npm install
 npm run knowledge:ingest     # builds data/knowledge.db from data/policies/raw (reuses existing vectors)
 npm run dev                  # starts the web app and in-process agent workers
 npm test                     # offline tests; `npm run evals` runs live scenarios against Nemotron
+npm run demo                 # demo mode: separate database, "Start the tornado" replays it live
 ```
 
 Run as a long-lived server (not serverless). Workers run inside the web server by default; set `AGENT_WORKERS=external` and run `npm run agent:worker` (as many as you like) to scale them separately. Simulated replies are delivered to the simulated phone; SMS delivery needs Twilio settings.
