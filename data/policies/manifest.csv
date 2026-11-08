@@ -1,0 +1,11 @@
+doc_id,line,policy_type,form_number,state,persona_fit,source_type
+SF-AUTO-TX,auto,Personal Car Policy,9843C,TX,single/married drivers; any age,statefarm.com official
+SF-AUTO-MT,auto,Car Policy,9826C,MT,rural/older drivers,statefarm.com official
+SF-BIZAUTO-OH,auto,Business Car Policy,9635C,OH,self-employed / small business owner,statefarm.com official
+SF-HOME-TX,home,Homeowners Policy,HW-2143,TX,homeowning family/couple,statefarm.com official
+SF-HOME-ME,home,Homeowners Policy,HW-2119,ME,homeowning family/couple,Maine Bureau of Insurance
+SF-HOME-OK,home,Homeowners Policy,HW-2136,OK,homeowning family/couple; tornado state,Oklahoma Insurance Dept
+SF-UMB-WEB,umbrella,Personal Liability Umbrella overview,n/a (contract form FP-7950 family),multi,high-net-worth / families with teen drivers,statefarm.com official
+SF-UMB-CASE-HI,umbrella,Court filing quoting PLUP language,FP-7950.2,HI,parent with resident adult child,govinfo.gov (US District Court)
+SF-UMB-CASE-OH,umbrella,Court opinion on PLUP UM/UIM endorsement,n/a,OH,married couple,govinfo.gov (US District Court)
+SF-HOME-CA,home,Homeowners Policy,HW-2105,CA,homeowning family/couple; wildfire state,statefarm.com official
