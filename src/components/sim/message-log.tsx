@@ -7,10 +7,12 @@ import { AGENTS } from "@/lib/sim/data";
 import { HOUSEHOLD_LABELS } from "@/lib/sim/personas";
 import { ROUTE_META, STATUS_META, clockLabel, money } from "@/lib/sim/status";
 import { TORNADO } from "@/lib/sim/scenarios";
-import { ESCALATE_AFTER, scoreAgent, statusFromSeverity, type TriageEntry } from "@/lib/sim/triage";
+import { ESCALATE_AFTER, reasonOf, replyOf, routeOf, scoreAgent, severityOf, statusFromSeverity, type TriageEntry } from "@/lib/sim/triage";
 import { useSim } from "./sim-provider";
+import { PersonCard } from "./person-card";
 
 const AGENT_BY_ID = Object.fromEntries(AGENTS.map((a) => [a.id, a]));
+const TRIAGE_LABEL = { 1: "Green", 2: "Yellow", 3: "Red" } as const;
 
 interface Row {
   id: string;
@@ -24,18 +26,35 @@ function Assessment({ entry }: { entry: TriageEntry }) {
   const run = entry.run;
   const current = run && run.key === entry.conversationKey;
   const r = current && run.status === "done" ? run.result : undefined;
+  if (r && r.result.status === "agent_unavailable") {
+    return (
+      <span className="text-[11px] text-rose-300" title={r.result.error}>
+        Agent unavailable · flagged for a specialist
+      </span>
+    );
+  }
   if (r) {
-    const meta = STATUS_META[statusFromSeverity(r.assessment.severity)];
+    const a = r.result;
+    const severity = severityOf(r)!;
+    const route = routeOf(r);
+    const meta = STATUS_META[statusFromSeverity(severity)];
+    const label = a.status === "emergency" ? "911" : a.status === "complete" ? TRIAGE_LABEL[a.triage] : "—";
     return (
       <div className="space-y-1">
         <div className="flex items-center gap-2">
-          <span className={cn("rounded px-1.5 py-0.5 font-mono text-[11px] font-semibold ring-1", meta.chip)}>{r.assessment.severity}</span>
-          <span className={cn("rounded px-1.5 py-0.5 text-[10px] ring-1", ROUTE_META[r.decision.route].chip)}>{ROUTE_META[r.decision.route].label}</span>
+          <span className={cn("rounded px-1.5 py-0.5 font-mono text-[11px] font-semibold ring-1", meta.chip)}>{label}</span>
+          <span className={cn("rounded px-1.5 py-0.5 text-[10px] ring-1", ROUTE_META[route].chip)}>{ROUTE_META[route].label}</span>
         </div>
-        <p className="line-clamp-2 text-[11px] text-muted-foreground" title={r.assessment.severity_reason}>
-          {r.assessment.summary}
+        <p className="line-clamp-2 text-[11px] text-muted-foreground" title={reasonOf(r)}>
+          {reasonOf(r)}
         </p>
-        {r.decision.total > 0 ? <p className="text-[11px] tabular-nums">{money(r.decision.total)} est.</p> : null}
+        {a.status === "complete" && (a.claim_amount_usd || a.approved_amount_usd) ? (
+          <p className="text-[11px] tabular-nums">
+            {a.claim_amount_usd ? `${money(a.claim_amount_usd)} est.` : ""}
+            {a.claim_amount_usd && a.approved_amount_usd ? " · " : ""}
+            {a.approved_amount_usd ? `${money(a.approved_amount_usd)} advanced` : ""}
+          </p>
+        ) : null}
       </div>
     );
   }
@@ -54,7 +73,7 @@ function Reply({ entry }: { entry: TriageEntry }) {
   if (run && run.key === entry.conversationKey && run.status === "done" && run.result && run.finishedAt !== undefined) {
     return (
       <div>
-        <p className="text-xs leading-snug">{run.result.reply}</p>
+        <p className="text-xs leading-snug">{replyOf(run.result)}</p>
         <p className="mt-1 text-[10px] text-muted-foreground">Sent {clockLabel(TORNADO.touchdown, entry.thread.filter((m) => m.from === "persona").at(-1)!.at + 2)}</p>
       </div>
     );
@@ -118,7 +137,7 @@ export function MessageLog() {
                 <tr key={id} className="border-b border-white/[0.04] align-top">
                   <td className="px-4 py-3 font-mono text-[11px] text-muted-foreground tabular-nums">{clockLabel(TORNADO.touchdown, at)}</td>
                   <td className="px-2 py-3">
-                    <p className="truncate font-medium">{p.name}</p>
+                    <PersonCard persona={p} />
                     <p className="truncate text-[11px] text-muted-foreground">
                       {HOUSEHOLD_LABELS[p.householdType]} · {p.members.length} · {p.address.city}
                     </p>

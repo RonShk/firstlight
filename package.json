@@ -10,7 +10,7 @@
     "test:agent": "tsx --test src/lib/agent/__tests__/*.test.ts",
     "agent:index": "tsx scripts/build-policy-index.ts",
     "agent:samples": "tsx scripts/run-samples.ts",
-    "agent:smoke": "tsx scripts/nemotron-smoke.ts"
+    "agent:smoke": "tsx scripts/nemotron-smoke.ts",
     "personas": "tsx scripts/export-personas.ts",
     "policies": "tsx scripts/fetch-policies.ts"
   },
