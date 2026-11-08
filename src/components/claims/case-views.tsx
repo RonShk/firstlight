@@ -17,14 +17,14 @@ export function RunOverview({ claim, onOpenDocument }: { claim: ClaimView; onOpe
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const needsReview = s?.humanInterventionNeeded || d?.next_action === "human_review";
-  const action = d?.immediate_danger ? "Urgent human follow-up needed" : needsReview ? "Claims specialist review needed" : run?.status === "running" || run?.status === "queued" ? "Review in progress" : run?.status === "error" ? "Human review needed" : d?.next_action === "ask_customer" ? "Ask the customer for more details" : d ? "Review complete" : "Waiting for review";
+  const action = d?.immediate_danger ? "Contact the customer urgently" : needsReview ? "Review this case" : run?.status === "running" || run?.status === "queued" ? "Review in progress" : run?.status === "error" ? "Review this case" : d?.next_action === "ask_customer" ? "Ask the customer for more details" : d ? "Review complete" : "Waiting for review";
   const facts = d?.reported_facts.length ? d.reported_facts.slice(0, 3) : (d?.summary ?? claim.review.summary).split(/(?<=[.!?])\s+(?=[A-Z])/).slice(0, 2);
   const coverageStatus = { likely_covered: "May be covered", likely_excluded: "May be excluded", unclear: "Needs confirmation", no_policy: "No policy on file" };
   return <section className="mx-auto max-w-5xl space-y-8 p-7 lg:p-9">
-    <div className={`rounded-xl border p-6 ${needsReview || d?.immediate_danger ? "border-high/30 bg-high-soft/50" : "border-line bg-soft/50"}`}>
+    <div>
       <p className="text-xs font-semibold uppercase tracking-wider text-subtle">Next action</p>
       <h2 className="mt-2 text-3xl font-semibold leading-tight tracking-tight">{action}</h2>
-      {needsReview && <p className="mt-2 text-sm text-ink-2">This case is in the claims team’s review queue.</p>}
+      {needsReview && <p className="mt-2 text-sm text-ink-2">Queued for claims review. Customer follow-up is still pending.</p>}
       {run?.caseId && <button disabled={busy || run.status === "running" || !agent?.configured} onClick={async () => { setBusy(true); setError(null); try { await queue.rerun(claim.id); } catch (e) { setError((e as Error).message); } finally { setBusy(false); } }} className="mt-4 cursor-pointer text-sm font-semibold text-brand disabled:opacity-40">{busy ? "Starting…" : "Run another review →"}</button>}
     </div>
     {error && <p role="alert" className="text-sm text-critical-ink">{error}</p>}
