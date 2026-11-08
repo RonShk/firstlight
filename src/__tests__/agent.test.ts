@@ -729,9 +729,9 @@ describe("evidence-backed coverage determinations", () => {
     assert.equal(result.citations.length, 1);
   });
 
-  for (const mode of ["disabled", "unavailable", "rejects"] as const) {
+  for (const mode of ["disabled", "unavailable", "rejects", "approve_with_issues", "revise_without_issues"] as const) {
     it(`keeps coverage unresolved when the verifier ${mode}`, async () => {
-      const verifier: AgentModel | null = mode === "disabled" ? null : mode === "unavailable" ? { name: "down", async turn() { throw new Error("offline"); } } : scripted([() => ({ toolCalls: [call("submit_verdict", { verdict: "revise", issues: ["The proof does not establish the claimed coverage"], severity_check: "reasonable" })] })]);
+      const verifier: AgentModel | null = mode === "disabled" ? null : mode === "unavailable" ? { name: "down", async turn() { throw new Error("offline"); } } : scripted([() => ({ toolCalls: [call("submit_verdict", { verdict: mode === "approve_with_issues" ? "approve" : "revise", issues: mode === "revise_without_issues" ? [] : ["The proof does not establish the claimed coverage"], severity_check: "reasonable" })] })]);
       const { db, deps } = await setup({ model: writer(), verifier });
       deps.limits.maxRevisions = 0;
       const result = await executeRun(claimRun(db, "w1")!, "w1", deps, new AbortController().signal);
@@ -754,6 +754,9 @@ describe("evidence-backed coverage determinations", () => {
     assert.match(checkFinding(clipped, "Roof", evidence, CUSTOMER, fact).issues.join(), /complete sentences or clauses/);
     assert.match(checkFinding({ ...finding, citations: finding.citations.slice(0, 1) }, "Roof", evidence, CUSTOMER, fact).issues.join(), /exclusion\/condition/);
     assert.match(checkFinding({ ...finding, reported_fact: "A fire destroyed the home" }, "Roof", evidence, CUSTOMER, fact).issues.join(), /customer's message/);
+    evidence.get("SF-HOME-OK#0")!.section = "OPTIONAL POLICY PROVISIONS > FIREARMS";
+    assert.match(checkFinding(finding, "Roof", evidence, CUSTOMER, fact).issues.join(), /correct coverage part/);
+    evidence.get("SF-HOME-OK#0")!.section = "Dwelling";
     evidence.get("SF-HOME-OK#2")!.doc_id = "OTHER-FORM";
     assert.match(checkFinding(finding, "Roof", evidence, CUSTOMER, fact).issues.join(), /actual policy form/);
   });

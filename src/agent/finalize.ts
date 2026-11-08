@@ -93,6 +93,14 @@ export function checkFinding(f: Finding, label: string, evidence: Map<string, Ev
     }
     if (f.policy_id && ev.policy_id && ev.policy_id !== f.policy_id) issues.push(`${label} cites a passage from policy ${ev.policy_id}, not ${f.policy_id}.`);
     if (definitive && (!OFFICIAL.test(ev.source_type) || !policy || ev.doc_id !== policy.doc_id)) issues.push(`${label}: both proof passages must be from this customer's actual policy form, not another form, overview or court opinion.`);
+    if (definitive && c === f.citations[0] && policy?.home) {
+      const part = /dwelling|coverage a|structure/i.test(f.coverage) ? /dwelling|coverage a/i
+        : /loss of use|coverage c|living expense/i.test(f.coverage) ? /loss of use|coverage c|living expense/i
+        : /personal property|coverage b/i.test(f.coverage) ? /personal property|coverage b/i : null;
+      if (part && (!part.test(ev.section) || /optional policy|liability/i.test(ev.section))) {
+        issues.push(`${label}: the first reference must be the coverage grant for ${f.coverage}, not ${ev.section}. Select the correct coverage part before making a definitive finding.`);
+      }
+    }
     official ||= OFFICIAL.test(ev.source_type);
     fixed.push({ chunk_id: ev.chunk_id, quote: c.quote });
     citations.push({ chunk_id: ev.chunk_id, doc_id: ev.doc_id, form_number: ev.form_number, section: ev.section, page: ev.page,

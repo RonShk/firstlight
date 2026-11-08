@@ -27,8 +27,13 @@ export function assess(view: RunView, expect: Expectation, customer: Policyholde
   const tools = new Set(view.events.filter((e) => e.type === "tool.completed").map((e) => (e.detail as { tool: string }).tool));
   const cited = d.findings.reduce((n, f) => n + f.citations.length, 0);
   check("all citations verified", view.decision!.citations.length === cited, `${view.decision!.citations.length}/${cited} verified`);
-  const replyIssues = validateDecision({ ...d, findings: [] }, new Map(), customer).issues;
+  // Keep the actual finding statuses: stripping them incorrectly rejects verified,
+  // definitive coverage wording. Grounding itself is checked by the runtime.
+  const replyIssues = validateDecision(d, new Map(), customer).issues.filter((issue) => !issue.startsWith("Finding "));
   check("reply passes promise/format checks", replyIssues.length === 0, replyIssues.join(" | "));
+  if (d.findings.some((f) => f.status === "covered" || f.status === "not_covered")) {
+    check("definitive coverage independently verified", view.decision!.verified === true);
+  }
   check("reply delivered or held", ["sent", "held"].includes(view.reply?.status ?? ""), view.reply?.status ?? "no reply");
 
   if (expect.severity) check(`severity in [${expect.severity}]`, d.severity >= expect.severity[0] && d.severity <= expect.severity[1], `got ${d.severity}`);
