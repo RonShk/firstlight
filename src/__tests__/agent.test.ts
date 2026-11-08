@@ -684,3 +684,89 @@ describe("large queue observation", () => {
     queue.reset();
   });
 });
+
+describe("evidence-backed coverage determinations", () => {
+  const grant = PAGES[0].split("\n")[2];
+  const exclusion = PAGES[2].split("\n")[1];
+  const fact = "Tornado tore shingles off the roof";
+  const proof = (m: Message[]) => {
+    const hits = m.filter((x) => x.role === "tool").flatMap((x) => { try { return JSON.parse(String(x.content)).results ?? []; } catch { return []; } });
+    const a = hits.find((h: { text: string }) => h.text.includes(grant));
+    const b = hits.find((h: { text: string }) => h.text.includes(exclusion));
+    assert.ok(a && b);
+    return { item: "Roof", coverage: "Coverage A Dwelling", policy_id: "HO-1", status: "covered",
+      explanation: "The policy insures wind damage to the roof. Wear and tear does not describe the reported tornado loss.",
+      reported_fact: fact, conditions_explanation: "The reported cause is tornado wind, not the wear and tear excluded in the second clause.",
+      chunk_id: a.chunk_id, quote: grant, chunk_id_2: b.chunk_id, quote_2: exclusion };
+  };
+  const writer = () => scripted([
+    () => ({ toolCalls: [call("search_policy", { purpose: "Read coverage grant", query: "dwelling windstorm roof" })] }),
+    () => ({ toolCalls: [call("search_policy", { purpose: "Check relevant exclusions", query: "wear tear losses not insured" })] }),
+    (m) => ({ toolCalls: [call("record_finding", { purpose: "Record the proven roof determination", ...proof(m) })] }),
+    () => ({ toolCalls: [call("finish_review", decision())] }),
+  ]);
+
+  it("records Covered only with policy proof, customer facts, and independent approval", async () => {
+    const { db, deps } = await setup({ model: writer(), verifier: approve() });
+    const result = await executeRun(claimRun(db, "w1")!, "w1", deps, new AbortController().signal);
+    assert.equal(result.decision.findings[0].status, "covered");
+    assert.equal(result.decision.findings[0].reported_fact, fact);
+    assert.equal(result.citations.length, 2);
+    assert.equal(result.verified, true);
+  });
+
+  for (const mode of ["disabled", "unavailable", "rejects"] as const) {
+    it(`keeps coverage unresolved when the verifier ${mode}`, async () => {
+      const verifier: AgentModel | null = mode === "disabled" ? null : mode === "unavailable" ? { name: "down", async turn() { throw new Error("offline"); } } : scripted([() => ({ toolCalls: [call("submit_verdict", { verdict: "revise", issues: ["The proof does not establish the claimed coverage"], severity_check: "reasonable" })] })]);
+      const { db, deps } = await setup({ model: writer(), verifier });
+      deps.limits.maxRevisions = 0;
+      const result = await executeRun(claimRun(db, "w1")!, "w1", deps, new AbortController().signal);
+      assert.equal(result.decision.findings[0].status, "unclear");
+      assert.equal(result.decision.next_action, "human_review");
+      assert.equal(result.verified, false);
+    });
+  }
+
+  it("rejects missing conditions, invented loss facts, and proof from the wrong form", async () => {
+    const { checkFinding } = await import("@/agent/finalize");
+    const evidence = new Map([
+      ["SF-HOME-OK#0", { chunk_id: "SF-HOME-OK#0", doc_id: "SF-HOME-OK", policy_id: "HO-1", form_number: "HW-2136", source_type: "Oklahoma Insurance Dept", section: "Dwelling", page: 1, text: PAGES[0] }],
+      ["SF-HOME-OK#2", { chunk_id: "SF-HOME-OK#2", doc_id: "SF-HOME-OK", policy_id: "HO-1", form_number: "HW-2136", source_type: "Oklahoma Insurance Dept", section: "Exclusions", page: 3, text: PAGES[2] }],
+    ]);
+    const finding = { item: "Roof", coverage: "Dwelling", policy_id: "HO-1", status: "covered" as const, explanation: "Wind loss is insured.", reported_fact: fact,
+      conditions_explanation: "Wear and tear does not describe this tornado loss.", citations: [{ chunk_id: "SF-HOME-OK#0", quote: grant }, { chunk_id: "SF-HOME-OK#2", quote: exclusion }] };
+    assert.deepEqual(checkFinding(finding, "Roof", evidence, CUSTOMER, fact).issues, []);
+    const clipped = { ...finding, citations: [finding.citations[0], { ...finding.citations[1], quote: "We will not pay for any loss to the property described in Coverage A that consists of wear, tear" }] };
+    assert.match(checkFinding(clipped, "Roof", evidence, CUSTOMER, fact).issues.join(), /complete sentences or clauses/);
+    assert.match(checkFinding({ ...finding, citations: finding.citations.slice(0, 1) }, "Roof", evidence, CUSTOMER, fact).issues.join(), /exclusion\/condition/);
+    assert.match(checkFinding({ ...finding, reported_fact: "A fire destroyed the home" }, "Roof", evidence, CUSTOMER, fact).issues.join(), /customer's message/);
+    evidence.get("SF-HOME-OK#2")!.doc_id = "OTHER-FORM";
+    assert.match(checkFinding(finding, "Roof", evidence, CUSTOMER, fact).issues.join(), /actual policy form/);
+  });
+});
+
+describe("explicit exclusion proof", () => {
+  it("accepts Not covered when the customer's facts establish a cited exclusion", async () => {
+    const fact = "The shingles wore out gradually over many years";
+    const grant = PAGES[0].split("\n")[2];
+    const exclusion = PAGES[2].split("\n")[1];
+    const model = scripted([
+      () => ({ toolCalls: [call("search_policy", { purpose: "Read insuring agreement", query: "dwelling accidental direct physical loss" })] }),
+      () => ({ toolCalls: [call("search_policy", { purpose: "Read wear exclusion", query: "wear tear losses not insured" })] }),
+      (history) => {
+        const hits = history.filter((m) => m.role === "tool").flatMap((m) => JSON.parse(String(m.content)).results ?? []);
+        const a = hits.find((h: { text: string }) => h.text.includes(grant));
+        const b = hits.find((h: { text: string }) => h.text.includes(exclusion));
+        return { toolCalls: [call("record_finding", { purpose: "Apply the wear exclusion to the customer's reported cause", item: "Worn shingles", coverage: "Dwelling", policy_id: "HO-1", status: "not_covered",
+          explanation: "Wear and tear is excluded. The customer says the shingles wore out gradually, rather than being damaged by a new accident.", reported_fact: fact,
+          conditions_explanation: "The quoted wear and tear exclusion applies to the gradual deterioration the customer reported.", chunk_id: a.chunk_id, quote: grant, chunk_id_2: b.chunk_id, quote_2: exclusion })] };
+      },
+      () => ({ toolCalls: [call("finish_review", decision())] }),
+    ]);
+    const { db, deps, intake } = await setup({ model, verifier: approve() });
+    db.run("UPDATE case_messages SET text=? WHERE case_id=? AND role='customer'", fact, intake.case.id);
+    const result = await executeRun(claimRun(db, "w1")!, "w1", deps, new AbortController().signal);
+    assert.equal(result.decision.findings[0].status, "not_covered");
+    assert.equal(result.verified, true);
+  });
+});

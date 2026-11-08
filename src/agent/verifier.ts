@@ -14,12 +14,15 @@ export async function verifyDecision(model: AgentModel, input: {
 }): Promise<{ verdict: Verdict; usage: { promptTokens: number; completionTokens: number } }> {
   const cited = [...new Set(input.decision.findings.flatMap((f) => f.citations.map((c) => c.chunk_id)))]
     .map((id) => input.evidence.get(id)).filter(Boolean) as Evidence[];
+  const citedDocs = new Set(cited.map((e) => e.doc_id));
+  const surrounding = [...input.evidence.values()].filter((e) => citedDocs.has(e.doc_id) && !cited.some((c) => c.chunk_id === e.chunk_id));
   const payload = {
     customer_messages: input.transcript.filter((m) => m.role === "customer").map((m) => m.text),
     declarations: input.customer?.policies.map((p) => ({ policy_id: p.policy_id, line: p.line, form: p.form, ...(p.home ?? p.auto ?? { umbrella_limit: p.umbrella_limit }) })) ?? "no verified policyholder",
     household: input.customer?.members.map((m) => ({ age: m.age, relation: m.relation, medical_needs: m.medical_needs, limited_mobility: m.limited_mobility })) ?? null,
     proposed_decision: input.decision,
     cited_passages: cited.map((e) => ({ chunk_id: e.chunk_id, section: e.section, source_type: e.source_type, text: e.text })),
+    surrounding_retrieved_passages: surrounding.slice(0, 12).map((e) => ({ chunk_id: e.chunk_id, section: e.section, text: e.text })),
   };
   const spec = functionSpec("submit_verdict", "Submit your review verdict.", Verdict);
   const turn = await model.turn(

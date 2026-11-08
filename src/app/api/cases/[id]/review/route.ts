@@ -14,7 +14,7 @@ import { startWorkers } from "@/workers/agent-worker";
 const Action = z.discriminatedUnion("action", [
   z.object({ action: z.literal("request_investigation"), note: z.string().trim().min(3).max(1_000) }),
   z.object({ action: z.literal("correct_finding"), run_id: z.string(), finding_index: z.number().int().min(0).max(20),
-    status: z.enum(["likely_covered", "likely_excluded", "unclear", "no_policy"]).optional(), note: z.string().trim().min(3).max(1_000) }),
+    status: z.enum(["covered", "not_covered", "likely_covered", "likely_excluded", "unclear", "no_policy"]).optional(), note: z.string().trim().min(3).max(1_000) }),
   z.object({ action: z.literal("approve_reply"), outbox_id: z.string() }),
   z.object({ action: z.literal("note"), note: z.string().trim().min(1).max(1_000) }),
 ]);

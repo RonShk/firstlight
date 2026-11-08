@@ -113,7 +113,7 @@ function ReviewPanel({ view, reload }: { view: CaseView; reload: () => void }) {
         {findings.map((f, i) => <option key={i} value={i}>{i + 1}. {f.item.slice(0, 40)}</option>)}
       </select>
       <select value={status} onChange={(e) => setStatus(e.target.value)} className="rounded border border-line bg-white px-2 py-1">
-        {["likely_covered", "likely_excluded", "unclear", "no_policy"].map((s) => <option key={s} value={s}>{s.replace("_", " ")}</option>)}
+        {["covered", "not_covered", "likely_covered", "likely_excluded", "unclear", "no_policy"].map((s) => <option key={s} value={s}>{s.replace("_", " ")}</option>)}
       </select>
       <button disabled={busy || note.trim().length < 3} onClick={() => act({ action: "correct_finding", run_id: latest.id, finding_index: finding, status, note }, "Correction recorded.")}
         className="cursor-pointer rounded-lg bg-soft px-3 py-1.5 hover:bg-soft disabled:cursor-not-allowed disabled:opacity-40">Record correction (uses note)</button>

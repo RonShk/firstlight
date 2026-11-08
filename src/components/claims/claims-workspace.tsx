@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { SituationView } from "./claim-detail";
 import { ClaimList, PAGE_SIZE } from "./claim-list";
 import { useClaims } from "./claims-provider";
+import { PolicyOverlay } from "./policy-overlay";
 import { CaseTimeline } from "../sim/case-timeline";
 import { CaseMessages, CasePolicies, RunOverview } from "./case-views";
 
@@ -35,7 +36,7 @@ export function ClaimsWorkspace() {
     const tracked = queue.runsFor(customerId).at(-1);
     if (tracked?.runId !== summary.id) queue.restore(customerId, tracked?.conversation ?? [], summary, true);
   }, [customerId, queue]);
-  const openDocument = (docId: string, p: number | null) => { setTarget({ docId, page: p }); setTab("policies"); };
+  const openDocument = (docId: string, p: number | null) => { setTarget({ docId, page: p }); };
   return <div className="flex min-h-0 flex-1 flex-col">
     {loadError && <p role="alert" className="bg-critical-soft px-6 py-2 text-sm text-critical-ink">{loadError}. Reload before starting another investigation.</p>}
     <div className="flex min-h-0 flex-1">
@@ -49,10 +50,11 @@ export function ClaimsWorkspace() {
             {tab === "situation" && <SituationView claim={selected} />}
             {tab === "messages" && <CaseMessages claim={selected} />}
             {tab === "timeline" && <div className="p-7"><h2 className="text-lg font-semibold">Investigation timeline</h2><p className="mb-5 mt-1 text-sm text-subtle">Live tool calls, retrieved evidence, verifier checks, reviewer actions, and delivery.</p>{run?.caseId ? <CaseTimeline caseId={run.caseId} onOpenDocument={openDocument} onRun={followRun} /> : <div className="rounded-xl border border-line bg-soft p-6 text-sm">{selected.silent ? "This household has not replied. Review the outreach in Messages and arrange a welfare follow-up." : "The timeline appears when this case is submitted to the agent."}</div>}</div>}
-            {tab === "policies" && <CasePolicies claim={selected} target={target} />}
+            {tab === "policies" && <CasePolicies claim={selected} onOpenDocument={openDocument} />}
           </div>
         </> : <p className="p-8 text-subtle">No cases match your search.</p>}
       </main>
     </div>
+    {target && <PolicyOverlay target={target} onClose={() => setTarget(null)} />}
   </div>;
 }

@@ -3,7 +3,9 @@
 // is fixed right away instead of failing the final decision. Recording the same item again replaces it.
 import { z } from "zod";
 import { checkFinding } from "../../agent/finalize";
-import type { Finding } from "../../agent/schemas";
+import { CoverageStatus, type Finding } from "../../agent/schemas";
+import { messages } from "../../cases/repository";
+import { getRun } from "../../cases/runs";
 import { defineTool, ToolError } from "../types";
 
 const nullish = (v: unknown) => (v === undefined || v === "" || (typeof v === "string" && /^(null|none|n\/a)$/i.test(v.trim())) ? null : v);
@@ -11,19 +13,21 @@ const nullish = (v: unknown) => (v === undefined || v === "" || (typeof v === "s
 export const recordFinding = defineTool({
   name: "record_finding",
   description: "Record one coverage finding for a reported loss or need, with up to two verbatim quotes from passages you retrieved. " +
-    "likely_covered and likely_excluded need a quote. Call once per item; calling again with the same item replaces it. Returns issues to fix, if any.",
+    "Use covered or not_covered when proven: the first quote is the coverage grant, the second checks exclusions/conditions; include reported_fact and conditions_explanation. Otherwise use unclear. Legacy likely statuses need a quote. Call once per item; calling again with the same item replaces it. Returns issues to fix, if any.",
   effect: "read",
   timeoutMs: 2_000,
   input: {
     item: z.string().trim().min(2).max(200).describe("The reported loss or need, e.g. 'Roof partly torn off'."),
     coverage: z.preprocess((v) => nullish(v) ?? "Not determined", z.string().trim().min(2).max(80)).describe("e.g. 'Coverage A Dwelling', 'Coverage C Loss of Use', 'Comprehensive'."),
     policy_id: z.preprocess(nullish, z.string().nullable()).optional().describe("The customer's policy id, or null when they have no policy for this."),
-    status: z.enum(["likely_covered", "likely_excluded", "unclear", "no_policy"]),
+    status: CoverageStatus,
+    reported_fact: z.string().trim().min(8).max(300).optional().describe("For covered/not_covered: exact excerpt from a customer message supporting this loss, not outreach or profile data."),
+    conditions_explanation: z.string().trim().min(10).max(1000).optional().describe("For covered/not_covered: explain why the second quoted exclusion/condition applies or does not apply to the reported facts. Mention material unknowns; if any affect coverage use unclear."),
     explanation: z.string().trim().min(5).max(700).describe("One to three sentences: why, conditions, what is still unknown."),
     chunk_id: z.preprocess(nullish, z.string().nullable()).optional().describe("chunk_id of the passage you quote."),
-    quote: z.preprocess(nullish, z.string().trim().min(20).max(600).nullable()).optional().describe("Exact words from that passage (use ... to skip words)."),
-    chunk_id_2: z.preprocess(nullish, z.string().nullable()).optional(),
-    quote_2: z.preprocess(nullish, z.string().trim().min(20).max(600).nullable()).optional(),
+    quote: z.preprocess(nullish, z.string().trim().min(20).max(1600).nullable()).optional().describe("Exact words from that passage. For covered/not_covered, quote complete sentences or clauses with their conditions; no ellipses."),
+    chunk_id_2: z.preprocess(nullish, z.string().nullable()).optional().describe("Required for covered/not_covered: chunk id of the exclusion or condition checked."),
+    quote_2: z.preprocess(nullish, z.string().trim().min(20).max(1600).nullable()).optional().describe("Required for covered/not_covered: exact complete exclusion or condition text from chunk_id_2. No ellipses."),
   },
   outputSchema: z.object({ recorded: z.literal(true), finding_number: z.number(), findings_recorded: z.array(z.string()) }),
   title: (i) => `Finding: ${i.item} → ${i.status.replace("_", " ")}`.slice(0, 160),
@@ -32,8 +36,10 @@ export const recordFinding = defineTool({
       .filter(([c, q]) => c && q).map(([chunk_id, quote]) => ({ chunk_id: chunk_id!, quote: quote! }));
     if ((input.chunk_id && !input.quote) || (!input.chunk_id && input.quote)) throw new ToolError("invalid_input", "Give chunk_id and quote together.");
     const finding: Finding = { item: input.item, coverage: input.coverage, policy_id: input.policy_id ?? null, status: input.status,
-      explanation: input.explanation, citations };
-    const { issues, finding: checked } = checkFinding(finding, `This finding ("${input.item}")`, ctx.evidence, ctx.customer);
+      explanation: input.explanation, citations, reported_fact: input.reported_fact, conditions_explanation: input.conditions_explanation };
+    const throughSeq = getRun(ctx.db, ctx.runId)?.throughSeq ?? 0;
+    const reportedText = messages(ctx.db, ctx.caseId).filter((m) => m.role === "customer" && m.seq <= throughSeq).map((m) => m.text).join("\n");
+    const { issues, finding: checked } = checkFinding(finding, `This finding ("${input.item}")`, ctx.evidence, ctx.customer, reportedText);
     if (issues.length) throw new ToolError("invalid_input", `Not recorded. Fix and call record_finding again: ${issues.join(" ")}`);
     const key = input.item.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
     ctx.findings.set(key, checked);

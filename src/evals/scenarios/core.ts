@@ -23,7 +23,7 @@ export const CORE_SCENARIOS: Scenario[] = [
     messages: [OUTREACH, "Tornado tore part of our roof off and rain is coming into the kids bedroom. Car windshield got smashed by debris too. Is this covered?"],
     expect: {
       severity: [40, 80], immediate_danger: false, tools_called: ["get_policies", "search_policy"],
-      findings: [{ coverage: /dwelling|coverage a/i, status: ["likely_covered", "unclear"] }],
+      findings: [{ coverage: /dwelling|coverage a/i, status: ["covered", "likely_covered", "unclear"] }],
       reply_excludes: [/\bclaim (number|#)/i],
     },
   },
@@ -69,7 +69,7 @@ export const CORE_SCENARIOS: Scenario[] = [
     messages: [OUTREACH, "the house is unlivable, half the walls are down. all 4 of us are ok but we have nowhere to sleep tonight. will insurance pay for a hotel?"],
     expect: {
       severity: [65, 89], immediate_danger: false, tools_called: ["search_policy"],
-      findings: [{ coverage: /loss of use|coverage c|living expense/i, status: ["likely_covered", "unclear"] }],
+      findings: [{ coverage: /loss of use|coverage c|living expense/i, status: ["covered", "likely_covered", "unclear"] }],
     },
   },
   {

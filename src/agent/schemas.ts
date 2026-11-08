@@ -1,24 +1,28 @@
 // Typed decisions, findings and replies. The agent submits a Decision through the finish_review tool.
 import { z } from "zod";
 
-export const PROMPT_VERSION = "agentic-rag-2026-11-08";
+export const PROMPT_VERSION = "agentic-rag-2026-11-08-proof-v2";
 
 export const Citation = z.object({
   chunk_id: z.string().describe("chunk_id of a passage you retrieved in this run."),
-  quote: z.string().trim().min(20).max(600).describe("Exact words copied from that passage."),
+  quote: z.string().trim().min(20).max(1600).describe("Exact words copied from that passage."),
 });
 
 /** Models often write the string "null" or leave a field empty; treat those as null. */
 const nullish = (v: unknown) => (v === undefined || v === "" || (typeof v === "string" && /^(null|none|n\/a)$/i.test(v.trim())) ? null : v);
+
+export const CoverageStatus = z.enum(["covered", "not_covered", "likely_covered", "likely_excluded", "unclear", "no_policy"]);
 
 export const Finding = z.object({
   item: z.string().trim().min(2).max(200).describe("The reported loss or need, e.g. 'Roof partly torn off'."),
   coverage: z.preprocess((v) => nullish(v) ?? "Not determined", z.string().trim().min(2).max(80))
     .describe("Coverage part, e.g. 'Coverage A Dwelling', 'Coverage C Loss of Use', 'Comprehensive'."),
   policy_id: z.preprocess(nullish, z.string().nullable()).describe("The customer's policy this falls under; null when they have none for it."),
-  status: z.enum(["likely_covered", "likely_excluded", "unclear", "no_policy"]),
+  status: CoverageStatus,
   explanation: z.string().trim().min(5).max(700).describe("Why, in one to three sentences, including conditions and what is still unknown."),
   citations: z.array(Citation).max(4).default([]),
+  reported_fact: z.string().trim().min(8).max(300).optional(),
+  conditions_explanation: z.string().trim().min(10).max(1000).optional(),
 });
 
 export const Decision = z.object({
