@@ -25,7 +25,7 @@ data/                 generated agents, policyholders, policies, scripted replie
 ## Run
 
 ```bash
-cp .env.example .env.local   # fill in keys
+cp .env.example .env.local   # set NEMOTRON_MODEL + NEMOTRON_API_KEY
 npm install
 npm run dev
 ```
