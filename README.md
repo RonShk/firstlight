@@ -43,3 +43,8 @@ reviewer notes and corrections are saved to the case audit history.
 The inbox hides households with no inbound messages. Prominent pagination keeps all generated cases
 accessible across urgency levels. Each card shows the agent run status. Household composition and
 support needs live in Situation; customer messages and replies live only in Messages.
+
+Incoming cases are queued together after saved history loads; opening a card only changes the view.
+Batch intake persists work before workers start, and run polling is split into requests so large queues
+remain observable. Overview leads with the next action and a short factual summary. Message history
+scrolls independently of the pinned composer. Pagination stays at the bottom of the inbox.

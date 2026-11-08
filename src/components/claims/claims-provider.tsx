@@ -1,12 +1,12 @@
 "use client";
 
-import { createContext, useCallback, useContext, useEffect, useMemo, useState, useSyncExternalStore } from "react";
+import { createContext, useContext, useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import type { AgentStatus, CaseView, RunSummary } from "@/types/agent";
 import type { ClaimMessage, ClaimView } from "@/types/claims";
 import { buildClaims, SNAPSHOT_MINUTE } from "@/lib/claims/generate";
 import { sortClaims, toView } from "@/lib/claims/review";
 import { AgentQueue } from "@/lib/sim/agent-queue";
-import { conversationKey, type AgentRun, type Turn } from "@/lib/sim/triage";
+import { type AgentRun, type Turn } from "@/lib/sim/triage";
 
 export const ADJUSTER = "Jake Stone";
 
@@ -23,7 +23,6 @@ interface ClaimsContextValue {
   isAssigned: (id: string) => boolean;
   toggleAssigned: (id: string) => void;
   threadFor: (claim: ClaimView) => ClaimMessage[];
-  requestReview: (claim: ClaimView) => void;
 }
 
 const ClaimsContext = createContext<ClaimsContextValue | null>(null);
@@ -87,15 +86,15 @@ export function ClaimsProvider({ children }: { children: React.ReactNode }) {
     }));
   }, [base, queue, queueVersion, online, stored]);
 
-  const requestReview = useCallback(
-    (claim: ClaimView) => {
-      if (!ready || loadError || !online || claim.silent || queue.runsFor(claim.id).length) return;
-      const turns: Turn[] = claim.thread.filter((m) => m.from !== "note").map((m) => ({ from: m.from === "policyholder" ? "policyholder" : "state_farm", text: m.text }));
-      while (turns.length && turns.at(-1)!.from !== "policyholder") turns.pop();
-      queue.ensure(claim.id, conversationKey(turns), turns);
-    },
-    [online, queue, ready, loadError],
-  );
+  useEffect(() => {
+    if (!ready || loadError) return;
+    const incoming = claims.filter((c) => !c.silent && !queue.runsFor(c.id).length).map((c) => {
+      const conversation: Turn[] = c.thread.filter((m) => m.from !== "note").map((m) => ({ from: m.from === "policyholder" ? "policyholder" : "state_farm", text: m.text }));
+      while (conversation.length && conversation.at(-1)!.from !== "policyholder") conversation.pop();
+      return { personaId: c.id, conversation };
+    }).filter((i) => i.conversation.length);
+    void queue.ensureBatch(incoming);
+  }, [claims, queue, ready, loadError]);
 
   const value: ClaimsContextValue = {
     claims, queue, ready, loadError,
@@ -106,7 +105,7 @@ export function ClaimsProvider({ children }: { children: React.ReactNode }) {
       const response = await fetch("/api/messages", { method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ channel: "simulation", personaId: claim.id, conversation: turns }) });
       const data = await response.json();
-      if (!response.ok) throw new Error(data.error ?? "Could not send simulated message");
+      if (!response.ok) throw new Error(data.error ?? "Could not add customer message");
       const summary = await fetch(`/api/runs/${data.runId}`);
       if (!summary.ok) throw new Error("Message saved, but could not load its run. Reload the workspace.");
       queue.restore(claim.id, turns, await summary.json(), true);
@@ -120,7 +119,6 @@ export function ClaimsProvider({ children }: { children: React.ReactNode }) {
       ...claim.thread,
       ...(claim.review.reply && !claim.thread.some((m) => m.text === claim.review.reply) ? [{ id: "automated", from: "state_farm" as const, text: claim.review.reply, minutesAgo: 1 }] : []),
     ],
-    requestReview,
   };
 
   return <ClaimsContext.Provider value={value}>{children}</ClaimsContext.Provider>;

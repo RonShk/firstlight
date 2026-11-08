@@ -256,3 +256,12 @@ describe("inbox run labels", () => {
     }
   });
 });
+
+describe("plain language presentation", () => {
+  it("keeps conditions and amounts while replacing policy jargon", async () => {
+    const { plainCaseText, findingTitle, activityTitle } = await import("../presentation");
+    assert.equal(plainCaseText("Loss of Use may pay up to $2,000 if the residence premises is uninhabitable."), "temporary living expenses may pay up to $2,000 if the home is unsafe to live in.");
+    assert.equal(findingTitle("Home destruction (Coverage A Dwelling)"), "Home destruction");
+    assert.equal(activityTitle("Reply shown on the simulated phone (demo only; no real SMS sent)"), "Reply added to the conversation");
+  });
+});

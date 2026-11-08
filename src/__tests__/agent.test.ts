@@ -645,3 +645,42 @@ describe("verifier prose recovery", () => {
     assert.equal(result.verdict.issues[0], issue.trim().slice(0, 400));
   });
 });
+
+describe("incoming case batches", () => {
+  it("persists and queues the whole batch before any case is selected, and deduplicates refreshes", async () => {
+    const { receiveSimulationBatch } = await import("@/cases/intake");
+    const db = openOps(":memory:");
+    const inputs = Array.from({ length: 350 }, (_, i) => ({ personaId: `PH-BATCH-${i}`, conversation: [{ from: "policyholder" as const, text: "A storm damaged my window" }] }));
+    const first = receiveSimulationBatch(db, inputs);
+    assert.equal(first.length, 350);
+    assert.equal(db.get<{ n: number }>("SELECT COUNT(*) AS n FROM runs WHERE status='queued'")!.n, 350);
+    assert.equal(receiveSimulationBatch(db, inputs).filter((r) => r.result.deduplicated).length, 350);
+    assert.equal(db.get<{ n: number }>("SELECT COUNT(*) AS n FROM runs")!.n, 350);
+    assert.equal(db.get<{ n: number }>("SELECT COUNT(*) AS n FROM case_messages")!.n, 350);
+    db.close();
+  });
+});
+
+describe("large queue observation", () => {
+  it("polls every run beyond the API's per-request limit", async (t) => {
+    const { AgentQueue } = await import("@/lib/sim/agent-queue");
+    const { runSummary } = await import("@/cases/views");
+    const { db, intake } = await setup({ model: scripted([]) });
+    const summary = runSummary(db, intake.run!);
+    t.mock.timers.enable({ apis: ["setTimeout"] });
+    const queried: number[] = [];
+    t.mock.method(globalThis, "fetch", async (url: string) => {
+      const ids = new URL(url, "http://localhost").searchParams.get("ids")!.split(",");
+      queried.push(ids.length);
+      return Response.json({ runs: ids.map((id) => ({ ...summary, id, status: "failed" })) });
+    });
+    const queue = new AgentQueue();
+    for (let i = 0; i < 350; i++) queue.restore(`person-${i}`, [], { ...summary, id: `run-${i}` });
+    t.mock.timers.tick(1500);
+    await new Promise<void>((resolve) => setImmediate(resolve));
+    assert.equal(queried.reduce((n, count) => n + count, 0), 350);
+    assert.ok(queried.every((n) => n <= 200));
+    assert.equal(queue.runsFor("person-349")[0].status, "error");
+    queue.reset();
+  });
+});

@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { ChevronRight } from "lucide-react";
+import { activityTitle } from "@/lib/claims/presentation";
 import { cn } from "@/lib/utils";
 import type { CaseEvent, CaseView, RunSummary } from "@/types/agent";
 
@@ -68,7 +69,7 @@ function Row({ event, handoff = false, onOpen }: { event: CaseEvent; handoff?: b
       <ChevronRight className={cn("mt-0.5 size-3.5 shrink-0 text-muted-foreground transition-transform", open && "rotate-90")} />
       <time className="w-16 shrink-0 font-mono text-[11px] text-muted-foreground">{new Date(event.at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" })}</time>
       <span className={cn("shrink-0 rounded px-1.5 py-0.5 text-[10px] uppercase tracking-wider", ACTOR_STYLE[event.actor] ?? ACTOR_STYLE.system)}>{event.actor}</span>
-      <span className={cn("min-w-0 flex-1 text-sm", FAILURE.test(event.type) ? "text-high-ink" : "text-ink")}>{handoff ? "Human intervention needed · queued for claims review" : event.title}</span>
+      <span className={cn("min-w-0 flex-1 text-sm", FAILURE.test(event.type) ? "text-high-ink" : "text-ink")}>{handoff ? "Human intervention needed · queued for claims review" : activityTitle(event.title)}</span>
       {event.ms != null && <span className="shrink-0 font-mono text-[11px] text-muted-foreground">{event.ms} ms</span>}
     </button>
     {open && <div className="ml-[6.5rem]"><EventDetail event={event} onOpen={onOpen} /></div>}

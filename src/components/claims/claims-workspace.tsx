@@ -1,7 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import type { RunSummary } from "@/types/agent";
+import { agentStatus } from "@/lib/claims/agent-status";
 import { cn } from "@/lib/utils";
 import { SituationView } from "./claim-detail";
 import { ClaimList, PAGE_SIZE } from "./claim-list";
@@ -18,7 +19,7 @@ const TABS = [
 ] as const;
 type Tab = typeof TABS[number]["id"];
 export function ClaimsWorkspace() {
-  const { claims, markRead, requestReview, runFor, queue, ready, loadError } = useClaims();
+  const { claims, markRead, runFor, queue, ready, loadError } = useClaims();
   const [selectedId, setSelectedId] = useState<string | undefined>(() => claims.find((c) => !c.silent)?.id);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(0);
@@ -27,7 +28,7 @@ export function ClaimsWorkspace() {
   const visible = useMemo(() => claims.filter((c) => !c.silent && [c.persona.name, c.number, c.subject, ...c.body].some((s) => s.toLowerCase().includes(search.trim().toLowerCase()))), [claims, search]);
   const selected = visible.find((c) => c.id === selectedId) ?? visible[page * PAGE_SIZE] ?? visible[0];
   const run = selected ? runFor(selected.id) : undefined;
-  useEffect(() => { if (selected) requestReview(selected); }, [selected?.id, requestReview]); // eslint-disable-line react-hooks/exhaustive-deps
+
   const customerId = selected?.id;
   const followRun = useCallback((summary: RunSummary | undefined) => {
     if (!customerId || !summary) return;
@@ -41,9 +42,9 @@ export function ClaimsWorkspace() {
       <ClaimList claims={visible} selectedId={selected?.id} onSelect={(id) => { setSelectedId(id); setTarget(null); markRead(id); }} search={search} onSearch={(s) => { setSearch(s); setPage(0); }} page={Math.min(page, Math.max(0, Math.ceil(visible.length / PAGE_SIZE) - 1))} onPage={(p) => { setPage(p); setSelectedId(visible[p * PAGE_SIZE]?.id); setTarget(null); }} />
       <main className="flex min-w-0 flex-1 flex-col bg-white">
         {selected ? <>
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line px-7 py-4"><div><p className="text-xs text-subtle">{selected.number} · {selected.persona.address.city}, {selected.persona.address.state}</p><h1 className="text-xl font-semibold">{selected.persona.name}</h1></div><p className="max-w-xs text-right text-xs text-subtle">{run?.result?.humanInterventionNeeded ? "Human intervention needed" : run?.result?.progress.label ?? run?.error ?? (selected.silent ? "Welfare follow-up needed" : ready ? "Ready for investigation" : "Restoring saved work…")}</p></div>
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line px-7 py-4"><div><p className="text-xs text-subtle">{selected.number} · {selected.persona.address.city}, {selected.persona.address.state}</p><h1 className="text-xl font-semibold">{selected.persona.name}</h1></div><p className="max-w-xs text-right text-xs text-subtle">{ready ? agentStatus(run).label : "Loading cases…"}</p></div>
           <nav aria-label="Case views" className="flex gap-5 border-b border-line px-7">{TABS.map(({ id, label }) => <button key={id} aria-current={tab === id ? "page" : undefined} onClick={() => setTab(id)} className={cn("flex cursor-pointer items-center gap-2 border-b-2 py-3 text-sm whitespace-nowrap", tab === id ? "border-brand font-semibold text-brand" : "border-transparent text-subtle")}>{label}{id === "policies" ? ` (${selected.persona.policies.length})` : ""}</button>)}</nav>
-          <div className="thin-scroll min-h-0 flex-1 overflow-y-auto" key={`${selected.id}:${tab}`}>
+          <div className={cn("min-h-0 flex-1", tab === "messages" ? "overflow-hidden" : "thin-scroll overflow-y-auto")} key={`${selected.id}:${tab}`}>
             {tab === "overview" && <RunOverview claim={selected} onOpenDocument={openDocument} />}
             {tab === "situation" && <SituationView claim={selected} />}
             {tab === "messages" && <CaseMessages claim={selected} />}
