@@ -17,6 +17,7 @@ import { updateCase, type CaseStatus } from "../cases/repository";
 import { claimRun, completeRun, deferRun, failRun, getRun, heartbeat, LeaseLostError, type RunRecord } from "../cases/runs";
 import { TransientModelError } from "../agent/model";
 import { startCapacity, stopCapacity } from "./capacity";
+import { autoFileReady } from "../cases/claim-files";
 import { deliverPending, queueReply, type DeliveryAdapter } from "../delivery/outbox";
 import { simulatorDelivery } from "../delivery/simulator";
 import { smsDelivery } from "../delivery/sms";
@@ -70,6 +71,8 @@ export async function processRun(run: RunRecord, owner: string, deps: AgentDeps)
       appendEvent(db, { caseId: r.caseId, runId: r.id, actor: "system", type: "run.completed", title: "Agent run completed",
         detail: { usage: result.usage, verified: result.verified } });
     });
+    // A verified review that proves every reported loss covered files the claim on its own.
+    try { autoFileReady(db, [run.caseId]); } catch (e) { console.error(`[claims] auto-file ${run.caseId}: ${(e as Error).message}`); }
     return true;
   } catch (e) {
     const lost = e instanceof LeaseLostError || controller.signal.reason instanceof LeaseLostError || getRun(db, run.id)?.status === "superseded";

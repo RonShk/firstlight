@@ -7,6 +7,7 @@ import { agentStatus } from "@/lib/claims/agent-status";
 import { ageLabel } from "@/lib/claims/format";
 import { useClaims } from "./claims-provider";
 import { SEVERITY_META } from "./severity";
+import { claimStatusMeta } from "./claim-panel";
 
 export const PAGE_SIZE = 20;
 interface Props {
@@ -14,7 +15,7 @@ interface Props {
   search: string; onSearch: (s: string) => void; page: number; onPage: (n: number) => void;
 }
 export function ClaimList({ claims, selectedId, onSelect, search, onSearch, page, onPage }: Props) {
-  const { isRead, runFor } = useClaims();
+  const { isRead, runFor, claimFor } = useClaims();
   const rows = claims.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
   const lastPage = Math.max(0, Math.ceil(claims.length / PAGE_SIZE) - 1);
   const controls = <nav aria-label="Inbox pages" className="flex shrink-0 items-center justify-between border-t border-line bg-white px-5 py-4 text-xs">
@@ -32,6 +33,7 @@ export function ClaimList({ claims, selectedId, onSelect, search, onSearch, page
       <span className="flex items-center gap-2"><span className={cn("size-1.5 shrink-0 rounded-full", isRead(c.id) ? "bg-transparent" : "bg-brand")} /><span className="min-w-0 flex-1 truncate font-semibold">{c.persona.name}</span><span className="text-xs text-subtle">{ageLabel(c.minutesAgo)}</span></span>
       <span className="mt-1 block truncate text-sm">{c.subject}</span><span className="mt-2 flex items-center justify-between gap-2 text-xs"><span className="text-subtle">{c.persona.address.city} · {c.silent ? "No response" : c.peril}</span><span className={cn("rounded-full px-2 py-0.5", SEVERITY_META[c.review.severity].chip)}>{SEVERITY_META[c.review.severity].label}</span></span>
       <span className={cn("mt-3 inline-block rounded px-2 py-1 text-xs font-medium", status.tone === "running" ? "bg-blue-50 text-blue-800" : status.tone === "done" ? "bg-emerald-50 text-emerald-800" : status.tone === "review" ? "bg-high-soft text-high-ink" : status.tone === "failed" ? "bg-critical-soft text-critical-ink" : "bg-soft text-subtle")}>Agent: {status.label}</span>
+      {(() => { const filed = claimFor(c.id); return filed && <span className={cn("mt-2 block w-fit rounded px-2 py-1 text-xs font-semibold", claimStatusMeta(filed.status).chip)}>{claimStatusMeta(filed.status).label}</span>; })()}
     </button>; })}{!rows.length && <p className="p-5 text-sm text-subtle">No matching cases.</p>}</div>
     {controls}
   </aside>;
