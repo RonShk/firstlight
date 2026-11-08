@@ -19,6 +19,8 @@ next-env.d.ts
 # local database
 *.db
 *.db-journal
+*.db-shm
+*.db-wal
 
 # debug
 npm-debug.log*

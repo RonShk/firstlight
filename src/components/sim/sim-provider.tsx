@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import type { Persona, WorldTruth } from "@/types/sim";
-import type { AgentStatus } from "@/lib/agent/types";
+import type { AgentStatus } from "@/types/agent";
 import { getPersonas } from "@/lib/sim/personas";
 import { simulateCatastrophe } from "@/lib/sim/impact";
 import { TORNADO } from "@/lib/sim/scenarios";
@@ -18,6 +18,7 @@ interface SimContextValue {
   /** Every household in the tornado's path, as of the snapshot. */
   entries: TriageEntry[];
   agent: AgentStatus | null;
+  queue: AgentQueue;
 }
 
 const SimContext = createContext<SimContextValue | null>(null);
@@ -36,10 +37,14 @@ export function SimProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => queue.setClock(() => SNAPSHOT_MINUTE), [queue]);
 
   useEffect(() => {
-    fetch("/api/agent")
+    // Refreshed every few seconds so the header can show queue depth and the time to drain it.
+    const load = () => fetch("/api/status")
       .then((r) => r.json())
       .then(setAgent)
-      .catch(() => setAgent({ configured: false, model: null, baseUrl: null, policiesLoaded: [] }));
+      .catch(() => setAgent({ configured: false, model: null, services: { embeddings: null, reranker: null, guard: null, verifier: false }, knowledge: null, queue: null }));
+    void load();
+    const timer = setInterval(load, 5_000);
+    return () => clearInterval(timer);
   }, []);
 
   const online = !!agent?.configured;
@@ -54,7 +59,7 @@ export function SimProvider({ children }: { children: React.ReactNode }) {
     for (const e of entries) if (e.conversation && e.conversationKey) queue.ensure(e.persona.id, e.conversationKey, e.conversation);
   }, [entries, online, queue]);
 
-  return <SimContext.Provider value={{ personas, truths, entries, agent }}>{children}</SimContext.Provider>;
+  return <SimContext.Provider value={{ personas, truths, entries, agent, queue }}>{children}</SimContext.Provider>;
 }
 
 export function useSim(): SimContextValue {

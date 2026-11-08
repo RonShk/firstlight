@@ -36,8 +36,18 @@ export function TopBar() {
             )}
           >
             <Bot className="size-3.5" />
-            {agent === null ? "Checking agent…" : agent.configured ? `Nemotron · ${agent.model}` : "Agent offline"}
+            {agent === null ? "Checking agent…" : agent.configured ? `Nemotron · ${agent.model?.split("/").pop()}` : "Agent offline"}
           </span>
+          {agent?.queue && agent.queue.running + agent.queue.queued > 0 && <span className="rounded-lg bg-cyan-500/10 px-2.5 py-1.5 text-cyan-200 ring-1 ring-cyan-500/20"
+            title={`Typical run ${Math.round(agent.queue.typicalRunSeconds)}s · ${agent.queue.parallel} in parallel`}>
+            Queue: {agent.queue.running} running · {agent.queue.queued} waiting · ~{Math.max(1, Math.round(agent.queue.drainSeconds / 60))} min left
+          </span>}
+          {agent?.queue?.capacity && <span className="hidden rounded-lg bg-white/5 px-2.5 py-1.5 text-muted-foreground ring-1 ring-white/10 md:inline" title={agent.queue.capacity.reason}>
+            GPU: up to {agent.queue.capacity.target} at once{agent.queue.capacity.gpu?.tokensPerSecondPerStream ? ` · ${agent.queue.capacity.gpu.tokensPerSecondPerStream} tok/s` : ""}{agent.queue.capacity.gpu ? ` · KV ${agent.queue.capacity.gpu.kvUsagePercent}%` : ""}
+          </span>}
+          {agent?.configured && <span className="hidden rounded-lg bg-white/5 px-2.5 py-1.5 text-muted-foreground ring-1 ring-white/10 lg:inline">
+            RAG: {agent.knowledge?.chunks ?? 0} passages · {[agent.knowledge?.embedModel && "embed", agent.services.reranker && "rerank", agent.services.guard && "guard", agent.services.verifier && "verifier"].filter(Boolean).join(" + ")}
+          </span>}
         </div>
       </div>
     </header>
