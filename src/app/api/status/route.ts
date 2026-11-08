@@ -11,6 +11,10 @@ export interface AgentStatus {
   services: { embeddings: string | null; reranker: string | null; guard: string | null; verifier: boolean };
   knowledge: { documents: number; chunks: number; embedModel: string | null } | null;
   queue: QueueStats | null;
+  /** Demo mode (`npm run demo`): the dashboard starts empty and replays the tornado live. */
+  demo: boolean;
+  /** Whether the "Simulate tornado" replay can be started here (demo mode or development). */
+  replay: boolean;
 }
 
 export async function GET() {
@@ -28,6 +32,8 @@ export async function GET() {
       verifier: process.env.AGENT_VERIFIER !== "off" },
     knowledge: kb,
     queue: queueStats(ops()),
+    demo: process.env.DEMO_MODE === "1",
+    replay: process.env.DEMO_MODE === "1" || process.env.NODE_ENV !== "production",
   };
   return Response.json(status);
 }

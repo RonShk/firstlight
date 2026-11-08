@@ -12,6 +12,7 @@ import { PolicyOverlay } from "./policy-overlay";
 import { CaseTimeline } from "../sim/case-timeline";
 import { CaseMessages, CasePolicies, RunOverview } from "./case-views";
 import { ClaimPanel, FileClaimButton } from "./claim-panel";
+import { ClaimFilter, matchesFilter, type ClaimFilterKey } from "./claim-filter";
 
 const TABS = [
   { id: "overview", label: "Overview" },
@@ -30,7 +31,19 @@ export function ClaimsWorkspace() {
   const [page, setPage] = useState(0);
   const [tab, setTab] = useState<Tab>("overview");
   const [target, setTarget] = useState<{ docId: string; page: number | null } | null>(null);
-  const visible = useMemo(() => claims.filter((c) => !c.silent && [c.persona.name, c.number, c.subject, ...c.body].some((s) => s.toLowerCase().includes(search.trim().toLowerCase()))), [claims, search]);
+  const [filters, setFilters] = useState<Set<ClaimFilterKey>>(new Set());
+  const searched = useMemo(() => claims.filter((c) => !c.silent && [c.persona.name, c.number, c.subject, ...c.body].some((s) => s.toLowerCase().includes(search.trim().toLowerCase()))), [claims, search]);
+  const visible = useMemo(() => searched.filter((c) => matchesFilter(filters, c.review.severity, claimFor(c.id)?.status)), [searched, filters, claimFor]);
+  const filterCounts = useMemo(() => {
+    const counts = { critical: 0, high: 0, medium: 0, low: 0, claim_pending: 0, claim_filed: 0 } as Record<ClaimFilterKey, number>;
+    for (const c of searched) {
+      counts[c.review.severity]++;
+      const status = claimFor(c.id)?.status;
+      if (status === "pending") counts.claim_pending++;
+      if (status === "confirmed") counts.claim_filed++;
+    }
+    return counts;
+  }, [searched, claimFor]);
   const selected = visible.find((c) => c.id === selectedId) ?? visible[page * PAGE_SIZE] ?? visible[0];
   const run = selected ? runFor(selected.id) : undefined;
 
@@ -46,7 +59,8 @@ export function ClaimsWorkspace() {
     {desk ? <FilingDesk /> : <>
     {loadError && <p role="alert" className="bg-critical-soft px-6 py-2 text-sm text-critical-ink">{loadError}. Reload before starting another investigation.</p>}
     <div className="flex min-h-0 flex-1">
-      <ClaimList claims={visible} selectedId={selected?.id} onSelect={(id) => { setSelectedId(id); setTarget(null); markRead(id); }} search={search} onSearch={(s) => { setSearch(s); setPage(0); }} page={Math.min(page, Math.max(0, Math.ceil(visible.length / PAGE_SIZE) - 1))} onPage={(p) => { setPage(p); setSelectedId(visible[p * PAGE_SIZE]?.id); setTarget(null); }} />
+      <ClaimList claims={visible} selectedId={selected?.id} onSelect={(id) => { setSelectedId(id); setTarget(null); markRead(id); }} search={search} onSearch={(s) => { setSearch(s); setPage(0); }}
+        filter={<ClaimFilter value={filters} onChange={(f) => { setFilters(f); setPage(0); }} counts={filterCounts} />} page={Math.min(page, Math.max(0, Math.ceil(visible.length / PAGE_SIZE) - 1))} onPage={(p) => { setPage(p); setSelectedId(visible[p * PAGE_SIZE]?.id); setTarget(null); }} />
       <main className="flex min-w-0 flex-1 flex-col bg-white">
         {selected ? <>
           <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line px-7 py-4"><div><p className="text-xs text-subtle">{selected.number} · {selected.persona.address.city}, {selected.persona.address.state}</p><h1 className="text-xl font-semibold">{selected.persona.name}</h1></div><div className="flex flex-col items-end gap-2"><p className="max-w-xs text-right text-xs text-subtle">{ready ? agentStatus(run).label : "Loading cases…"}</p><FileClaimButton personaId={selected.id} caseId={run?.caseId} onOpen={() => setTab("claim")} /></div></div>

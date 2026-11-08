@@ -15,7 +15,9 @@
     "agent:run": "tsx scripts/agent-run.ts",
     "evals": "tsx scripts/run-evals.ts",
     "gpu:bench": "tsx scripts/gpu-benchmark.ts",
-    "test:claims": "tsx --test src/lib/claims/__tests__/*.test.ts"
+    "test:claims": "tsx --test src/lib/claims/__tests__/*.test.ts",
+    "demo": "DEMO_MODE=1 AGENT_DB_PATH=.cache/demo/ops.db next dev",
+    "audit:households": "tsx scripts/audit-households.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",
