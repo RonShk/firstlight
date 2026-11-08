@@ -96,7 +96,8 @@ export const ExtractionSchema = z.object({
   is_claim: z.boolean(), // false for greetings, questions, and anything else that is not a loss report
   summary: z.string(),
   event_cause: z.string(), // used for retrieval only
-  claim_types: z.array(ClaimTypeSchema),
+  // The model often writes a lone type as a bare string ("auto") instead of a list.
+  claim_types: z.preprocess((v) => (typeof v === "string" ? v.split(/[\s,]+/).filter(Boolean) : v), z.array(ClaimTypeSchema)),
   people: z.array(PersonSchema),
   items: z.array(ClaimItemSchema).max(12),
 });
