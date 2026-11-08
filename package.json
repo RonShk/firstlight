@@ -9,12 +9,13 @@
     "lint": "eslint",
     "personas": "tsx scripts/export-personas.ts",
     "policies": "tsx scripts/fetch-policies.ts",
-    "test": "tsx --test src/__tests__/*.test.ts",
+    "test": "tsx --test src/__tests__/*.test.ts src/lib/claims/__tests__/*.test.ts",
     "knowledge:ingest": "tsx scripts/ingest-policies.ts",
     "agent:worker": "tsx scripts/agent-worker.ts",
     "agent:run": "tsx scripts/agent-run.ts",
     "evals": "tsx scripts/run-evals.ts",
-    "gpu:bench": "tsx scripts/gpu-benchmark.ts"
+    "gpu:bench": "tsx scripts/gpu-benchmark.ts",
+    "test:claims": "tsx --test src/lib/claims/__tests__/*.test.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",
